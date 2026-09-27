@@ -1,7 +1,7 @@
 docs {
 Antrean review kontribusi (Section 22 approval gate) - hanya verifikator
 admin/root/reviewer. Filter status/entity_type/action + cursor pagination
-(Section 13). Item menyertakan contributor_username untuk tampilan panel.
+(Section 13). Item: contributor_username (handle) + contributor_display_name (label UI).
 
 200 sukses:
 
@@ -12,6 +12,7 @@ admin/root/reviewer. Filter status/entity_type/action + cursor pagination
           "id": "01JDN Contribution00000000",
           "user_id": "01JDContributor00000000000",
           "contributor_username": "contributor",
+          "contributor_display_name": "Contributor",
           "entity_type": "word",
           "entity_id": "01JDKALINTIAK0000000000",
           "action": "create",
@@ -64,5 +65,6 @@ tests {
     const pending = res.body.data.filter((c) => c.status === 'pending');
     expect(pending.length).to.be.at.least(1);
     expect(pending[0]).to.have.property('contributor_username');
+    expect(pending[0]).to.have.property('contributor_display_name');
   });
 }

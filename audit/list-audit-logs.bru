@@ -10,6 +10,7 @@ Jejak audit mutasi data - hanya admin & root. Urut terbaru dulu, cursor-based.
           "id": "01JDX...",
           "user_id": "01JD...",
           "user_name": "admin",
+          "user_display_name": "Admin",
           "action": "create",
           "entity_type": "word",
           "entity_id": "01JD...",
@@ -23,7 +24,7 @@ Jejak audit mutasi data - hanya admin & root. Urut terbaru dulu, cursor-based.
     }
 
 Filter: user_id, entity_type, entity_id, from, to (kombinasi AND).
-user_name = username pelaku (LEFT JOIN users); null kalau user_id null /
+user_name = username pelaku; user_display_name = display_name (fallback username) (LEFT JOIN users); null kalau user_id null /
 user sudah dihapus.
 }
 
