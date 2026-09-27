@@ -17,9 +17,8 @@ Masuk dengan Google (ID token). V1: client_type mobile.
 
     { "success": false, "error_code": "INVALID_GOOGLE_TOKEN", "message": "Tidak bisa masuk dengan Google.", "details": null }
 
-409 EMAIL_ALREADY_EXISTS (email sudah di users, belum ada identity Google):
-
-    { "success": false, "error_code": "EMAIL_ALREADY_EXISTS", "message": "Email sudah terdaftar. Masuk dengan password atau gunakan lupa password.", "details": null }
+Email provider bentrok: tetap 200 - akun baru dengan email sintetis
+(go_{sub}@users.noreply.sambasku.local), bukan 409.
 
 503 GOOGLE_AUTH_UNAVAILABLE (GOOGLE_CLIENT_ID kosong):
 

@@ -1,0 +1,30 @@
+docs {
+Tandai laporan selesai karena entri sudah diperbaiki. Kata tetap tayang.
+}
+
+meta {
+  name: Admin Mark Corrected Word Report
+  seq: 4
+}
+
+post {
+  url: {{baseUrl}}/api/v1/admin/word-reports/{{word_report_id}}/mark-corrected
+  body: json
+  auth: bearer
+}
+
+auth:bearer {
+  token: {{access_token}}
+}
+
+body:json {
+  {
+    "note": "Sudah diperbaiki"
+  }
+}
+
+tests {
+  test("200 corrected ATAU 404/409", () => {
+    expect([200, 404, 409]).to.include(res.status);
+  });
+}

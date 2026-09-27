@@ -1,0 +1,39 @@
+docs {
+Laporkan entri published (33-api-word-image-warnings.md + word-report).
+Login wajib. Untuk foto kekerasan: reason_code=violent_image + image_id.
+Unique open per (word, user) / (word, user, image).
+}
+
+meta {
+  name: Report Word
+  seq: 19
+}
+
+post {
+  url: {{baseUrl}}/api/v1/words/{{word_id}}/reports
+  body: json
+  auth: bearer
+}
+
+auth:bearer {
+  token: {{contributor_access_token}}
+}
+
+body:json {
+  {
+    "reason_code": "spam",
+    "note": "Spam uji Bruno"
+  }
+}
+
+tests {
+  test("201 open ATAU 409 sudah open / bukan published ATAU 404", () => {
+    expect([201, 404, 409]).to.include(res.status);
+    if (res.status === 201) {
+      expect(res.body.success).to.equal(true);
+      expect(res.body.data.status).to.equal("open");
+      expect(res.body.data.id).to.have.lengthOf(26);
+      bru.setVar("word_report_id", res.body.data.id);
+    }
+  });
+}

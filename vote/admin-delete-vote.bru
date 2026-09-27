@@ -1,0 +1,23 @@
+docs {
+Hapus satu vote by id (root/admin/reviewer).
+}
+
+meta {
+  name: Admin Delete Vote
+  seq: 7
+}
+
+delete {
+  url: {{baseUrl}}/api/v1/admin/votes/{{admin_vote_id}}
+  auth: bearer
+}
+
+auth:bearer {
+  token: {{access_token}}
+}
+
+tests {
+  test("200 deleted ATAU 404", () => {
+    expect([200, 404]).to.include(res.status);
+  });
+}

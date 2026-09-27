@@ -1,0 +1,43 @@
+docs {
+Usulkan perubahan kata published (17-api-suggest-edit-word.md).
+Tidak boleh usul ke kata sendiri. reason_code wajib.
+}
+
+meta {
+  name: Suggest Edit Word
+  seq: 1
+}
+
+post {
+  url: {{baseUrl}}/api/v1/words/{{word_id}}/suggest-edit
+  body: json
+  auth: bearer
+}
+
+auth:bearer {
+  token: {{contributor_access_token}}
+}
+
+body:json {
+  {
+    "proposed_changes": {
+      "word": {
+        "notes": "Catatan uji Bruno suggest-edit"
+      }
+    },
+    "reason_code": "typo",
+    "reason_text": "Perbaikan catatan uji"
+  }
+}
+
+tests {
+  test("201 pending ATAU 403 own word ATAU 404", () => {
+    expect([201, 400, 403, 404]).to.include(res.status);
+    if (res.status === 201) {
+      expect(res.body.success).to.equal(true);
+      expect(res.body.data.status).to.equal("pending");
+      expect(res.body.data.suggestion_id).to.have.lengthOf(26);
+      bru.setVar("suggestion_id", res.body.data.suggestion_id);
+    }
+  });
+}

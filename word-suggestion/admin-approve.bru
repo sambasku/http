@@ -1,0 +1,33 @@
+docs {
+Setujui usulan dan terapkan ke kata (17-api-suggest-edit-word.md).
+}
+
+meta {
+  name: Admin Approve Word Suggestion
+  seq: 5
+}
+
+post {
+  url: {{baseUrl}}/api/v1/admin/word-suggestions/{{suggestion_id}}/approve
+  body: json
+  auth: bearer
+}
+
+auth:bearer {
+  token: {{access_token}}
+}
+
+body:json {
+  {
+    "comment": "Setuju - uji Bruno"
+  }
+}
+
+tests {
+  test("200 approved ATAU 404/409", () => {
+    expect([200, 404, 409]).to.include(res.status);
+    if (res.status === 200) {
+      expect(res.body.data.status).to.equal("approved");
+    }
+  });
+}

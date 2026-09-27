@@ -1,0 +1,40 @@
+docs {
+Upload file audio pelafalan (29-api-pronunciation-audio.md).
+Multipart field `audio`. Contributor → pending_review; admin → published.
+Tanpa storage → 503 PRONUNCIACION_UPLOAD_UNAVAILABLE.
+}
+
+meta {
+  name: Upload Pronunciation Audio
+  seq: 10.1
+}
+
+post {
+  url: {{baseUrl}}/api/v1/words/{{word_id}}/pronunciations/audio
+  body: multipartForm
+  auth: bearer
+}
+
+auth:bearer {
+  token: {{contributor_access_token}}
+}
+
+body:multipart-form {
+  audio: @file(/tmp/sambasku-pronunciation-sample.m4a)
+  speaker_name: Pak Daud
+}
+
+tests {
+  test("201 audio ATAU 503 storage belum siap ATAU 404 kata", () => {
+    expect([201, 404, 503]).to.include(res.status);
+    if (res.status === 201) {
+      expect(res.body.success).to.equal(true);
+      expect(res.body.data.id).to.have.lengthOf(26);
+      expect(res.body.data.url).to.be.a("string");
+      expect(res.body.data.status).to.equal("pending_review");
+      bru.setVar("word_audio_id", res.body.data.id);
+    } else if (res.status === 503) {
+      expect(res.body.error_code).to.equal("PRONUNCIACION_UPLOAD_UNAVAILABLE");
+    }
+  });
+}

@@ -1,0 +1,25 @@
+docs {
+Top targets terurut skor bersih (upvotes - downvotes) desc.
+}
+
+meta {
+  name: Admin Top Vote Targets
+  seq: 6
+}
+
+get {
+  url: {{baseUrl}}/api/v1/admin/votes/top-targets?target_type=word&limit=20
+  auth: bearer
+}
+
+auth:bearer {
+  token: {{access_token}}
+}
+
+tests {
+  test("200 top targets", () => {
+    expect(res.status).to.equal(200);
+    expect(res.body.success).to.equal(true);
+    expect(res.body.data).to.be.an("array");
+  });
+}

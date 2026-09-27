@@ -1,0 +1,24 @@
+docs {
+Riwayat perubahan kata - publik, tanpa auth (17-api-suggest-edit-word.md).
+}
+
+meta {
+  name: Get Word Change History
+  seq: 2
+}
+
+get {
+  url: {{baseUrl}}/api/v1/words/{{word_id}}/change-history?limit=20
+  auth: none
+}
+
+tests {
+  test("200 timeline ATAU 404", () => {
+    expect([200, 404]).to.include(res.status);
+    if (res.status === 200) {
+      expect(res.body.success).to.equal(true);
+      expect(res.body.data).to.be.an("array");
+      expect(res.body.meta).to.have.property("has_more");
+    }
+  });
+}

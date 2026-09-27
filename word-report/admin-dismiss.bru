@@ -1,0 +1,33 @@
+docs {
+Tolak laporan. Kata tetap tayang. Body note opsional.
+}
+
+meta {
+  name: Admin Dismiss Word Report
+  seq: 3
+}
+
+post {
+  url: {{baseUrl}}/api/v1/admin/word-reports/{{word_report_id}}/dismiss
+  body: json
+  auth: bearer
+}
+
+auth:bearer {
+  token: {{access_token}}
+}
+
+body:json {
+  {
+    "note": "Tidak melanggar - uji Bruno"
+  }
+}
+
+tests {
+  test("200 dismissed ATAU 404/409", () => {
+    expect([200, 404, 409]).to.include(res.status);
+    if (res.status === 200) {
+      expect(res.body.success).to.equal(true);
+    }
+  });
+}

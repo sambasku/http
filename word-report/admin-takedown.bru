@@ -1,0 +1,31 @@
+docs {
+Tarik entri dan tutup semua laporan terbuka pada kata itu.
+}
+
+meta {
+  name: Admin Takedown From Word Report
+  seq: 5
+}
+
+post {
+  url: {{baseUrl}}/api/v1/admin/word-reports/{{word_report_id}}/takedown
+  body: json
+  auth: bearer
+}
+
+auth:bearer {
+  token: {{access_token}}
+}
+
+body:json {
+  {
+    "reason_code": "spam",
+    "note": "Takedown uji Bruno"
+  }
+}
+
+tests {
+  test("200 takedown ATAU 404/409", () => {
+    expect([200, 404, 409]).to.include(res.status);
+  });
+}

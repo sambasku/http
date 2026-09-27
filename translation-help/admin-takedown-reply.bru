@@ -1,0 +1,23 @@
+docs {
+Takedown balasan translation help (32-api-translation-helps.md).
+}
+
+meta {
+  name: Admin Takedown Reply
+  seq: 13
+}
+
+post {
+  url: {{baseUrl}}/api/v1/admin/translation-helps/replies/{{translation_help_reply_id}}/takedown
+  auth: bearer
+}
+
+auth:bearer {
+  token: {{access_token}}
+}
+
+tests {
+  test("200 reply takedown ATAU 404", () => {
+    expect([200, 404]).to.include(res.status);
+  });
+}

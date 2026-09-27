@@ -1,0 +1,31 @@
+docs {
+Tandai foto berisi kekerasan (blur) dan tutup laporan (33-api-word-image-warnings.md).
+Hanya untuk laporan reason_code=violent_image. Kata tetap tayang.
+}
+
+meta {
+  name: Admin Flag Violent Image
+  seq: 6
+}
+
+post {
+  url: {{baseUrl}}/api/v1/admin/word-reports/{{word_report_id}}/flag-violent-image
+  body: json
+  auth: bearer
+}
+
+auth:bearer {
+  token: {{access_token}}
+}
+
+body:json {
+  {
+    "note": "Foto ditandai kekerasan"
+  }
+}
+
+tests {
+  test("200 flagged ATAU 400 bukan laporan foto ATAU 404/409", () => {
+    expect([200, 400, 404, 409]).to.include(res.status);
+  });
+}

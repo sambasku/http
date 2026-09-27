@@ -1,0 +1,38 @@
+docs {
+Koreksi usulan sebelum/saat menyetujui (17-api-suggest-edit-word.md).
+publish=true → status corrected + apply; false → tetap pending.
+}
+
+meta {
+  name: Admin Correct Word Suggestion
+  seq: 7
+}
+
+post {
+  url: {{baseUrl}}/api/v1/admin/word-suggestions/{{suggestion_id}}/correct
+  body: json
+  auth: bearer
+}
+
+auth:bearer {
+  token: {{access_token}}
+}
+
+body:json {
+  {
+    "entity_type": "word_suggestion",
+    "publish": true,
+    "corrected_changes": {
+      "word": {
+        "notes": "Catatan dikoreksi admin Bruno"
+      }
+    },
+    "comment": "Koreksi kecil"
+  }
+}
+
+tests {
+  test("200 corrected/pending ATAU 404/409", () => {
+    expect([200, 404, 409]).to.include(res.status);
+  });
+}

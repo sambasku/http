@@ -1,0 +1,26 @@
+docs {
+Tarik translation help dari feed setelah published (32-api-translation-helps.md).
+}
+
+meta {
+  name: Admin Takedown
+  seq: 11
+}
+
+post {
+  url: {{baseUrl}}/api/v1/admin/translation-helps/{{translation_help_id}}/takedown
+  auth: bearer
+}
+
+auth:bearer {
+  token: {{access_token}}
+}
+
+tests {
+  test("200 takedown ATAU 404 bukan published", () => {
+    expect([200, 404]).to.include(res.status);
+    if (res.status === 200) {
+      expect(res.body.success).to.equal(true);
+    }
+  });
+}

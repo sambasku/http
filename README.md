@@ -48,17 +48,19 @@ harus sinkron dengannya.
 auth/                     # register, login (web/mobile/google/facebook), OTP, refresh, logout, hapus akun
 language/                 # languages + dialects (var sambas_language_id, …)
 category/                 # categories
-word/                     # CRUD admin, search, media (pronounce / gambar / contoh), WOTD
+word/                     # CRUD admin, search, media (pronounce / gambar / contoh), WOTD, report
+word-suggestion/          # suggest-edit + change-history + antrean admin
+word-report/              # laporan entri + resolve admin (flag-violent-image)
 image/                    # upload-token ImageKit + POST /images (GitHub sambasku/images)
 users/                    # profil publik, activity, avatar
-contribution/             # antrean review: list, detail, approve, reject, correct
+contribution/             # antrean review: list, detail, approve, reject, correct + my detail
 search-miss/              # pencarian kosong + dismiss admin
 bookmark/                 # toggle + daftar bookmark
-vote/                     # toggle, counts, my, history
-comment/                  # publik + moderasi admin + blocklist
-translation-help/         # bantuan terjemahan publik + user + admin
+vote/                     # toggle, counts, my, history, deck + admin votes
+comment/                  # publik + moderasi admin + blocklist CRUD
+translation-help/         # bantuan terjemahan publik + user + admin (approve/reject/takedown/pin)
 verifier-applications/    # pengajuan + keputusan admin
-share/                    # GET share/backgrounds (proxy gambar/video publik)
+share/                    # GET backgrounds + background-providers
 notification/             # inbox + mark read
 notification-campaign/    # admin template + campaign broadcast
 bug-report/               # submit + admin resolve + upload-token

@@ -1,0 +1,27 @@
+meta {
+  name: Login with GitHub
+  type: http
+  seq: 25
+}
+
+post {
+  url: {{baseUrl}}/api/v1/auth/github
+  body: json
+  auth: none
+}
+
+headers {
+  Content-Type: application/json
+}
+
+body:json {
+  {
+    "access_token": "{{githubAccessToken}}",
+    "client_type": "mobile"
+  }
+}
+
+docs {
+  POST /api/v1/auth/github - access_token ATAU code+redirect_uri (+ code_verifier).
+  Lihat docs/api/36-api-auth-github.md.
+}

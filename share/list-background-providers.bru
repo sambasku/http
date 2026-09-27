@@ -1,0 +1,30 @@
+docs {
+Daftar provider latar share (22-api-share-backgrounds.md).
+Publik, tanpa auth. available=false jika kunci belum di-set.
+}
+
+meta {
+  name: List Share Background Providers
+  seq: 9
+}
+
+get {
+  url: {{baseUrl}}/api/v1/share/background-providers
+  body: none
+  auth: none
+}
+
+tests {
+  test("200 + providers array", () => {
+    expect(res.status).to.equal(200);
+    expect(res.body.success).to.equal(true);
+    expect(res.body.data.providers).to.be.an("array");
+    expect(res.body.data.providers.length).to.be.at.least(1);
+    for (const p of res.body.data.providers) {
+      expect(p).to.have.property("id");
+      expect(p).to.have.property("label");
+      expect(p).to.have.property("available");
+      expect(p.media).to.be.an("array");
+    }
+  });
+}

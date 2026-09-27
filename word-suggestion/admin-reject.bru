@@ -1,0 +1,33 @@
+docs {
+Tolak usulan. comment wajib.
+}
+
+meta {
+  name: Admin Reject Word Suggestion
+  seq: 6
+}
+
+post {
+  url: {{baseUrl}}/api/v1/admin/word-suggestions/{{suggestion_id}}/reject
+  body: json
+  auth: bearer
+}
+
+auth:bearer {
+  token: {{access_token}}
+}
+
+body:json {
+  {
+    "comment": "Tidak cukup bukti - uji Bruno"
+  }
+}
+
+tests {
+  test("200 rejected ATAU 404/409", () => {
+    expect([200, 400, 404, 409]).to.include(res.status);
+    if (res.status === 200) {
+      expect(res.body.data.status).to.equal("rejected");
+    }
+  });
+}

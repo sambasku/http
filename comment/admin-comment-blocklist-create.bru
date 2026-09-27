@@ -1,0 +1,37 @@
+docs {
+Tambah satu kata blocklist (10-api-comment-blocklist.md).
+Trim + lowercase. Duplikat aktif → 409.
+}
+
+meta {
+  name: Admin Comment Blocklist Create
+  seq: 8
+}
+
+post {
+  url: {{baseUrl}}/api/v1/admin/comment-blocklist
+  body: json
+  auth: bearer
+}
+
+auth:bearer {
+  token: {{access_token}}
+}
+
+body:json {
+  {
+    "word": "bodoh"
+  }
+}
+
+tests {
+  test("201 created ATAU 409 duplikat aktif", () => {
+    expect([201, 409]).to.include(res.status);
+    if (res.status === 201) {
+      expect(res.body.success).to.equal(true);
+      expect(res.body.data.word).to.equal("bodoh");
+      expect(res.body.data.id).to.have.lengthOf(26);
+      bru.setVar("blocklist_word_id", res.body.data.id);
+    }
+  });
+}

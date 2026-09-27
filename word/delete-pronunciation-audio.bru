@@ -1,0 +1,24 @@
+docs {
+Soft-delete audio pelafalan (29-api-pronunciation-audio.md).
+Role: admin, editor, root. 204 sukses; 404 jika audio/kata hilang.
+}
+
+meta {
+  name: Delete Pronunciation Audio
+  seq: 10.2
+}
+
+delete {
+  url: {{baseUrl}}/api/v1/words/{{word_id}}/pronunciations/audio/{{word_audio_id}}
+  auth: bearer
+}
+
+auth:bearer {
+  token: {{access_token}}
+}
+
+tests {
+  test("204 deleted ATAU 404", () => {
+    expect([204, 404]).to.include(res.status);
+  });
+}

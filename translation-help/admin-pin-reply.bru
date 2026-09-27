@@ -1,0 +1,30 @@
+docs {
+Pin balasan terbaik pada translation help (32-api-translation-helps.md).
+}
+
+meta {
+  name: Admin Pin Reply
+  seq: 12
+}
+
+post {
+  url: {{baseUrl}}/api/v1/admin/translation-helps/{{translation_help_id}}/pin-reply
+  body: json
+  auth: bearer
+}
+
+auth:bearer {
+  token: {{access_token}}
+}
+
+body:json {
+  {
+    "reply_id": "{{translation_help_reply_id}}"
+  }
+}
+
+tests {
+  test("200 pinned ATAU 404", () => {
+    expect([200, 404]).to.include(res.status);
+  });
+}

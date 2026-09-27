@@ -17,9 +17,8 @@ Masuk dengan Facebook (access token Graph). V1: client_type mobile.
 
     { "success": false, "error_code": "INVALID_FACEBOOK_TOKEN", "message": "Tidak bisa masuk dengan Facebook.", "details": null }
 
-409 EMAIL_ALREADY_EXISTS (email sudah di users, belum ada identity Facebook):
-
-    { "success": false, "error_code": "EMAIL_ALREADY_EXISTS", "message": "Email sudah terdaftar. Masuk dengan password atau gunakan lupa password.", "details": null }
+Email provider bentrok: tetap 200 - akun baru dengan email sintetis
+(fb_{id}@users.noreply.sambasku.local), bukan 409.
 
 503 FACEBOOK_AUTH_UNAVAILABLE (FACEBOOK_APP_ID / FACEBOOK_APP_SECRET kosong):
 
