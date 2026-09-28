@@ -1,0 +1,55 @@
+docs {
+Simpan / upsert ringkasan sesi impor massal (riwayat admin).
+
+Field Data Pendukung (opsional, per batch):
+- support_name, support_type (web|book|article|other),
+  support_address, support_title, support_desc
+
+attributed_to opsional - kosong = Pengimpor Data CSV.
+
+201 sukses mengembalikan sesi lengkap termasuk label user atribusi.
+}
+
+meta {
+  name: Save Import Session
+  seq: 41
+}
+
+post {
+  url: {{baseUrl}}/api/v1/admin/words/import-sessions
+  body: json
+  auth: bearer
+}
+
+auth:bearer {
+  token: {{access_token}}
+}
+
+body:json {
+  {
+    "id": "{{import_session_id}}",
+    "source_label": "contoh.csv",
+    "support_name": "Kamus Sambas Online",
+    "support_type": "web",
+    "support_address": "https://example.com/kamus",
+    "support_title": "Entri kata Sambas",
+    "support_desc": "Diambil dari daftar publik",
+    "status": "completed",
+    "total": 1,
+    "created_count": 1,
+    "duplicates_count": 0,
+    "meanings_added_count": 0,
+    "invalid_count": 0,
+    "items": [
+      {
+        "lemma": "makatn",
+        "outcome": "created",
+        "meanings_added": 1
+      }
+    ]
+  }
+}
+
+settings {
+  encodeUrl: true
+}

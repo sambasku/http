@@ -58,7 +58,7 @@ search-miss/              # pencarian kosong + dismiss admin
 bookmark/                 # toggle + daftar bookmark
 vote/                     # toggle, counts, my, history, deck + admin votes
 comment/                  # publik + moderasi admin + blocklist CRUD
-translation-help/         # bantuan terjemahan publik + user + admin (approve/reject/takedown/pin)
+discussion/         # ruang diskusi publik + user + admin (approve/reject/takedown/pin)
 verifier-applications/    # pengajuan + keputusan admin
 share/                    # GET backgrounds + background-providers
 notification/             # inbox + mark read

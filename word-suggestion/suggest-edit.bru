@@ -1,6 +1,8 @@
 docs {
 Usulkan perubahan kata published (17-api-suggest-edit-word.md).
 Tidak boleh usul ke kata sendiri. reason_code wajib.
+Status response: pending (kontributor) atau approved (verifikator
+admin|editor|root|reviewer - auto-apply).
 }
 
 meta {
@@ -31,11 +33,11 @@ body:json {
 }
 
 tests {
-  test("201 pending ATAU 403 own word ATAU 404", () => {
+  test("201 pending|approved ATAU 403 own word ATAU 404", () => {
     expect([201, 400, 403, 404]).to.include(res.status);
     if (res.status === 201) {
       expect(res.body.success).to.equal(true);
-      expect(res.body.data.status).to.equal("pending");
+      expect(["pending", "approved"]).to.include(res.body.data.status);
       expect(res.body.data.suggestion_id).to.have.lengthOf(26);
       bru.setVar("suggestion_id", res.body.data.suggestion_id);
     }

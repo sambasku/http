@@ -2,7 +2,9 @@ docs {
 Komentar pada sebuah kata (09-api-comment.md): published | taken_down |
 deleted_by_author. Body null untuk non-published. Sertakan status + votes.
 Label UI: display_name (fallback username). Link profil: username.
-Penulis yang akunnya sudah dihapus: username/display_name "Akun tidak ditemukan".
+Avatar: avatar_url (nullable). Peran thread: is_verifier (boolean).
+Penulis yang akunnya sudah dihapus: username/display_name "Akun tidak ditemukan",
+avatar_url null, is_verifier false.
 }
 
 meta {
@@ -21,6 +23,11 @@ tests {
     expect(res.body.data).to.be.an("array");
     for (const cm of res.body.data) {
       expect(["published", "taken_down", "deleted_by_author"]).to.include(cm.status);
+      expect(cm).to.have.property("username");
+      expect(cm).to.have.property("display_name");
+      expect(cm).to.have.property("avatar_url");
+      expect(cm).to.have.property("is_verifier");
+      expect(cm.is_verifier).to.be.a("boolean");
       expect(cm.upvotes).to.be.a("number");
       if (cm.status === "published") {
         expect(cm.body).to.be.a("string");

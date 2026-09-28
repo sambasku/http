@@ -1,6 +1,6 @@
 docs {
-Balas bantuan yang sudah published. Login. Body 1..500. Blocklist
-diterapkan seperti komentar. 409 TRANSLATION_HELP_NOT_PUBLISHED jika
+Balas diskusi yang sudah published. Login. Body 1..500. Blocklist
+diterapkan seperti komentar. 409 DISCUSSION_NOT_PUBLISHED jika
 help belum tayang.
 }
 
@@ -10,7 +10,7 @@ meta {
 }
 
 post {
-  url: {{baseUrl}}/api/v1/translation-helps/{{translation_help_id}}/replies
+  url: {{baseUrl}}/api/v1/discussions/{{discussion_id}}/replies
   body: json
   auth: bearer
 }
@@ -27,7 +27,7 @@ body:json {
 
 script:post-response {
   if (res.body?.data?.id) {
-    bru.setVar("translation_help_reply_id", res.body.data.id);
+    bru.setVar("discussion_reply_id", res.body.data.id);
   }
 }
 
@@ -37,6 +37,7 @@ tests {
     expect(res.body.success).to.equal(true);
     expect(res.body.data.status).to.equal("published");
     expect(res.body.data.body).to.be.a("string");
+    expect(res.body.data).to.have.property("avatar_url");
     expect(res.body.data).to.have.property("is_verifier");
     expect(res.body.data).to.have.property("is_pinned");
   });

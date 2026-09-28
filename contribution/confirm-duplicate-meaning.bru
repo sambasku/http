@@ -1,0 +1,43 @@
+meta {
+  name: Confirm Duplicate Meaning Vote
+  type: http
+  seq: 20
+}
+
+docs {
+  POST /api/v1/contributions/duplicate-confirm
+  Auth wajib. Cast upvote/downvote pada makna published yang exact-match
+  dengan usulan kontribusi, lalu catat audit duplicate_vote di riwayat
+  perubahan kata. Lihat docs/api/36-api-duplicate-meaning-confirm.md.
+}
+
+post {
+  url: {{baseUrl}}/api/v1/contributions/duplicate-confirm
+  body: json
+  auth: bearer
+}
+
+auth:bearer {
+  token: {{accessToken}}
+}
+
+body:json {
+  {
+    "word_id": "{{wordId}}",
+    "meaning_id": "{{meaningId}}",
+    "value": 1
+  }
+}
+
+tests {
+  test("status 200 atau 404", function() {
+    expect([200, 404]).to.include(res.status);
+  });
+  test("envelope", function() {
+    if (res.status === 200) {
+      expect(res.body.success).to.equal(true);
+      expect(res.body.data).to.have.property("my_vote");
+      expect(res.body.data).to.have.property("message");
+    }
+  });
+}

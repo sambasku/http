@@ -1,0 +1,35 @@
+docs {
+Upload gambar campaign (GitHub → jsDelivr). Path assets/campaigns/.
+}
+
+meta {
+  name: Upload Public Image (Campaign)
+  seq: 3
+}
+
+post {
+  url: {{baseUrl}}/api/v1/images?purpose=campaign
+  body: multipartForm
+  auth: bearer
+}
+
+auth:bearer {
+  token: {{access_token}}
+}
+
+body:multipart-form {
+  file: @file(/tmp/sambasku-campaign-sample.webp)
+}
+
+tests {
+  test("201 github ATAU 503 belum dikonfigurasi", () => {
+    expect([201, 503]).to.include(res.status);
+    if (res.status === 201) {
+      expect(res.body.data.url).to.contain('jsdelivr');
+      expect(res.body.data.provider).to.equal('github');
+      expect(res.body.data.provider_file_id).to.contain('campaigns');
+    } else {
+      expect(res.body.error_code).to.equal('PUBLIC_IMAGE_UPLOAD_UNAVAILABLE');
+    }
+  });
+}

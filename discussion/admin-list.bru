@@ -4,12 +4,12 @@ opsional. Detail staging ImageKit terlihat di admin (url + provider_file_id).
 }
 
 meta {
-  name: Admin List Translation Helps
+  name: Admin List Discussions
   seq: 8
 }
 
 get {
-  url: {{baseUrl}}/api/v1/admin/translation-helps?status=pending_review&limit=20
+  url: {{baseUrl}}/api/v1/admin/discussions?status=pending_review&limit=20
   body: none
   auth: bearer
 }
@@ -20,7 +20,7 @@ auth:bearer {
 
 script:post-response {
   const items = res.body.data || [];
-  if (items[0]) bru.setVar("translation_help_id", items[0].id);
+  if (items[0]) bru.setVar("discussion_id", items[0].id);
 }
 
 tests {

@@ -1,5 +1,5 @@
 docs {
-Pin balasan terbaik pada translation help (32-api-translation-helps.md).
+Pin balasan terbaik pada discussion (32-api-discussions.md).
 }
 
 meta {
@@ -8,7 +8,7 @@ meta {
 }
 
 post {
-  url: {{baseUrl}}/api/v1/admin/translation-helps/{{translation_help_id}}/pin-reply
+  url: {{baseUrl}}/api/v1/admin/discussions/{{discussion_id}}/pin-reply
   body: json
   auth: bearer
 }
@@ -19,7 +19,7 @@ auth:bearer {
 
 body:json {
   {
-    "reply_id": "{{translation_help_reply_id}}"
+    "reply_id": "{{discussion_reply_id}}"
   }
 }
 

@@ -1,0 +1,32 @@
+docs {
+Riwayat verifikasi milik user auth (mine=true). Join contribution_reviews
+di mana reviewer_id = token user. Termasuk item pending dengan
+reopened_by = user. Item menyertakan review_status / review_comment /
+reviewed_at.
+
+200 sukses: envelope data[] + meta cursor.
+}
+
+meta {
+  name: List My Reviews
+  seq: 8
+}
+
+get {
+  url: {{baseUrl}}/api/v1/admin/contributions?mine=true&limit=20
+  body: none
+  auth: bearer
+}
+
+auth:bearer {
+  token: {{access_token}}
+}
+
+tests {
+  test("200 + envelope + meta cursor", () => {
+    expect(res.status).to.equal(200);
+    expect(res.body.success).to.equal(true);
+    expect(res.body.data).to.be.an('array');
+    expect(res.body.meta).to.have.property('has_more');
+  });
+}

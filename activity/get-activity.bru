@@ -1,0 +1,61 @@
+docs {
+Feed lintas aktivitas publik (37-api-activity-feed.md).
+Tanpa auth. Rate 100/menit per IP. V1 tanpa cursor.
+
+200:
+
+    {
+      "success": true,
+      "data": [
+        {
+          "id": "comment:01…",
+          "kind": "comment",
+          "created_at": "…",
+          "actor": {
+            "username": "budi",
+            "display_name": "Budi",
+            "avatar_url": null
+          },
+          "body": "…",
+          "subtitle": "lading",
+          "target": { "type": "word", "id": "01…" }
+        }
+      ],
+      "meta": { "limit": 20 }
+    }
+
+search_miss: actor null. Tidak ada field email.
+}
+
+meta {
+  name: Get Activity Feed
+  seq: 1
+}
+
+get {
+  url: {{baseUrl}}/api/v1/activity?limit=20
+  body: none
+  auth: none
+}
+
+tests {
+  test("200 + data array tanpa email", () => {
+    expect(res.status).to.equal(200);
+    expect(res.body.success).to.equal(true);
+    expect(res.body.data).to.be.an('array');
+    expect(res.body.meta.limit).to.equal(20);
+    for (const item of res.body.data) {
+      expect(item).to.have.property('id');
+      expect(item).to.have.property('kind');
+      expect(item).to.have.property('created_at');
+      expect(item).to.have.property('body');
+      expect(item).to.not.have.property('email');
+      if (item.actor) {
+        expect(item.actor).to.not.have.property('email');
+      }
+      if (item.kind === 'search_miss') {
+        expect(item.actor).to.equal(null);
+      }
+    }
+  });
+}

@@ -1,0 +1,45 @@
+docs {
+Balas diskusi published dengan rekaman suara (multipart). Login.
+Field audio wajib (≤5 MB); body caption opsional 0..500; duration_ms
+opsional. Publish langsung (post-moderation). 409 DISCUSSION_NOT_PUBLISHED
+jika thread belum tayang. 503 jika PRONUNCIACION_* belum dikonfigurasi.
+}
+
+meta {
+  name: Create Reply Audio
+  seq: 14
+}
+
+post {
+  url: {{baseUrl}}/api/v1/discussions/{{discussion_id}}/replies/audio
+  body: multipartForm
+  auth: bearer
+}
+
+auth:bearer {
+  token: {{access_token}}
+}
+
+body:multipart-form {
+  audio: @file(/path/to/sample.wav)
+  body: Caption opsional untuk rekaman
+  duration_ms: 1200
+}
+
+script:post-response {
+  if (res.body?.data?.id) {
+    bru.setVar("discussion_reply_id", res.body.data.id);
+  }
+}
+
+tests {
+  test("201 reply audio published", () => {
+    expect(res.status).to.equal(201);
+    expect(res.body.success).to.equal(true);
+    expect(res.body.data.status).to.equal("published");
+    expect(res.body.data.audio_url).to.be.a("string");
+    expect(res.body.data).to.have.property("audio_mime_type");
+    expect(res.body.data).to.have.property("audio_duration_ms");
+    expect(res.body.data).to.have.property("avatar_url");
+  });
+}

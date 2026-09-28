@@ -12,6 +12,8 @@ published (post-moderation). Body melewati blocklist replacement.
         "user_id": "01J...",
         "username": "kontributor",
         "display_name": "Kontributor",
+        "avatar_url": null,
+        "is_verifier": false,
         "body": "Kata ini juga sering saya dengar di Sambas",
         "status": "published",
         "created_at": "2026-09-18T10:00:00.000Z"
@@ -50,5 +52,10 @@ tests {
     expect(res.body.success).to.equal(true);
     expect(res.body.data.status).to.equal("published");
     expect(res.body.data.word_id).to.equal(vars.word_id);
+    expect(res.body.data).to.have.property("username");
+    expect(res.body.data).to.have.property("display_name");
+    expect(res.body.data).to.have.property("avatar_url");
+    expect(res.body.data).to.have.property("is_verifier");
+    expect(res.body.data.is_verifier).to.be.a("boolean");
   });
 }

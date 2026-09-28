@@ -1,20 +1,20 @@
 docs {
-Detail bantuan terjemahan published + replies (32-api-translation-helps.md).
+Detail ruang diskusi published + replies (32-api-discussions.md).
 Tanpa auth untuk published. Help menyertakan upvotes (upvote-only).
-Reply menyertakan is_verifier + is_pinned + upvotes/downvotes.
+Reply menyertakan avatar_url + is_verifier + is_pinned + upvotes/downvotes.
 Body reply null jika taken_down / deleted_by_author.
 Urutan reply: pinned → net score desc → created_at desc.
 
-Set {{translation_help_id}} dari list-published atau isi manual.
+Set {{discussion_id}} dari list-published atau isi manual.
 }
 
 meta {
-  name: Get Translation Help Detail
+  name: Get Discussion Detail
   seq: 2
 }
 
 get {
-  url: {{baseUrl}}/api/v1/translation-helps/{{translation_help_id}}
+  url: {{baseUrl}}/api/v1/discussions/{{discussion_id}}
   body: none
   auth: none
 }
@@ -25,12 +25,17 @@ tests {
     expect(res.body.success).to.equal(true);
     expect(res.body.data.status).to.equal("published");
     expect(res.body.data).to.have.property("upvotes");
+    expect(res.body.data).to.have.property("username");
+    expect(res.body.data).to.have.property("display_name");
     expect(res.body.data.replies).to.be.an("array");
     for (const r of res.body.data.replies) {
+      expect(r).to.have.property("avatar_url");
       expect(r).to.have.property("is_verifier");
       expect(r).to.have.property("is_pinned");
       expect(r).to.have.property("upvotes");
       expect(r).to.have.property("downvotes");
+      expect(r).to.have.property("username");
+      expect(r).to.have.property("display_name");
       expect(["published", "taken_down", "deleted_by_author"]).to.include(r.status);
       if (r.status === "published") {
         expect(r.body).to.be.a("string");

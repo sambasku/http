@@ -1,0 +1,45 @@
+docs {
+Komentar suara pada lemma published (multipart). Login.
+Field audio wajib (≤5 MB); body caption opsional 0..1000; duration_ms
+opsional. Publish langsung (post-moderation). Voice-only diizinkan
+(body kosong). 409 WORD_NOT_PUBLISHED jika kata belum tayang.
+503 jika PRONUNCIACION_* belum dikonfigurasi.
+}
+
+meta {
+  name: Create Comment Audio
+  seq: 5
+}
+
+post {
+  url: {{baseUrl}}/api/v1/words/{{word_id}}/comments/audio
+  body: multipartForm
+  auth: bearer
+}
+
+auth:bearer {
+  token: {{access_token}}
+}
+
+body:multipart-form {
+  audio: @file(/path/to/sample.wav)
+  body: Caption opsional
+  duration_ms: 1200
+}
+
+script:post-response {
+  if (res.body?.data?.id) {
+    bru.setVar("comment_id", res.body.data.id);
+  }
+}
+
+tests {
+  test("201 comment audio published", () => {
+    expect(res.status).to.equal(201);
+    expect(res.body.success).to.equal(true);
+    expect(res.body.data.status).to.equal("published");
+    expect(res.body.data.audio_url).to.be.a("string");
+    expect(res.body.data).to.have.property("audio_mime_type");
+    expect(res.body.data).to.have.property("audio_duration_ms");
+  });
+}

@@ -1,16 +1,16 @@
 docs {
-Riwayat bantuan milik user login. Filter status opsional
+Riwayat diskusi milik user login. Filter status opsional
 (pending_review | published | rejected | taken_down).
 Owner melihat url + provider_file_id + public_url.
 }
 
 meta {
-  name: List My Translation Helps
+  name: List My Discussions
   seq: 5
 }
 
 get {
-  url: {{baseUrl}}/api/v1/translation-helps/my?limit=20
+  url: {{baseUrl}}/api/v1/discussions/my?limit=20
   body: none
   auth: bearer
 }

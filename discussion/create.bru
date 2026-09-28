@@ -1,7 +1,7 @@
 docs {
-Kirim permintaan bantuan (pending_review). Wajib login. Minimal body
-teks atau images[]. Gambar staging ImageKit; public_url masih null
-sampai approve.
+Kirim diskusi (pending_review). Wajib login. Deskripsi (body) wajib;
+link_url https opsional; images[] opsional (maks 4). Gambar staging
+ImageKit; public_url masih null sampai approve.
 
 200 sukses:
 
@@ -16,12 +16,12 @@ sampai approve.
 }
 
 meta {
-  name: Create Translation Help
+  name: Create Discussion
   seq: 4
 }
 
 post {
-  url: {{baseUrl}}/api/v1/translation-helps
+  url: {{baseUrl}}/api/v1/discussions
   body: json
   auth: bearer
 }
@@ -33,13 +33,14 @@ auth:bearer {
 body:json {
   {
     "body": "Apa arti frasa ini dalam bahasa Sambas?",
+    "link_url": "https://example.com/artikel",
     "images": []
   }
 }
 
 script:post-response {
   if (res.body?.data?.id) {
-    bru.setVar("translation_help_id", res.body.data.id);
+    bru.setVar("discussion_id", res.body.data.id);
   }
 }
 

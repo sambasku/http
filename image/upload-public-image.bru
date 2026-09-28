@@ -1,7 +1,10 @@
 docs {
-Upload gambar kata ke penyimpanan publik (GitHub → jsDelivr).
-Multipart field `file`, query `purpose=word`. Role: admin, editor,
+Upload gambar publik ke penyimpanan (GitHub → jsDelivr).
+Multipart field `file`, query `purpose=word|campaign`. Role: admin, editor,
 contributor, root, reviewer. Rate 30/menit.
+
+- `purpose=word` → `assets/words/<ulid>.<ext>`
+- `purpose=campaign` → `assets/campaigns/<ulid>.<ext>`
 
 ImageKit tetap dipakai laporan bug / bukti verifikator
 (`GET /admin/images/upload-token`, `GET /bug-reports/upload-token`).
@@ -11,9 +14,9 @@ ImageKit tetap dipakai laporan bug / bukti verifikator
     {
       "success": true,
       "data": {
-        "url": "https://cdn.jsdelivr.net/gh/sambasku/images@main/assets/words/01J….jpg",
+        "url": "https://cdn.jsdelivr.net/gh/sambasku/images@main/assets/words/01J….webp",
         "provider": "github",
-        "provider_file_id": "assets/words/01J….jpg",
+        "provider_file_id": "assets/words/01J….webp",
         "sha": "a1b2c3…"
       }
     }
@@ -23,7 +26,7 @@ ImageKit tetap dipakai laporan bug / bukti verifikator
     { "success": false, "error_code": "PUBLIC_IMAGE_UPLOAD_UNAVAILABLE", … }
 
 Lalu kirim url + provider_file_id (+ sha opsional) ke POST kata /
-POST words/:id/images.
+POST words/:id/images, atau `image_url` di campaign/template.
 }
 
 meta {

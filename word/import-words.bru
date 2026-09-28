@@ -1,0 +1,60 @@
+docs {
+Impor kata massal (maks 5 per request). Mode commit menulis ke DB.
+
+Atribusi creator:
+- tanpa attributed_to → user sistem Pengimpor Data CSV
+- dengan attributed_to → user yang dipilih (harus aktif)
+
+201 commit sukses:
+
+    {
+      "success": true,
+      "data": {
+        "items": [
+          {
+            "lemma": "makatn",
+            "outcome": "created",
+            "status": "draft",
+            "is_verified": false,
+            "meanings_added": 1,
+            "meanings_skipped": 0
+          }
+        ]
+      }
+    }
+}
+
+meta {
+  name: Import Words
+  seq: 40
+}
+
+post {
+  url: {{baseUrl}}/api/v1/admin/words/import
+  body: json
+  auth: bearer
+}
+
+auth:bearer {
+  token: {{access_token}}
+}
+
+body:json {
+  {
+    "mode": "commit",
+    "items": [
+      {
+        "lemma": "makatn",
+        "verify": false,
+        "verified": false,
+        "meanings": [
+          { "translation": "makan", "definition": "mengonsumsi makanan" }
+        ]
+      }
+    ]
+  }
+}
+
+settings {
+  encodeUrl: true
+}

@@ -1,6 +1,7 @@
 docs {
 Upload file audio pelafalan (29-api-pronunciation-audio.md).
 Multipart field `audio`. Contributor → pending_review; admin → published.
+`speaker_name` opsional (kosong = anonim).
 Tanpa storage → 503 PRONUNCIACION_UPLOAD_UNAVAILABLE.
 }
 
@@ -21,7 +22,6 @@ auth:bearer {
 
 body:multipart-form {
   audio: @file(/tmp/sambasku-pronunciation-sample.m4a)
-  speaker_name: Pak Daud
 }
 
 tests {
@@ -32,6 +32,8 @@ tests {
       expect(res.body.data.id).to.have.lengthOf(26);
       expect(res.body.data.url).to.be.a("string");
       expect(res.body.data.status).to.equal("pending_review");
+      expect(res.body.data.is_verified).to.equal(false);
+      expect(res.body.data.speaker_name).to.equal(null);
       bru.setVar("word_audio_id", res.body.data.id);
     } else if (res.status === 503) {
       expect(res.body.error_code).to.equal("PRONUNCIACION_UPLOAD_UNAVAILABLE");

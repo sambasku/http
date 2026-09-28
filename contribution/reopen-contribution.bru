@@ -1,0 +1,34 @@
+docs {
+Buka ulang keputusan review (append-only). Status → pending + soft-claim
+reopened_by. Jejak contribution_reviews tetap. Hanya reviewer keputusan
+terkini atau admin/root.
+
+200: { contribution_id, entity_type, entity_id, status: "pending", reopened_by }
+403 CONTRIBUTION_REOPEN_FORBIDDEN / 409 CONTRIBUTION_NOT_REOPENABLE
+}
+
+meta {
+  name: Reopen Contribution
+  seq: 9
+}
+
+post {
+  url: {{baseUrl}}/api/v1/admin/contributions/{{contribution_id}}/reopen
+  body: none
+  auth: bearer
+}
+
+auth:bearer {
+  token: {{access_token}}
+}
+
+tests {
+  test("200 pending + reopened_by atau conflict yang dikenal", () => {
+    expect([200, 403, 404, 409]).to.include(res.status);
+    if (res.status === 200) {
+      expect(res.body.success).to.equal(true);
+      expect(res.body.data.status).to.equal('pending');
+      expect(res.body.data).to.have.property('reopened_by');
+    }
+  });
+}

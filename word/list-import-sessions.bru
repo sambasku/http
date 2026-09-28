@@ -1,0 +1,28 @@
+docs {
+Daftar riwayat impor massal. Query q mencari di nama/judul/alamat sumber
+dan label file (source_label).
+}
+
+meta {
+  name: List Import Sessions
+  seq: 42
+}
+
+get {
+  url: {{baseUrl}}/api/v1/admin/words/import-sessions
+  body: none
+  auth: bearer
+}
+
+auth:bearer {
+  token: {{access_token}}
+}
+
+query {
+  limit: 20
+  q:
+}
+
+settings {
+  encodeUrl: true
+}

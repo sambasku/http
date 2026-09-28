@@ -1,0 +1,38 @@
+docs {
+Lampirkan rekaman suara ke opening thread pending_review (multipart).
+Login + pemilik thread. Field audio wajib (≤5 MB); duration_ms opsional.
+409 DISCUSSION_NOT_PENDING jika status bukan pending_review.
+403 jika bukan pemilik. 503 jika PRONUNCIACION_* belum dikonfigurasi.
+Audio di-redact dari wire publik sampai thread published.
+}
+
+meta {
+  name: Attach Topic Audio
+  seq: 15
+}
+
+post {
+  url: {{baseUrl}}/api/v1/discussions/{{discussion_id}}/audio
+  body: multipartForm
+  auth: bearer
+}
+
+auth:bearer {
+  token: {{access_token}}
+}
+
+body:multipart-form {
+  audio: @file(/path/to/sample.wav)
+  duration_ms: 1200
+}
+
+tests {
+  test("200 topic audio attached", () => {
+    expect(res.status).to.equal(200);
+    expect(res.body.success).to.equal(true);
+    expect(res.body.data.status).to.equal("pending_review");
+    expect(res.body.data.audio_url).to.be.a("string");
+    expect(res.body.data).to.have.property("audio_mime_type");
+    expect(res.body.data).to.have.property("audio_duration_ms");
+  });
+}

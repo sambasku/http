@@ -1,0 +1,35 @@
+docs {
+Klaim batch impor yang masih milik Pengimpor Data CSV ke user nyata.
+
+Geser:
+- word_import_sessions.attributed_to (+ claimed_by / claimed_at)
+- words.created_by untuk item outcome=created (lemma SBS)
+- meanings/examples.created_by untuk item meanings_added (+ anak kata baru)
+
+409 jika sudah diatribusikan / target = Pengimpor CSV.
+}
+
+meta {
+  name: Claim Import Session
+  seq: 43
+}
+
+post {
+  url: {{baseUrl}}/api/v1/admin/words/import-sessions/{{import_session_id}}/claim
+  body: json
+  auth: bearer
+}
+
+auth:bearer {
+  token: {{access_token}}
+}
+
+body:json {
+  {
+    "attributed_to": "{{claim_user_id}}"
+  }
+}
+
+settings {
+  encodeUrl: true
+}

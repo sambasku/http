@@ -1,5 +1,5 @@
 docs {
-Feed bantuan terjemahan yang sudah tayang (32-api-translation-helps.md).
+Feed ruang diskusi yang sudah tayang (32-api-discussions.md).
 Tanpa auth. Cursor pagination. Query sort=latest|popular.
 Gambar publik hanya public_url (jsDelivr).
 
@@ -26,19 +26,19 @@ Gambar publik hanya public_url (jsDelivr).
 }
 
 meta {
-  name: List Published Translation Helps
+  name: List Published Discussions
   seq: 1
 }
 
 get {
-  url: {{baseUrl}}/api/v1/translation-helps?limit=20&sort=latest
+  url: {{baseUrl}}/api/v1/discussions?limit=20&sort=latest
   body: none
   auth: none
 }
 
 script:post-response {
   const items = res.body.data || [];
-  if (items[0]) bru.setVar("translation_help_id", items[0].id);
+  if (items[0]) bru.setVar("discussion_id", items[0].id);
 }
 
 tests {
@@ -51,6 +51,8 @@ tests {
     for (const item of res.body.data) {
       expect(item.status).to.equal("published");
       expect(item).to.have.property("upvotes");
+      expect(item).to.have.property("username");
+      expect(item).to.have.property("display_name");
       expect(item.images).to.be.an("array");
       for (const img of item.images) {
         expect(img).to.have.property("public_url");

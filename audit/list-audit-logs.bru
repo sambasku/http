@@ -66,9 +66,10 @@ tests {
     }
   });
 
-  test("setiap entri punya user_name (string atau null)", () => {
+  test("setiap entri punya user_name + user_display_name (string atau null)", () => {
     for (const log of res.body.data) {
       expect(log.user_name === null || typeof log.user_name === 'string').to.equal(true);
+      expect(log.user_display_name === null || typeof log.user_display_name === 'string').to.equal(true);
     }
   });
 }
