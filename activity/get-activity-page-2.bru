@@ -1,0 +1,26 @@
+docs {
+Halaman berikutnya feed aktivitas. Butuh activityNextCursor dari Get Activity Feed.
+
+200: meta.has_more + next_cursor (nullable).
+}
+
+meta {
+  name: Get Activity Feed Page 2
+  seq: 2
+}
+
+get {
+  url: {{baseUrl}}/api/v1/activity?limit=20&cursor={{activityNextCursor}}
+  body: none
+  auth: none
+}
+
+tests {
+  test("200 + meta cursor", () => {
+    expect(res.status).to.equal(200);
+    expect(res.body.success).to.equal(true);
+    expect(res.body.data).to.be.an('array');
+    expect(res.body.meta).to.have.property('has_more');
+    expect(res.body.meta).to.have.property('next_cursor');
+  });
+}

@@ -1,0 +1,50 @@
+docs {
+Cabut mute IP/device + netralkan skor abuse (event admin_lift berbobot
+-skor30d) - hanya admin & root. Kunci dikirim di body karena IPv6 berisi ":".
+Idempoten: removed=false bila memang tidak sedang di-mute.
+Tercatat di audit log (action lift_anon_mute, entity_type anon_subject).
+
+200 sukses:
+
+    {
+      "success": true,
+      "data": {
+        "subject_kind": "ip",
+        "subject_key": "203.0.113.9",
+        "removed": true,
+        "previous_score_30d": 4
+      }
+    }
+
+400 VALIDATION_ERROR: subject_kind bukan ip/device atau subject_key kosong.
+}
+
+meta {
+  name: Lift Anon Mute
+  seq: 4
+}
+
+post {
+  url: {{baseUrl}}/api/v1/admin/abuse/anon-mutes/lift
+  body: json
+  auth: bearer
+}
+
+auth:bearer {
+  token: {{access_token}}
+}
+
+body:json {
+  {
+    "subject_kind": "ip",
+    "subject_key": "203.0.113.9"
+  }
+}
+
+tests {
+  test("200 + removed boolean", () => {
+    expect(res.status).to.equal(200);
+    expect(res.body.success).to.equal(true);
+    expect(res.body.data.removed).to.be.a("boolean");
+  });
+}

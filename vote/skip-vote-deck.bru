@@ -1,0 +1,40 @@
+docs {
+Lewati kartu deck tanpa menulis vote. Idempoten.
+Kata hilang dari GET /votes/deck user ini. User lain tetap melihat.
+200: { word_id, skipped: true }
+404 VOTE_TARGET_NOT_FOUND jika kata tidak ada.
+}
+
+meta {
+  name: Skip Vote Deck Word
+  type: http
+  seq: 7
+}
+
+post {
+  url: {{baseUrl}}/api/v1/votes/skips
+  body: json
+  auth: bearer
+}
+
+auth:bearer {
+  token: {{accessToken}}
+}
+
+body:json {
+  {
+    "word_id": "{{word_id}}"
+  }
+}
+
+tests {
+  test("status 200 atau 404", function() {
+    expect([200, 404]).to.include(res.status);
+  });
+  test("skip tercatat", function() {
+    if (res.status !== 200) return;
+    expect(res.body.success).to.equal(true);
+    expect(res.body.data.skipped).to.equal(true);
+    expect(res.body.data.word_id).to.equal(bru.getEnvVar("word_id"));
+  });
+}

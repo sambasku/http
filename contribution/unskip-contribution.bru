@@ -1,0 +1,32 @@
+docs {
+Batalkan skip kontribusi untuk verifikator ini.
+200 jika kontribusi ada (walau belum pernah diskip).
+404 jika id tidak ada.
+200: { id, skipped: false }
+}
+
+meta {
+  name: Unskip Contribution
+  type: http
+  seq: 11
+}
+
+delete {
+  url: {{baseUrl}}/api/v1/admin/contributions/{{contribution_id}}/skip
+  body: none
+  auth: bearer
+}
+
+auth:bearer {
+  token: {{access_token}}
+}
+
+tests {
+  test("200 unskip atau 403/404", () => {
+    expect([200, 403, 404]).to.include(res.status);
+    if (res.status === 200) {
+      expect(res.body.success).to.equal(true);
+      expect(res.body.data.skipped).to.equal(false);
+    }
+  });
+}

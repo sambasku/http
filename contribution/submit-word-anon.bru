@@ -2,9 +2,11 @@ docs {
 Submit kata TANPA LOGIN (endpoint publik, 03-api-kontribusi-verifikasi.md):
 pengunjung anonim mengusulkan kata - atribusi ke user sistem Anonim
 (anonim@sambasku.com), SELALU pending_review (masuk antrean review).
-Rate limit dual-bucket (06-api-x-device-id.md, Section 15): 5 submit/jam
-per X-Device-Id + 20/jam per IP - varian TANPA header ini hanya dibatasi
-IP (lihat Submit Word (Anonim, per-device) untuk varian ber-header).
+contributor_name opsional → contributions.guest_display_name (label
+atribusi di antrean; user_id tetap Anonim).
+Rate limit tamu: 20/jam per IP + 10/jam per X-Device-Id (header
+opsional; tanpa header hanya bucket IP). Mute sementara per sumber →
+403 ANON_CONTRIBUTION_MUTED. Teks asal-asalan → 400 UGC_INPUT_REJECTED.
 
 Body = create-word TANPA field status (dipaksa kirim-review; draft anonim
 tidak bermakna). Response bentuknya sama dengan Create Word.
@@ -40,6 +42,7 @@ body:json {
   {
     "language_id": "{{sambas_language_id}}",
     "lemma": "roboi",
+    "contributor_name": "Contoh Kontributor",
     "meanings": [
       {
         "word_class_id": "{{word_class_id}}",

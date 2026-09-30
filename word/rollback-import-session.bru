@@ -1,0 +1,27 @@
+docs {
+Tarik (soft-delete) semua kata yang dibuat oleh sesi impor
+(words.import_session_id = :id). Idempotent: sesi yang sudah
+rolled_back_at → deleted_count 0.
+
+Makna yang hanya ditambah ke lemma lama (outcome meanings_added)
+tidak ikut ditarik.
+}
+
+meta {
+  name: Rollback Import Session
+  seq: 44
+}
+
+post {
+  url: {{baseUrl}}/api/v1/admin/words/import-sessions/{{import_session_id}}/rollback
+  body: none
+  auth: bearer
+}
+
+auth:bearer {
+  token: {{access_token}}
+}
+
+settings {
+  encodeUrl: true
+}

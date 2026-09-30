@@ -1,0 +1,41 @@
+docs {
+Mute IP/device yang masih aktif (muted_until > sekarang), maks 100 baris,
+urut berakhir paling lama dulu - hanya admin & root.
+
+200 sukses:
+
+    {
+      "success": true,
+      "data": [
+        {
+          "subject_kind": "device",
+          "subject_key": "DEV12345678",
+          "muted_until": "2026-09-30T06:00:00.000Z",
+          "updated_at": "2026-09-29T06:00:00.000Z"
+        }
+      ]
+    }
+}
+
+meta {
+  name: List Anon Mutes
+  seq: 3
+}
+
+get {
+  url: {{baseUrl}}/api/v1/admin/abuse/anon-mutes
+  body: none
+  auth: bearer
+}
+
+auth:bearer {
+  token: {{access_token}}
+}
+
+tests {
+  test("200 + array data", () => {
+    expect(res.status).to.equal(200);
+    expect(res.body.success).to.equal(true);
+    expect(res.body.data).to.be.an("array");
+  });
+}

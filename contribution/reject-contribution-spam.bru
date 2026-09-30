@@ -1,0 +1,40 @@
+docs {
+Tolak kontribusi sebagai spam - reason_code spam memicu strike
+contribution_spam_reject (bobot 3) ke penulis, lalu policy progresif.
+
+Body:
+
+    {
+      "comment": "Spam / isi tidak relevan",
+      "reason_code": "spam"
+    }
+}
+
+meta {
+  name: Reject Contribution as Spam
+  seq: 6
+}
+
+post {
+  url: {{baseUrl}}/api/v1/admin/contributions/{{pronunciation_contribution_id}}/reject
+  body: json
+  auth: bearer
+}
+
+auth:bearer {
+  token: {{access_token}}
+}
+
+body:json {
+  {
+    "comment": "Spam / isi tidak relevan",
+    "reason_code": "spam"
+  }
+}
+
+tests {
+  test("200 + status rejected", () => {
+    expect(res.status).to.equal(200);
+    expect(res.body.data.status).to.equal('rejected');
+  });
+}

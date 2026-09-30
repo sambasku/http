@@ -1,12 +1,10 @@
 docs {
 Submit kata anonim DENGAN header X-Device-Id (varian per-device dari
-Submit Word (Anonim) - kontrak 06-api-x-device-id.md). Mobile mengirim
-ULID device (lihat docs/mobile/01-mobile-ulid-device-id.md) pada header
-ini; server memperlakukannya sebagai string opaque (tidak divalidasi
-format, cukup 8-64 karakter).
+Submit Word (Anonim)). Mobile/web mengirim id opaque stabil (8-64
+karakter) pada header ini.
 
-Dual-bucket: 5 submit/jam per X-Device-Id (fairness manusia di balik
-CGNAT) + 20/jam per IP (langit-langit bot yang mengacak device id).
+Dual-bucket tamu: 10 submit/jam per X-Device-Id + 20/jam per IP.
+Mute sementara per IP/device → 403 ANON_CONTRIBUTION_MUTED.
 
 201 sukses → bentuk sama dengan Submit Word (Anonim); 429 bila bucket
 device ATAU IP penuh (Retry-After disertakan).
@@ -57,7 +55,7 @@ script:pre-request {
 }
 
 tests {
-  test("201 + pending_review (bucket device 5/jam belum penuh)", () => {
+  test("201 + pending_review (bucket device 10/jam belum penuh)", () => {
     expect(res.status).to.equal(201);
     expect(res.body.data.status).to.equal('pending_review');
     expect(res.body.data.is_verified).to.equal(false);

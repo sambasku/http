@@ -1,0 +1,53 @@
+docs {
+Daftar log backup. Cursor-based, terbaru dulu. Hanya admin/root.
+Trigger console: API insert pending -> processing; CI update ke succeeded/failed.
+Cron / Run workflow manual: CI insert baris baru.
+Status: pending | processing | succeeded | failed (running = legacy).
+Baris pending/processing > 30 menit otomatis failed ("Timeout - workflow tidak melapor") saat list dibaca.
+
+200:
+
+    {
+      "success": true,
+      "data": [
+        {
+          "id": "01J…",
+          "created_at": "2026-09-29T00:00:00.000Z",
+          "triggered_by_username": "admin",
+          "trigger_source": "console",
+          "status": "succeeded",
+          "size_bytes": 542280,
+          "release_url": "https://github.com/sambasku/sqlite/releases/tag/backup-…",
+          "dry_run": false
+        }
+      ],
+      "meta": { "limit": 20, "next_cursor": null, "has_more": false }
+    }
+
+size_bytes = ukuran file .tar.gz.age (terenkripsi), bukan raw .db.
+}
+
+meta {
+  name: List Database Backup Logs
+  seq: 2
+}
+
+get {
+  url: {{baseUrl}}/api/v1/admin/system/database/backups?limit=20
+  body: none
+  auth: bearer
+}
+
+auth:bearer {
+  token: {{access_token}}
+}
+
+tests {
+  test("status 200 + envelope list + meta cursor", () => {
+    expect(res.status).to.equal(200);
+    expect(res.body.success).to.equal(true);
+    expect(res.body.data).to.be.an('array');
+    expect(res.body.meta).to.have.property('has_more');
+    expect(res.body.meta.limit).to.equal(20);
+  });
+}

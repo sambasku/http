@@ -1,0 +1,36 @@
+docs {
+Submit massal publik (langsung tayang + sesi word_import_sessions).
+
+- Tanpa login → triggered_by Anonim; attributed_to Anonim
+- contributor_name opsional → support_name sesi
+- Maks 50 baris; rate limit 5/jam per IP + 3/jam per X-Device-Id
+- Quality per baris + mute IP/device (ANON_CONTRIBUTION_MUTED)
+- Response: session_id + counters + items (word_id bila created)
+
+Rollback admin: POST /admin/words/import-sessions/:id/rollback
+}
+
+meta {
+  name: Submit Word Batch (Anonim)
+  seq: 9
+}
+
+post {
+  url: {{baseUrl}}/api/v1/contributions/words/batch
+  body: json
+  auth: none
+}
+
+body:json {
+  {
+    "contributor_name": "Contoh Kontributor",
+    "rows": [
+      { "sambas": "makatn-batch-1", "indonesia": "makan" },
+      { "sambas": "makatn-batch-2", "indonesia": "santap" }
+    ]
+  }
+}
+
+settings {
+  encodeUrl: true
+}

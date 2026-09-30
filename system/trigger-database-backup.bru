@@ -1,0 +1,56 @@
+docs {
+Trigger backup full DB encrypted ke repo sambasku/sqlite via workflow_dispatch.
+Hanya admin/root. Rate limit 5/menit.
+
+Alur: API INSERT log status=pending -> dispatch workflow (input log_id) -> UPDATE processing.
+CI sqlite meng-UPDATE baris log_id yang sama ke succeeded / failed saat selesai.
+Poll GET /backups untuk status akhir.
+
+202 accepted:
+
+    {
+      "success": true,
+      "data": {
+        "accepted": true,
+        "log_id": "01J…",
+        "status": "processing",
+        "dry_run": false
+      }
+    }
+
+503 SQLITE_BACKUP_UNAVAILABLE jika PUBLIC_IMAGE_GITHUB_TOKEN / PRONUNCIACION_GITHUB_TOKEN kosong.
+502 SQLITE_BACKUP_UPSTREAM jika GitHub menolak dispatch (baris log ditandai failed).
+409 SQLITE_BACKUP_IN_PROGRESS jika masih ada backup pending/processing (< 30 menit).
+}
+
+meta {
+  name: Trigger Database Backup
+  seq: 1
+}
+
+post {
+  url: {{baseUrl}}/api/v1/admin/system/database/backup
+  body: json
+  auth: bearer
+}
+
+auth:bearer {
+  token: {{access_token}}
+}
+
+body:json {
+  {
+    "dry_run": false
+  }
+}
+
+tests {
+  test("status 202 atau 409/502/503 tergantung env", () => {
+    expect([202, 409, 502, 503]).to.include(res.status);
+    expect(res.body.success).to.be.a('boolean');
+    if (res.status === 202) {
+      expect(res.body.data.log_id).to.be.a('string');
+      expect(res.body.data.status).to.equal('processing');
+    }
+  });
+}

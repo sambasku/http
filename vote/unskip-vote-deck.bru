@@ -1,0 +1,30 @@
+docs {
+Batalkan skip kartu deck. Idempoten: 200 walau baris skip tidak ada.
+200: { word_id, skipped: false }
+}
+
+meta {
+  name: Unskip Vote Deck Word
+  type: http
+  seq: 8
+}
+
+delete {
+  url: {{baseUrl}}/api/v1/votes/skips/{{word_id}}
+  body: none
+  auth: bearer
+}
+
+auth:bearer {
+  token: {{accessToken}}
+}
+
+tests {
+  test("status 200", function() {
+    expect(res.status).to.equal(200);
+  });
+  test("skipped false", function() {
+    expect(res.body.success).to.equal(true);
+    expect(res.body.data.skipped).to.equal(false);
+  });
+}

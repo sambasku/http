@@ -1,0 +1,34 @@
+docs {
+Lewati kontribusi untuk verifikator ini. Status tetap pending.
+Tidak menulis contribution_reviews. Idempoten.
+Sembunyikan di antrean dengan GET ?hide_skipped=true.
+200: { id, skipped: true }
+404 CONTRIBUTION_NOT_FOUND / 403 bukan verifikator
+}
+
+meta {
+  name: Skip Contribution
+  type: http
+  seq: 10
+}
+
+post {
+  url: {{baseUrl}}/api/v1/admin/contributions/{{contribution_id}}/skip
+  body: none
+  auth: bearer
+}
+
+auth:bearer {
+  token: {{access_token}}
+}
+
+tests {
+  test("200 skip atau 403/404", () => {
+    expect([200, 403, 404]).to.include(res.status);
+    if (res.status === 200) {
+      expect(res.body.success).to.equal(true);
+      expect(res.body.data.skipped).to.equal(true);
+      expect(res.body.data.id).to.equal(bru.getEnvVar("contribution_id"));
+    }
+  });
+}

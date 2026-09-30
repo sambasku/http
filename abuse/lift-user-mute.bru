@@ -1,0 +1,42 @@
+docs {
+Cabut mute kontribusi akun (contribute_muted_until = null) + netralkan skor
+abuse (event admin_lift berbobot -skor30d) - hanya admin & root.
+Tidak mengubah can_contribute / is_active (pakai endpoint masing-masing).
+Tercatat di audit log (action lift_contribute_mute).
+
+200 sukses:
+
+    {
+      "success": true,
+      "data": {
+        "id": "01J...",
+        "contribute_muted_until": null,
+        "previous_score_30d": 5
+      }
+    }
+
+404 USER_NOT_FOUND: user tidak ada / sudah dihapus.
+}
+
+meta {
+  name: Lift User Mute
+  seq: 5
+}
+
+post {
+  url: {{baseUrl}}/api/v1/admin/abuse/users/{{user_id}}/lift-mute
+  body: none
+  auth: bearer
+}
+
+auth:bearer {
+  token: {{access_token}}
+}
+
+tests {
+  test("200 + mute kosong", () => {
+    expect(res.status).to.equal(200);
+    expect(res.body.success).to.equal(true);
+    expect(res.body.data.contribute_muted_until).to.equal(null);
+  });
+}

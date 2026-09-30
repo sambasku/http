@@ -1,0 +1,50 @@
+docs {
+Riwayat sinyal abuse UGC user (admin/root). Policy progresif memakai
+bobot di ugc_abuse_events.
+
+200 sukses:
+
+    {
+      "success": true,
+      "data": [
+        {
+          "id": "01J...",
+          "signal": "comment_takedown",
+          "weight": 3,
+          "entity_type": "comment",
+          "entity_id": "01J...",
+          "meta": null,
+          "created_at": "2026-09-29T00:00:00.000Z"
+        }
+      ],
+      "meta": {
+        "limit": 20,
+        "next_cursor": null,
+        "has_more": false
+      }
+    }
+}
+
+meta {
+  name: Admin List User Abuse Events
+  seq: 40
+}
+
+get {
+  url: {{baseUrl}}/api/v1/admin/users/{{user_id}}/abuse-events?limit=20
+  body: none
+  auth: bearer
+}
+
+auth:bearer {
+  token: {{access_token}}
+}
+
+tests {
+  test("200 + array data", () => {
+    expect(res.status).to.equal(200);
+    expect(res.body.success).to.equal(true);
+    expect(res.body.data).to.be.an("array");
+    expect(res.body.meta).to.have.property("has_more");
+  });
+}
