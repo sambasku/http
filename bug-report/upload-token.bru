@@ -1,8 +1,8 @@
 docs {
-Token upload publik untuk lampiran laporan masalah. Query folder wajib
-`/bug-reports`. Folder lain → 400. ImageKit belum dikonfigurasi → 503
-IMAGE_UPLOAD_UNAVAILABLE. Tanpa auth. Sample:
-docs/json/bug-report/upload-token.200.json
+Token upload lampiran laporan masalah. WAJIB login (Bearer); tanpa/invalid
+token → 401 UNAUTHORIZED. Query folder wajib `/bug-reports`, lainnya → 400.
+ImageKit belum dikonfigurasi → 503 IMAGE_UPLOAD_UNAVAILABLE. Rate 20/jam
+per user + 40/jam per IP. Sample: docs/json/bug-report/upload-token.200.json
 }
 
 meta {
@@ -13,7 +13,11 @@ meta {
 get {
   url: {{baseUrl}}/api/v1/bug-reports/upload-token?folder=/bug-reports
   body: none
-  auth: none
+  auth: bearer
+}
+
+auth:bearer {
+  token: {{access_token}}
 }
 
 headers {
