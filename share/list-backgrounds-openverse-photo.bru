@@ -1,5 +1,8 @@
 docs {
 Foto stok Openverse: provider=openverse&media=photo.
+Lisensi hanya cc0,pdm,by (BY-SA/BY-NC dibuang).
+Tiap item membawa license (mis. "CC BY 2.0"), license_url, source (mis. "flickr")
+untuk kredit CC wajib di UI + PNG kartu share.
 }
 
 meta {
@@ -19,5 +22,8 @@ tests {
     expect(res.body.success).to.equal(true);
     expect(res.body.data.provider).to.equal('openverse');
     expect(res.body.data.media).to.equal('photo');
+    for (const item of res.body.data.items) {
+      expect(item.license).to.match(/^(CC BY |CC0|Public Domain Mark)/);
+    }
   });
 }

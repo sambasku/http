@@ -48,12 +48,15 @@ Label UI: display_name; link profil: username.
         ],
         "categories": [ { "id": "01JD...", "name": "Makanan" } ],
         "pronunciations": [ { "id": "01JD...", "notation": "ipa", "value": "/makatn/", "dialect_id": null } ],
-        "images": [ { "id": "01JD...", "url": "https://ik.imagekit.io/.../makatn.jpg", "alt_text": "Ilustrasi", "is_primary": true } ],
+        "images": [ { "id": "01JD...", "url": "https://ik.imagekit.io/.../makatn.jpg", "alt_text": "Ilustrasi", "is_primary": true, "attribution": null } ],
         "related_words": [ { "word_id": "01JD...", "lemma": "makan", "relation_type": "synonym" } ],
         "appears_in": [],
         "variants": [ { "id": "01JD...", "form": "memakan", "variant_type": "derivation", "affix_type": "prefix", "affix_value": "me-", "dialect_id": null, "notes": null } ]
       }
     }
+
+images[].attribution: kredit foto stock (nullable) -
+{ name, url, license, license_url, source, provider }. Null untuk upload user.
 
 Untuk kata komponen peribahasa, appears_in berisi frasa yang memakainya.
 meaning id dipakai chaining Add Example (kontribusi contoh kalimat).
@@ -88,6 +91,7 @@ tests {
     expect(res.body.data.pronunciations[0].value).to.equal('/makatn/');
     expect(res.body.data.images[0]).to.have.property('url');
     expect(res.body.data.images[0].is_primary).to.equal(true);
+    expect(res.body.data.images[0]).to.have.property('attribution');
     expect(res.body.data).to.have.property('verified_by');
     expect(res.body.data).to.have.property('verified_at');
   });

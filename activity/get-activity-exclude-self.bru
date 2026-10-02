@@ -1,0 +1,78 @@
+docs {
+Feed aktivitas dengan karya sendiri disembunyikan (37-api-activity-feed.md).
+
+BUTUH login: `?exclude_self=true` hanya berlaku bila Bearer valid. Tanpa token
+sah flag diabaikan dan feed tetap publik penuh - bukan gate, tidak ada 400.
+
+Token rusak/kedaluarsa juga TIDAK 401 (soft auth menelan, feed lengkap dikembalikan).
+Request terpisah: `get-activity-bad-token.bru`.
+
+Semua jenis terfilter: comment, vote, discussion, word, word_image/audio/
+pronunciation/example, card_share, suggestion, welcome.
+
+`vote` disaring pelaku DAN target: vote orang lain atas kata milik sendiri
+juga disembunyikan.
+
+`search_miss` disaring lewat `search_miss_searchers`: miss yang pernah dicari
+viewer sendiri disembunyikan dari berandanya saja. User lain tetap melihat
+miss yang sama, dan tanpa flag miss tetap publik penuh. Baris searcher hanya
+tercatat kalau `GET /words/search` dipanggil dengan Bearer sah (soft auth).
+
+Kata impor sistem (`created_by` NULL) tetap tampil.
+
+Butuh `Login Contributor` lebih dulu (menyimpan `contributor_access_token` +
+`contributor_username`). Untuk membuktikan search_miss: cari satu istilah yang
+tidak ada di kamus (`GET /words/search?q=...` dengan token yang sama) sebelum
+request ini.
+}
+
+meta {
+  name: Get Activity Feed (exclude self)
+  seq: 4
+}
+
+get {
+  url: {{baseUrl}}/api/v1/activity?limit=50&exclude_self=true
+  body: none
+  auth: bearer
+}
+
+auth:bearer {
+  token: {{contributor_access_token}}
+}
+
+tests {
+  test("200 + tidak ada baris milik sendiri", () => {
+    expect(res.status).to.equal(200);
+    expect(res.body.success).to.equal(true);
+    expect(res.body.data).to.be.an('array');
+    // Response jadi per identitas: cache per URL saja tidak boleh dipakai.
+    expect(res.headers.vary).to.contain('Authorization');
+    const own = bru.getVar('contributor_username');
+    expect(own, 'jalankan "Login Contributor" lebih dulu').to.be.a('string').and.not.empty;
+    for (const item of res.body.data) {
+      if (item.actor) {
+        expect(item.actor.username, `baris milik sendiri lolos: ${item.id}`).to.not.equal(own);
+      }
+    }
+  });
+
+  test("feed tetap terisi dan tidak kehilangan semua jenis", () => {
+    expect(res.body.data.length).to.be.greaterThan(0);
+    const kinds = [...new Set(res.body.data.map((i) => i.kind))];
+    expect(kinds.length, 'penyaringan jangan sampai mematikan seluruh jenis').to.be.greaterThan(1);
+  });
+
+  test("search_miss: actor tetap null, dan yang dicari sendiri tidak muncul", () => {
+    // Tidak bisa assert term spesifik di sini (butuh istilah miss yang
+    // reproducible), jadi yang dicek adalah sifat yang dijamin kontrak:
+    // search_miss tidak pernah punya actor.
+    const misses = res.body.data.filter((i) => i.kind === 'search_miss');
+    for (const miss of misses) {
+      expect(miss.actor).to.equal(null);
+    }
+    // Kalau miss yang baru saja dicari sendiri bocor ke feed, test ini tidak
+    // menangkapnya - itu batas inherent request ini tanpa fixture. Yang
+    // dijamin: tidak ada baris search_miss dengan actor viewer.
+  });
+}

@@ -1,6 +1,8 @@
 docs {
 Kontribusi gambar dari Media Explorer (URL stock eksternal).
 Tidak perlu upload ke GitHub - kirim provider + url CDN + id item.
+attribution opsional { name, url?, license?, license_url?, source? }
+(url wajib https); dibuang bila provider bukan stock.
 
 201 sukses (admin): published + is_verified true.
 }
@@ -30,6 +32,7 @@ body:json {
     "provider": "pexels",
     "provider_file_id": "{{bruno_stock_file_id}}",
     "alt_text": "Foto: Pexels / pexels",
+    "attribution": { "name": "Pexels", "url": "https://www.pexels.com/" },
     "is_primary": false
   }
 }

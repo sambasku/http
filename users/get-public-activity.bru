@@ -1,9 +1,14 @@
 docs {
 Aktivitas publik terbaru by username (tanpa auth). Rate 100/menit per IP.
-Satu respons, max 20 item, tanpa kursor. Digabung dari:
-kontribusi approved/corrected, komentar published, verifikasi selesai.
 
-200 sukses:
+Mode merge (tanpa query `kind`): satu respons, max 20 item, tanpa kursor.
+Digabung dari: kontribusi approved/corrected, komentar published,
+verifikasi selesai, vote (word/comment, kata masih published).
+
+Mode terfilter (`kind` + `limit` + `cursor`): pagination keyset ULID,
+respons include `meta` (next_cursor, has_more).
+
+200 sukses (mode merge):
 
     {
       "success": true,
@@ -12,29 +17,45 @@ kontribusi approved/corrected, komentar published, verifikasi selesai.
           {
             "kind": "contribution",
             "occurred_at": "2026-09-20T10:00:00.000Z",
-            "word_id": "01JD…",
+            "word_id": "01JD...",
             "lemma": "makatn",
             "summary": "Kata: makatn"
+          },
+          {
+            "kind": "vote",
+            "occurred_at": "2026-09-20T09:00:00.000Z",
+            "word_id": "01JD...",
+            "lemma": "kumis",
+            "summary": "\"kumis\" perlu dicek ulang"
           }
         ]
       }
     }
 
-404 USER_NOT_FOUND sama seperti profil publik.
-Tidak mengekspos bookmark, vote, usulan pending, email, phone, user id.
-}
+200 sukses (mode terfilter `?kind=comment&limit=20`):
 
-meta {
+    {
+      "success": true,
+      "data": {
+        "items": [
+          { "id": "...", "kind": "comment", "occurred_at": "...", "word_id": "...", "lemma": "...", "summary": "..." }
+        ]
+      },
+      "meta": { "limit": 20, "next_cursor": "01JD...", "has_more": true }
+    }
+
+404 USER_NOT_FOUND sama seperti profil publik.
+Vote hanya word/comment ber-lemma; bookmark, usulan pending, email, phone, user id tetap tidak tampil.
+Arah vote dibaca dari akhiran summary ("perlu dicek ulang" = downvote).
+} meta {
   name: Get Public Activity
   seq: 4
 }
-
 get {
-  url: {{baseUrl}}/api/v1/users/{{username}}/activity
+  url: {{baseUrl}}/api/v1/users/{{username}}/activity?kind=comment&limit=20
   body: none
   auth: none
 }
-
 tests {
   test("200 + items aktivitas publik", () => {
     expect(res.status).to.equal(200);
@@ -43,11 +64,19 @@ tests {
     expect(res.body.data.items.length).to.be.at.most(20);
     if (res.body.data.items.length > 0) {
       const item = res.body.data.items[0];
-      expect(['contribution', 'comment', 'verification']).to.include(item.kind);
+      expect(['contribution', 'comment', 'verification', 'vote']).to.include(
+        item.kind,
+      );
       expect(item.occurred_at).to.be.a('string');
       expect(item.summary).to.be.a('string');
       expect(item).to.not.have.property('user_id');
       expect(item).to.not.have.property('email');
     }
+  });
+  test("200 + meta cursor when filtered", () => {
+    expect(res.body.meta).to.exist;
+    expect(res.body.meta.limit).to.equal(20);
+    expect(res.body.meta.has_more).to.be.a('boolean');
+    expect(res.body.meta.next_cursor).to.be.a('string').or.be.null;
   });
 }

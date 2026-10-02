@@ -1,0 +1,37 @@
+docs {
+`GET /activity` dengan Bearer yang TIDAK sah (37-api-activity-feed.md).
+
+Harus 200 dengan feed lengkap, bukan 401. Route ini memakai soft auth: token
+rusak/kedaluarsa hanya berarti "tampilkan feed lengkap", `exclude_self` dilewati.
+
+Kenapa ini test sendiri: interceptor mobile akan mencoba refresh lalu retry saat
+401, dan kalau refresh-nya gagal karena jaringan putus dia meneruskan 401 apa
+adanya. Kalau route publik ikut 401, Home error total padahal feed publiknya
+masih bisa dibaca - regression yang tidak akan terlihat di test API biasa.
+
+Kasus tamu (`exclude_self` diabaikan, feed penuh) sudah tercakup
+`get-activity-exclude-self.bru` lewat login normal.
+}
+
+meta {
+  name: Get Activity Feed (Bearer tidak sah)
+  seq: 5
+}
+
+get {
+  url: {{baseUrl}}/api/v1/activity?limit=20&exclude_self=true
+  body: none
+  auth: none
+}
+
+headers {
+  authorization: Bearer ini-bukan-token-yang-sah
+}
+
+tests {
+  test("200 + feed penuh, bukan 401", () => {
+    expect(res.status).to.equal(200);
+    expect(res.body.success).to.equal(true);
+    expect(res.body.data).to.be.an('array');
+  });
+}

@@ -1,0 +1,32 @@
+docs {
+Catat download foto Unsplash (22-api-share-backgrounds.md).
+Publik, tanpa auth. Dipanggil client saat user memilih foto Unsplash
+di Media Explorer (Unsplash API Guidelines - Triggering Downloads).
+200 { tracked } - tracked=false bila UNSPLASH_ACCESS_KEY kosong / upstream gagal.
+400 VALIDATION_ERROR bila `id` bukan ID foto Unsplash.
+}
+
+meta {
+  name: Track Unsplash Download
+  seq: 10
+}
+
+post {
+  url: {{baseUrl}}/api/v1/share/backgrounds/unsplash/download
+  body: json
+  auth: none
+}
+
+body:json {
+  {
+    "id": "Dwu85P9SOIk"
+  }
+}
+
+tests {
+  test("200 + tracked boolean", () => {
+    expect(res.status).to.equal(200);
+    expect(res.body.success).to.equal(true);
+    expect(res.body.data.tracked).to.be.a("boolean");
+  });
+}

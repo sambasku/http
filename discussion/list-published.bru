@@ -13,6 +13,7 @@ Gambar publik hanya public_url (jsDelivr).
           "user_id": "01JD...",
           "username": "budi",
           "display_name": "Budi",
+          "avatar_url": "https://ik.imagekit.io/.../avatar.webp",
           "body": "Apa artinya ini?",
           "images": [{ "public_url": "https://cdn.jsdelivr.net/..." }],
           "status": "published",
@@ -53,6 +54,7 @@ tests {
       expect(item).to.have.property("upvotes");
       expect(item).to.have.property("username");
       expect(item).to.have.property("display_name");
+      expect(item).to.have.property("avatar_url");
       expect(item.images).to.be.an("array");
       for (const img of item.images) {
         expect(img).to.have.property("public_url");
