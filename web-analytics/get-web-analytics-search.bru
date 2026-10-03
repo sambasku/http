@@ -1,0 +1,34 @@
+docs {
+Trafik Web - Pencarian (Google Search Console). Hanya admin & root.
+
+Filter opsional (cocok sebagian): page, query.
+
+search_console.data: totals { clicks, impressions, ctr (0..1), position },
+previous, trend[{ date, clicks, impressions }],
+top_queries[{ query, clicks, impressions, ctr, position }] (maks 20),
+top_pages[{ page, clicks, impressions, ctr, position }] (maks 20).
+search_console.range = rentang setelah digeser lag 3 hari.
+}
+
+meta {
+  name: Get Web Analytics Search
+  seq: 4
+}
+
+get {
+  url: {{baseUrl}}/api/v1/admin/web-analytics/search?range=28d
+  body: none
+  auth: bearer
+}
+
+auth:bearer {
+  token: {{access_token}}
+}
+
+tests {
+  test("status 200 + hanya provider Search Console", () => {
+    expect(res.status).to.equal(200);
+    expect(res.body.data).to.have.property('search_console');
+    expect(res.body.data).to.not.have.property('ga4');
+  });
+}

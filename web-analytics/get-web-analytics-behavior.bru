@@ -1,0 +1,31 @@
+docs {
+Trafik Web - Perilaku (GA4). Hanya admin & root.
+
+ga4.data: totals, previous, top_pages[{ path, views, users }],
+landing_pages[{ path, sessions, engagement_rate }], events[{ name, count, users }]
+(masing-masing maks 20).
+}
+
+meta {
+  name: Get Web Analytics Behavior
+  seq: 3
+}
+
+get {
+  url: {{baseUrl}}/api/v1/admin/web-analytics/behavior?range=custom&start=2026-09-01&end=2026-09-28
+  body: none
+  auth: bearer
+}
+
+auth:bearer {
+  token: {{access_token}}
+}
+
+tests {
+  test("status 200 + rentang custom dipakai apa adanya", () => {
+    expect(res.status).to.equal(200);
+    expect(res.body.data.range.start).to.equal('2026-09-01');
+    expect(res.body.data.range.end).to.equal('2026-09-28');
+    expect(res.body.data.range.previous_end).to.equal('2026-08-31');
+  });
+}

@@ -1,0 +1,32 @@
+docs {
+PATCH /api/v1/users/me - tandai guide swipe halaman kontribusi sudah dibaca (tap Mengerti).
+Auth Bearer wajib. Sekali jalan: hanya menerima true.
+}
+
+meta {
+  name: Mark Contribution Guide Read
+  seq: 7
+}
+
+patch {
+  url: {{baseUrl}}/api/v1/users/me
+  body: json
+  auth: bearer
+}
+
+auth:bearer {
+  token: {{access_token}}
+}
+
+body:json {
+  {
+    "has_read_contribution_guide": true
+  }
+}
+
+tests {
+  test("200 + has_read_contribution_guide true", () => {
+    expect(res.status).to.equal(200);
+    expect(res.body.data.has_read_contribution_guide).to.equal(true);
+  });
+}

@@ -1,5 +1,5 @@
 docs {
-GET /api/v1/users/me - prefill editor profil (display_name + bio).
+GET /api/v1/users/me - prefill editor profil (display_name + bio) + flag guide kontribusi.
 Auth Bearer wajib.
 }
 
@@ -24,5 +24,6 @@ tests {
     expect(res.body.data.username).to.be.a("string");
     expect(res.body.data.display_name).to.be.a("string");
     expect(res.body.data).to.have.property("bio");
+    expect(res.body.data).to.have.property("has_read_contribution_guide");
   });
 }

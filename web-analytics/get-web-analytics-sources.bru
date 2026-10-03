@@ -1,0 +1,36 @@
+docs {
+Trafik Web - Sumber Trafik (GA4). Hanya admin & root.
+
+ga4.data: total_sessions, channels[{ channel, sessions, share }] dengan
+channel selalu 5 kelompok berurutan: organic_search, direct, social,
+referral, other. share = rasio 0..1.
+}
+
+meta {
+  name: Get Web Analytics Sources
+  seq: 5
+}
+
+get {
+  url: {{baseUrl}}/api/v1/admin/web-analytics/sources?range=90d
+  body: none
+  auth: bearer
+}
+
+auth:bearer {
+  token: {{access_token}}
+}
+
+tests {
+  test("status 200 + range 90 hari", () => {
+    expect(res.status).to.equal(200);
+    expect(res.body.data.range.days).to.equal(90);
+  });
+
+  test("kalau ok, channel lengkap 5 kelompok", () => {
+    const ga4 = res.body.data.ga4;
+    if (ga4.status === 'ok') {
+      expect(ga4.data.channels.map((c) => c.channel)).to.deep.equal(['organic_search', 'direct', 'social', 'referral', 'other']);
+    }
+  });
+}

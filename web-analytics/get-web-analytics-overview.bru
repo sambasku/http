@@ -1,0 +1,73 @@
+docs {
+Trafik Web - Ikhtisar (GA4 + Search Console). Hanya admin & root.
+
+Query: range = 7d | 28d (default) | 90d | custom (wajib start & end YYYY-MM-DD,
+end paling lambat kemarin, maks 366 hari).
+
+Status per provider (ga4 / search_console): ok | empty | not_configured | error.
+Error Google tetap HTTP 200 dengan error_code (GA4_PERMISSION_DENIED,
+SEARCH_CONSOLE_RATE_LIMITED, dst - lihat api/ERROR_CODES.md).
+Range Search Console digeser mundur 3 hari (data Google belum final).
+
+200 sukses:
+
+    {
+      "success": true,
+      "data": {
+        "section": "overview",
+        "range": { "start": "2026-09-05", "end": "2026-10-02", "previous_start": "2026-08-08", "previous_end": "2026-09-04", "days": 28 },
+        "ga4": {
+          "status": "ok", "error_code": null, "message": null,
+          "range": { "start": "2026-09-05", "end": "2026-10-02" },
+          "data": {
+            "totals": { "active_users": 3400, "total_users": 3700, "new_users": 1500, "sessions": 4700, "page_views": 10800, "event_count": 28000, "engagement_rate": 0.58 },
+            "previous": { "...": "bentuk sama dengan totals" },
+            "trend": [{ "date": "2026-09-05", "active_users": 120, "sessions": 168, "page_views": 384 }],
+            "top_pages": [{ "path": "/kamus", "views": 2874, "users": 1982 }]
+          }
+        },
+        "search_console": {
+          "status": "not_configured", "error_code": "SEARCH_CONSOLE_NOT_CONFIGURED",
+          "message": null, "range": null, "data": null
+        }
+      }
+    }
+
+Lokal tanpa kredensial: WEB_ANALYTICS_FAKE=true di api/.env.
+}
+
+meta {
+  name: Get Web Analytics Overview
+  seq: 1
+}
+
+get {
+  url: {{baseUrl}}/api/v1/admin/web-analytics/overview?range=28d
+  body: none
+  auth: bearer
+}
+
+auth:bearer {
+  token: {{access_token}}
+}
+
+tests {
+  test("status 200 + range resolved", () => {
+    expect(res.status).to.equal(200);
+    expect(res.body.success).to.equal(true);
+    expect(res.body.data.section).to.equal('overview');
+    expect(res.body.data.range.days).to.equal(28);
+  });
+
+  test("dua provider punya status yang dikenal", () => {
+    for (const key of ['ga4', 'search_console']) {
+      expect(['ok', 'empty', 'not_configured', 'error']).to.include(res.body.data[key].status);
+    }
+  });
+
+  test("tidak ada kredensial di payload", () => {
+    const raw = JSON.stringify(res.body);
+    expect(raw).to.not.include('PRIVATE KEY');
+    expect(raw).to.not.include('access_token');
+  });
+}

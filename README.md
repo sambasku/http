@@ -8,9 +8,6 @@ Koleksi [Bruno](https://usebruno.com) untuk menguji fungsional API
 **Kamus Digital Sambas-Indonesia**. Disimpan sebagai plain file `.bru`
 di git (bukan Postman export).
 
-Acuan sinkronisasi: `docs/api/api-base-stack.md` Section 20 di repo
-[sambasku-docs](https://github.com/iamutaki/sambasku-docs).
-
 ## Cara pakai
 
 1. Install [Bruno](https://usebruno.com) (CLI: `brew install bruno` /
@@ -38,9 +35,8 @@ ada di `environments/local.bru`.
 Request kunci punya blok `docs { }` (markdown + contoh JSON). Di Bruno
 GUI: buka request → tab **Docs**.
 
-Sumber kanonik semua kasus: `docs/json/` di
-[sambasku-docs](https://github.com/iamutaki/sambasku-docs). Blok docs Bruno
-harus sinkron dengannya.
+Sumber kanonik semua kasus: blok `docs { }` pada file `.bru`
+di collection ini.
 
 ## Struktur
 
@@ -96,8 +92,6 @@ Setiap penambahan/perubahan endpoint di `api/` **wajib** diikuti file
 - Endpoint baru → `nama-modul/nama-endpoint.bru` + minimal 1 `tests`
 - Field request/response berubah → update body + assertion
 - Endpoint dihapus → hapus file `.bru`-nya
-- Sample JSON di `docs/json/` ikut diupdate
-
 Environment selain `local` (staging/production) **tidak** di-commit.
 Kredensial sungguhan dikelola lokal lewat environment Bruno.
 `.gitignore` memakai `environments/*.bru` + `!environments/local.bru`

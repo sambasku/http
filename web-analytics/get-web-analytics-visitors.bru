@@ -1,0 +1,30 @@
+docs {
+Trafik Web - Pengunjung (GA4). Hanya admin & root.
+
+ga4.data: totals, previous, trend[], devices[{ key, users, sessions }],
+countries[{ key, users, sessions }] (maks 10).
+}
+
+meta {
+  name: Get Web Analytics Visitors
+  seq: 2
+}
+
+get {
+  url: {{baseUrl}}/api/v1/admin/web-analytics/visitors?range=7d
+  body: none
+  auth: bearer
+}
+
+auth:bearer {
+  token: {{access_token}}
+}
+
+tests {
+  test("status 200 + hanya provider GA4", () => {
+    expect(res.status).to.equal(200);
+    expect(res.body.data.range.days).to.equal(7);
+    expect(res.body.data).to.have.property('ga4');
+    expect(res.body.data).to.not.have.property('search_console');
+  });
+}
