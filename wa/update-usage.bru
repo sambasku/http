@@ -1,0 +1,32 @@
+docs {
+Koreksi manual quota - sinkron pemakaian dari dashboard Kapso.
+Hanya field yang diisi yang berubah.
+}
+
+meta {
+  name: Update WA Usage
+  seq: 4
+}
+
+patch {
+  url: {{baseUrl}}/api/v1/admin/wa/usage
+  body: json
+  auth: bearer
+}
+
+auth:bearer {
+  token: {{access_token}}
+}
+
+body:json {
+  {
+    "used_count": 10
+  }
+}
+
+tests {
+  test("200 + usage updated", () => {
+    expect(res.status).to.equal(200);
+    expect(res.body.data.usage.used_count).to.be.a("number");
+  });
+}

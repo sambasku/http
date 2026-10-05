@@ -1,0 +1,20 @@
+meta {
+  name: List WA Logs
+  seq: 5
+}
+
+get {
+  url: {{baseUrl}}/api/v1/admin/wa/logs?limit=20
+  auth: bearer
+}
+
+auth:bearer {
+  token: {{access_token}}
+}
+
+tests {
+  test("200 + logs array", () => {
+    expect(res.status).to.equal(200);
+    expect(Array.isArray(res.body.data.logs)).to.equal(true);
+  });
+}

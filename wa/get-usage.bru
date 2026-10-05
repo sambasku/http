@@ -1,0 +1,21 @@
+meta {
+  name: Get WA Usage
+  seq: 3
+}
+
+get {
+  url: {{baseUrl}}/api/v1/admin/wa/usage
+  auth: bearer
+}
+
+auth:bearer {
+  token: {{access_token}}
+}
+
+tests {
+  test("200 + usage kapso", () => {
+    expect(res.status).to.equal(200);
+    expect(res.body.data.usage.provider).to.equal("kapso");
+    expect(res.body.data.usage.level).to.be.oneOf(["ok", "warn", "exhausted"]);
+  });
+}
