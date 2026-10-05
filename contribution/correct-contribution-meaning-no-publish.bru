@@ -1,0 +1,63 @@
+docs {
+Koreksi kontribusi MAKNA tanpa publish (publish=false) - "koreksi
+saja": definisi + terjemahan diganti penuh, is_corrected true, TAPI
+status makna tetap "pending_review" dan contributions.status TETAP
+"pending" (tanpa review row). Kontribusi masih di antrean - bisa
+di-approve atau dikoreksi lagi.
+
+200 sukses:
+
+  {
+    "success": true,
+    "data": {
+      "contribution_id": "01JDContribution0000000003",
+      "entity_type": "meaning",
+      "entity_id": "01JDMeaning00000000000000",
+      "status": "pending",
+      "is_corrected": true
+    }
+  }
+
+Setelah ini makna BELUM tayang di GET /words/:id.
+}
+
+meta {
+  name: Correct Contribution Meaning (Tanpa Publish)
+  seq: 9
+}
+
+post {
+  url: {{baseUrl}}/api/v1/admin/contributions/{{meaning_contribution_id}}/correct
+  body: json
+  auth: bearer
+}
+
+auth:bearer {
+  token: {{access_token}}
+}
+
+body:json {
+  {
+    "entity_type": "meaning",
+    "publish": false,
+    "comment": "Perbaiki definisi (belum tayang)",
+    "word_class_id": null,
+    "definition": "Bagian kepala untuk melihat",
+    "translations": [
+      {
+        "language_id": "{{indonesian_language_id}}",
+        "translation_text": "mata",
+        "translation_type": "direct"
+      }
+    ]
+  }
+}
+
+tests {
+  test("200 + status pending + is_corrected true (belum tayang)", () => {
+    expect(res.status).to.equal(200);
+    expect(res.body.data.status).to.equal('pending');
+    expect(res.body.data.is_corrected).to.equal(true);
+    expect(res.body.data.entity_type).to.equal('meaning');
+  });
+}

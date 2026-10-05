@@ -1,0 +1,64 @@
+docs {
+Koreksi kontribusi MAKNA oleh verifikator: isi entity DIGANTI dengan
+payload koreksi. Terjemahan lama diganti penuh dengan array
+`translations` (minimal 1). Flag `publish` (default true):
+- true  → published + verified, contributions.status = "corrected".
+- false → is_corrected true, status tetap "pending_review",
+          contributions tetap "pending" (lihat request Tanpa Publish).
+
+200 sukses:
+
+  {
+    "success": true,
+    "data": {
+      "contribution_id": "01JDContribution0000000003",
+      "entity_type": "meaning",
+      "entity_id": "01JDMeaning00000000000000",
+      "status": "corrected",
+      "is_corrected": true
+    }
+  }
+
+entity_type tidak cocok → 400 VALIDATION_ERROR.
+}
+
+meta {
+  name: Correct Contribution (Meaning)
+  seq: 8
+}
+
+post {
+  url: {{baseUrl}}/api/v1/admin/contributions/{{meaning_contribution_id}}/correct
+  body: json
+  auth: bearer
+}
+
+auth:bearer {
+  token: {{access_token}}
+}
+
+body:json {
+  {
+    "entity_type": "meaning",
+    "publish": true,
+    "comment": "Perbaiki definisi",
+    "word_class_id": null,
+    "definition": "Bagian kepala untuk melihat",
+    "translations": [
+      {
+        "language_id": "{{indonesian_language_id}}",
+        "translation_text": "mata",
+        "translation_type": "direct"
+      }
+    ]
+  }
+}
+
+tests {
+  test("200 + status corrected + entity_type meaning", () => {
+    expect(res.status).to.equal(200);
+    expect(res.body.data.status).to.equal('corrected');
+    expect(res.body.data.is_corrected).to.equal(true);
+    expect(res.body.data.entity_type).to.equal('meaning');
+  });
+}
