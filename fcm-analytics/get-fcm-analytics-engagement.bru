@@ -1,0 +1,59 @@
+docs {
+Analitik Notifikasi - Engagement (open rate + durasi dari event notification_open
+di GA4 property mobile). Hanya admin & root.
+
+Query: range = 7d | 28d (default) | 90d | custom (wajib start & end YYYY-MM-DD,
+end paling lambat kemarin, maks 366 hari).
+
+Status provider (fcm): ok | empty | not_configured | error. Delivery data tetap
+dari FCM Data API; opened/open_rate/avg_engagement_seconds dari GA4 (kosong
+kalau MOBILE_GA4_PROPERTY_ID / GA4_PROPERTY_ID belum diset).
+
+200 sukses:
+
+    {
+      "success": true,
+      "data": {
+        "section": "engagement",
+        "range": { "start": "2026-09-05", "end": "2026-10-02", "previous_start": "2026-08-08", "previous_end": "2026-09-04", "days": 28 },
+        "fcm": {
+          "status": "ok", "error_code": null, "message": null,
+          "range": { "start": "2026-09-05", "end": "2026-10-02" },
+          "data": {
+            "totals": { "sent": 900, "delivered": 850, "failed": 50, "opened": 180, "open_rate": 0.21 },
+            "previous": { "...": "bentuk sama dengan totals" },
+            "trend": [{ "date": "2026-09-05", "sent": 32, "delivered": 30, "opened": 7 }],
+            "avg_engagement_seconds": 17
+          }
+        }
+      }
+    }
+}
+
+meta {
+  name: Get FCM Analytics Engagement
+  seq: 2
+}
+
+get {
+  url: {{baseUrl}}/api/v1/admin/fcm-analytics/engagement?range=28d
+  body: none
+  auth: bearer
+}
+
+auth:bearer {
+  token: {{access_token}}
+}
+
+tests {
+  test("status 200 + range resolved", () => {
+    expect(res.status).to.equal(200);
+    expect(res.body.success).to.equal(true);
+    expect(res.body.data.section).to.equal('engagement');
+    expect(res.body.data.range.days).to.equal(28);
+  });
+
+  test("status provider dikenal", () => {
+    expect(['ok', 'empty', 'not_configured', 'error']).to.include(res.body.data.fcm.status);
+  });
+}

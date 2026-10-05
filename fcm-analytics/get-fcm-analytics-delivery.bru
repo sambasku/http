@@ -1,0 +1,67 @@
+docs {
+Analitik Notifikasi - Delivery (FCM Data API). Hanya admin & root.
+
+Query: range = 7d | 28d (default) | 90d | custom (wajib start & end YYYY-MM-DD,
+end paling lambat kemarin, maks 366 hari). Data delivery FCM cuma tersimpan
+sekitar 14 hari terakhir; rentang lebih panjang pasti ada hari kosong.
+
+Status provider (fcm): ok | empty | not_configured | error.
+Error Google tetap HTTP 200 dengan error_code (FCM_PERMISSION_DENIED,
+FCM_RATE_LIMITED, dst - lihat api/ERROR_CODES.md).
+
+200 sukses:
+
+    {
+      "success": true,
+      "data": {
+        "section": "delivery",
+        "range": { "start": "2026-09-05", "end": "2026-10-02", "previous_start": "2026-08-08", "previous_end": "2026-09-04", "days": 28 },
+        "fcm": {
+          "status": "ok", "error_code": null, "message": null,
+          "range": { "start": "2026-09-05", "end": "2026-10-02" },
+          "data": {
+            "totals": { "sent": 900, "delivered": 850, "failed": 50, "opened": 180, "open_rate": 0.21 },
+            "previous": { "...": "bentuk sama dengan totals" },
+            "trend": [{ "date": "2026-09-05", "sent": 32, "delivered": 30, "opened": 7 }],
+            "latest_data_date": "2026-10-02"
+          }
+        }
+      }
+    }
+
+Lokal tanpa kredensial: WEB_ANALYTICS_FAKE=true di api/.env.
+}
+
+meta {
+  name: Get FCM Analytics Delivery
+  seq: 1
+}
+
+get {
+  url: {{baseUrl}}/api/v1/admin/fcm-analytics/delivery?range=28d
+  body: none
+  auth: bearer
+}
+
+auth:bearer {
+  token: {{access_token}}
+}
+
+tests {
+  test("status 200 + range resolved", () => {
+    expect(res.status).to.equal(200);
+    expect(res.body.success).to.equal(true);
+    expect(res.body.data.section).to.equal('delivery');
+    expect(res.body.data.range.days).to.equal(28);
+  });
+
+  test("status provider dikenal", () => {
+    expect(['ok', 'empty', 'not_configured', 'error']).to.include(res.body.data.fcm.status);
+  });
+
+  test("tidak ada kredensial di payload", () => {
+    const raw = JSON.stringify(res.body);
+    expect(raw).to.not.include('PRIVATE KEY');
+    expect(raw).to.not.include('access_token');
+  });
+}

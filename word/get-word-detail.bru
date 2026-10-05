@@ -51,12 +51,16 @@ Label UI: display_name; link profil: username.
         "images": [ { "id": "01JD...", "url": "https://ik.imagekit.io/.../makatn.jpg", "alt_text": "Ilustrasi", "is_primary": true, "attribution": null } ],
         "related_words": [ { "word_id": "01JD...", "lemma": "makan", "relation_type": "synonym" } ],
         "appears_in": [],
-        "variants": [ { "id": "01JD...", "form": "memakan", "variant_type": "derivation", "affix_type": "prefix", "affix_value": "me-", "dialect_id": null, "notes": null } ]
+        "variants": [ { "id": "01JD...", "form": "memakan", "variant_type": "derivation", "affix_type": "prefix", "affix_value": "me-", "dialect_id": null, "notes": null } ],
+        "import_source": { "support_name": "Kamus Basa Sambas", "support_type": "book", "support_address": "https://contoh.id/kamus", "support_title": "Entri leksikal darek", "support_desc": "Halaman 45" }
       }
     }
 
 images[].attribution: kredit foto stock (nullable) -
 { name, url, license, license_url, source, provider }. Null untuk upload user.
+import_source: sitasi sumber impor CSV dari word_import_sessions.
+Field opsional - hanya muncul saat kata ber-import_session_id DAN
+support_name terisi. Tipe: web|book|article|other.
 
 Untuk kata komponen peribahasa, appears_in berisi frasa yang memakainya.
 meaning id dipakai chaining Add Example (kontribusi contoh kalimat).
@@ -94,5 +98,10 @@ tests {
     expect(res.body.data.images[0]).to.have.property('attribution');
     expect(res.body.data).to.have.property('verified_by');
     expect(res.body.data).to.have.property('verified_at');
+    // import_source opsional: bila ada, bentuknya sitasi lengkap
+    if (res.body.data.import_source) {
+      expect(res.body.data.import_source).to.have.property('support_name');
+      expect(['web', 'book', 'article', 'other']).to.include(res.body.data.import_source.support_type);
+    }
   });
 }

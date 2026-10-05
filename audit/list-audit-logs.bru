@@ -23,7 +23,9 @@ Jejak audit mutasi data - hanya admin & root. Urut terbaru dulu, cursor-based.
       "meta": { "limit": 10, "next_cursor": null, "has_more": false }
     }
 
-Filter: user_id, entity_type, entity_id, from, to (kombinasi AND).
+Filter: user_id, entity_type, entity_id, word_id, from, to (kombinasi AND).
+word_id = riwayat satu kata: cocok entity_id=word_id ATAU word_id di
+old_data/new_data (audit anak: meaning, example, pronunciation, word_image).
 user_name = username pelaku; user_display_name = display_name (fallback username) (LEFT JOIN users); null kalau user_id null /
 user sudah dihapus.
 }
