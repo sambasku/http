@@ -5,6 +5,7 @@ urutan terbaru duluan. Login wajib.
 
 type contoh: contribution_approved | word_comment | campaign | ...
 target_kind: contribution | suggestion | word | discussion | campaign.
+body_type: plain | html | md | webview (cara render body di detail; data lama = plain).
 Tap word (termasuk word_comment) → detail kata di mobile.
 
 200 sukses:
@@ -17,6 +18,7 @@ Tap word (termasuk word_comment) → detail kata di mobile.
           "type": "contribution_approved",
           "title": "Usulan disetujui",
           "body": "Usulan kata Anda telah disetujui dan dipublikasikan.",
+          "body_type": "plain",
           "target_kind": "contribution",
           "target_id": "01J...",
           "read_at": null,
