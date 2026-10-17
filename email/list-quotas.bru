@@ -1,0 +1,21 @@
+meta {
+  name: List Email Quotas
+  seq: 2
+}
+
+get {
+  url: {{baseUrl}}/api/v1/admin/email/quotas
+  auth: bearer
+}
+
+auth:bearer {
+  token: {{access_token}}
+}
+
+tests {
+  test("200 + kuota provider email", () => {
+    expect(res.status).to.equal(200);
+    expect(res.body.success).to.equal(true);
+    expect(res.body.data.quotas).to.be.an("array");
+  });
+}

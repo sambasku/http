@@ -1,0 +1,21 @@
+meta {
+  name: List Email Logs
+  seq: 1
+}
+
+get {
+  url: {{baseUrl}}/api/v1/admin/email/logs?limit=20
+  auth: bearer
+}
+
+auth:bearer {
+  token: {{access_token}}
+}
+
+tests {
+  test("200 + log kirim email", () => {
+    expect(res.status).to.equal(200);
+    expect(res.body.success).to.equal(true);
+    expect(res.body.data.logs).to.be.an("array");
+  });
+}
