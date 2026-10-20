@@ -1,0 +1,27 @@
+meta {
+  name: List Word Groups All (auth)
+  seq: 3
+}
+
+get {
+  url: {{baseUrl}}/api/v1/word-groups/all?limit=30
+  body: none
+  auth: bearer
+}
+
+auth:bearer {
+  token: {{access_token}}
+}
+
+docs {
+# GET /api/v1/word-groups/all
+Daftar kelompok makna SEMUA status (antrean review). Query tambahan: status (pending_review|published|rejected), q, word_id, before, limit.
+}
+
+tests {
+  test("status 200 + envelope", () => {
+    expect(res.status).to.equal(200);
+    expect(res.body.success).to.equal(true);
+    expect(res.body.data.items).to.be.an("array");
+  });
+}

@@ -1,0 +1,27 @@
+meta {
+  name: Remove Word Group Member
+  seq: 8
+}
+
+delete {
+  url: {{baseUrl}}/api/v1/word-groups/by-id/members?id={{word_group_id}}&word_id={{word_id}}
+  body: none
+  auth: bearer
+}
+
+auth:bearer {
+  token: {{access_token}}
+}
+
+docs {
+# DELETE /api/v1/word-groups/by-id/members?id=&word_id=
+Keluarkan anggota dari kelompok makna (soft-delete baris keanggotaan).
+404 WORD_GROUP_MEMBER_NOT_FOUND bila bukan anggota.
+}
+
+tests {
+  test("status 200", () => {
+    expect(res.status).to.equal(200);
+    expect(res.body.success).to.equal(true);
+  });
+}

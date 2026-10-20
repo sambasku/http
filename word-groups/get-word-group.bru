@@ -1,0 +1,26 @@
+meta {
+  name: Get Word Group (public)
+  seq: 2
+}
+
+get {
+  url: {{baseUrl}}/api/v1/word-groups/by-id?id={{word_group_id}}
+  body: none
+  auth: none
+}
+
+docs {
+# GET /api/v1/word-groups/by-id?id=
+Detail kelompok makna `published`. 404 WORD_GROUP_NOT_FOUND bila tidak ada atau belum tayang.
+Respons memuat `members[]` (id baris anggota, word_id, lemma, notes, status).
+}
+
+tests {
+  test("200 atau 404 (butuh word_group_id dari create)", () => {
+    expect([200, 404]).to.include(res.status);
+    if (res.status === 200) {
+      expect(res.body.data).to.have.property("name");
+      expect(res.body.data.members).to.be.an("array");
+    }
+  });
+}

@@ -1,0 +1,35 @@
+meta {
+  name: Update Word Group
+  seq: 5
+}
+
+patch {
+  url: {{baseUrl}}/api/v1/word-groups/by-id?id={{word_group_id}}
+  body: json
+  auth: bearer
+}
+
+auth:bearer {
+  token: {{access_token}}
+}
+
+body:json {
+  {
+    "description": "Deskripsi revisi kelompok",
+    "status": "published"
+  }
+}
+
+docs {
+# PATCH /api/v1/word-groups/by-id?id=
+Edit nama/deskripsi/status kelompok. Publish kelompok pending_review
+dilakukan lewat sini (status: "published"). 404 WORD_GROUP_NOT_FOUND bila id tidak ada.
+}
+
+tests {
+  test("status 200 + perubahan tersimpan", () => {
+    expect(res.status).to.equal(200);
+    expect(res.body.success).to.equal(true);
+    expect(res.body.data).to.have.property("id");
+  });
+}

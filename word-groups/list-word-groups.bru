@@ -1,0 +1,29 @@
+meta {
+  name: List Word Groups (public)
+  seq: 1
+}
+
+get {
+  url: {{baseUrl}}/api/v1/word-groups?limit=30
+  body: none
+  auth: none
+}
+
+docs {
+# GET /api/v1/word-groups
+Daftar kelompok makna `published` (PRD relasi-lemma). Query: q, before, limit, word_id.
+`word_id` = hanya kelompok yang memuat kata itu. `before` = `next_cursor` halaman sebelumnya.
+Kelompok `pending_review`/`rejected` TIDAK tampil di sini (baca lewat GET /all, auth).
+}
+
+tests {
+  test("status 200 + items + next_cursor", () => {
+    expect(res.status).to.equal(200);
+    expect(res.body.success).to.equal(true);
+    expect(res.body.data.items).to.be.an("array");
+    expect(res.body.data).to.have.property("next_cursor");
+    for (const g of res.body.data.items) {
+      expect(g.status).to.equal("published");
+    }
+  });
+}

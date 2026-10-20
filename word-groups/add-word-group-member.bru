@@ -1,0 +1,34 @@
+meta {
+  name: Add Word Group Member
+  seq: 7
+}
+
+post {
+  url: {{baseUrl}}/api/v1/word-groups/by-id/members?id={{word_group_id}}
+  body: json
+  auth: bearer
+}
+
+auth:bearer {
+  token: {{access_token}}
+}
+
+body:json {
+  {
+    "word_id": "{{word_id}}"
+  }
+}
+
+docs {
+# POST /api/v1/word-groups/by-id/members?id=
+Tambah anggota ke kelompok makna. Verifikator + status published (default)
+→ langsung ikut perluasan pencarian; contributor → pending_review.
+404 WORD_GROUP_NOT_FOUND / WORD_NOT_FOUND; 409 WORD_GROUP_MEMBER_CONFLICT bila sudah anggota.
+}
+
+tests {
+  test("status 200 + anggota bertambah", () => {
+    expect(res.status).to.equal(200);
+    expect(res.body.data.members).to.be.an("array");
+  });
+}
