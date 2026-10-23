@@ -1,0 +1,65 @@
+docs {
+Daftar akun (admin/root). Cursor pagination. Filter q (username, email,
+atau nomor HP; query angka 08.../+62.../62... dinormalisasi ke 62...),
+role, can_contribute.
+
+200 sukses:
+
+    {
+      "success": true,
+      "data": [
+        {
+          "id": "01J...",
+          "username": "budi",
+          "email": "budi@example.com",
+          "phone": "6281234567890",
+          "roles": ["contributor"],
+          "role": "contributor",
+          "avatar_url": null,
+          "auth_providers": [],
+          "is_active": true,
+          "can_contribute": true,
+          "contribute_muted_until": null,
+          "created_at": "2026-08-01T00:00:00.000Z",
+          "updated_at": null
+        }
+      ],
+      "meta": {
+        "limit": 20,
+        "next_cursor": null,
+        "has_more": false
+      }
+    }
+
+avatar_url null = belum ada foto. Console menampilkan avatar lingkaran,
+atau ikon default bila null / gambar gagal dimuat.
+}
+
+meta {
+  name: Admin List Users
+  seq: 41
+}
+
+get {
+  url: {{baseUrl}}/api/v1/admin/users?limit=20
+  body: none
+  auth: bearer
+}
+
+auth:bearer {
+  token: {{access_token}}
+}
+
+tests {
+  test("200 + avatar_url di tiap user", () => {
+    expect(res.status).to.equal(200);
+    expect(res.body.success).to.equal(true);
+    expect(res.body.data).to.be.an("array");
+    expect(res.body.meta).to.have.property("has_more");
+    for (const item of res.body.data) {
+      expect(item).to.have.property("avatar_url");
+      expect(item).to.have.property("phone");
+      expect(item).to.not.have.property("password_hash");
+    }
+  });
+}
