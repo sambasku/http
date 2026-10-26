@@ -3,6 +3,11 @@ Panel admin: SEMUA search miss (termasuk yang sudah terjawab -
 is_fulfilled true) + filter direction/fulfilled/visible + cursor
 pagination Section 13. Admin & root saja. Item punya is_visible (14-api).
 
+pending_contribution_count / pending_contribution_id: usulan kata baru
+yang menaut miss ini (contributions.search_miss_id) dan masih menunggu
+review. >0 = verifikator cek antrean dulu, jangan buat kata dobel.
+pending_contribution_id = usulan pending tertua (deep link antrean).
+
 200 sukses:
 
     {
@@ -15,6 +20,8 @@ pagination Section 13. Admin & root saja. Item punya is_visible (14-api).
           "hit_count": 2,
           "last_searched_at": "2026-09-16T10:05:00.000Z",
           "is_fulfilled": false,
+          "pending_contribution_count": 1,
+          "pending_contribution_id": "01JDContribution000000000001",
           "is_visible": false,
           "created_at": "2026-09-16T10:00:00.000Z"
         }
@@ -43,6 +50,7 @@ tests {
     expect(res.status).to.equal(200);
     expect(res.body.data).to.be.an('array');
     expect(res.body.data[0]).to.have.property('is_fulfilled');
+    expect(res.body.data[0]).to.have.property('pending_contribution_count');
     expect(res.body.meta).to.have.property('has_more');
   });
 }
