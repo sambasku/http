@@ -1,0 +1,26 @@
+docs {
+PATCH /api/v1/me/profile/border - lepas bingkai (border_id null).
+}
+meta {
+  name: Remove Active Border
+  seq: 5
+}
+patch {
+  url: {{baseUrl}}/api/v1/me/profile/border
+  body: json
+  auth: bearer
+}
+auth:bearer {
+  token: {{access_token}}
+}
+body:json {
+  {
+    "border_id": null
+  }
+}
+tests {
+  test("200 + active_border_id null", () => {
+    expect(res.status).to.equal(200);
+    expect(res.body.data.active_border_id).to.equal(null);
+  });
+}

@@ -1,0 +1,13 @@
+docs {
+Koleksi event/acara (46-api-events.md).
+Publik: GET /api/v1/events (list published), GET /api/v1/events/:slug.
+Admin: CRUD /api/v1/admin/events (root/admin/reviewer).
+Usulan: POST /api/v1/event-contributions (boleh anonim, 5/jam per IP),
+moderasi /api/v1/admin/event-contributions (approve/reject/request-revision).
+
+source_url disimpan BERSIH di DB (tanpa UTM). UTM
+utm_source=sambasku.com disisip saat render (rule external-link-utm).
+
+occurrence_status = upcoming | ongoing | completed | cancelled, diturunkan
+read-time dari starts_at/ends_at/cancelled_at - tidak disimpan.
+}

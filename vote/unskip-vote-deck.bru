@@ -1,16 +1,16 @@
 docs {
-Batalkan skip kartu deck. Idempoten: 200 walau baris skip tidak ada.
-200: { word_id, skipped: false }
+Batalkan skip kartu deck (0101: per makna). Idempoten: 200 walau baris skip tidak ada.
+200: { meaning_id, skipped: false }
 }
 
 meta {
-  name: Unskip Vote Deck Word
+  name: Unskip Vote Deck Meaning
   type: http
   seq: 8
 }
 
 delete {
-  url: {{baseUrl}}/api/v1/votes/skips/{{word_id}}
+  url: {{baseUrl}}/api/v1/votes/skips/{{meaning_id}}
   body: none
   auth: bearer
 }

@@ -5,7 +5,7 @@ meta {
 }
 
 get {
-  url: {{baseUrl}}/api/v1/votes/deck?limit=10
+  url: {{baseUrl}}/api/v1/votes/deck?limit=10&randomize=true
   body: none
   auth: bearer
 }
@@ -16,6 +16,7 @@ auth:bearer {
 
 params:query {
   limit: 10
+  randomize: true
 }
 
 tests {
@@ -26,5 +27,22 @@ tests {
     expect(res.body.success).to.equal(true);
     expect(res.body.data).to.be.an("array");
     expect(res.body.meta).to.have.property("has_more");
+  });
+  test("0101: tiap kartu = makna (id makna + word_id induk + order_index)", function() {
+    if (!res.body.data.length) return;
+    const card = res.body.data[0];
+    expect(card).to.have.property("word_id");
+    expect(card).to.have.property("order_index");
+    expect(card.id).to.not.equal(card.word_id);
+  });
+
+  test("kelas kata per makna (word_class, null bila belum diisi)", function() {
+    if (!res.body.data.length) return;
+    const card = res.body.data[0];
+    expect(card).to.have.property("word_class");
+    if (card.word_class !== null) {
+      expect(card.word_class).to.have.property("code");
+      expect(card.word_class).to.have.property("name");
+    }
   });
 }

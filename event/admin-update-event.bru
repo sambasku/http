@@ -1,0 +1,38 @@
+meta {
+  name: Admin Update Event
+  seq: 5
+}
+
+patch {
+  url: {{baseUrl}}/api/v1/admin/events/{{event_id}}
+  body: json
+  auth: bearer
+}
+
+auth:bearer {
+  token: {{admin_access_token}}
+}
+
+body:json {
+{
+  "name": "Acara Uji Bruno (diperbarui)",
+  "status": "published"
+}
+}
+
+docs {
+# PATCH /api/v1/admin/events/:id
+Edit acara. Body parsial (field yang dikirim saja yang berubah).
+`place_ids` = daftar lengkap tempat wisata terkait (replace-set).
+}
+
+tests {
+  test("200 + nama baru", () => {
+    expect(res.status).to.equal(200);
+    expect(res.body.success).to.equal(true);
+  });
+}
+
+vars:pre-request {
+  event_id: ganti-dengan-id-acara
+}

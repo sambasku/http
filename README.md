@@ -50,6 +50,7 @@ word-report/              # laporan entri + resolve admin (flag-violent-image)
 image/                    # upload-token ImageKit + POST /images (GitHub sambasku/images)
 users/                    # profil publik, activity, avatar
 contribution/             # antrean review: list, detail, approve, reject, correct + my detail
+event/                    # acara: CRUD admin, list publik, usulan (anon ok) + moderasi
 search-miss/              # pencarian kosong + dismiss admin
 bookmark/                 # toggle + daftar bookmark
 vote/                     # toggle, counts, my, history, deck + admin votes

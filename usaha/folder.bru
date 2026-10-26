@@ -1,0 +1,18 @@
+docs {
+Koleksi usaha/jasa lokal (47-api-usaha.md).
+Publik: GET /api/v1/usaha (list published), GET /api/v1/usaha/:slug,
+GET /api/v1/usaha-categories.
+Usulan: POST /api/v1/usaha-contributions (boleh anonim, 5/jam per IP),
+mine/cancel/resubmit + manager change (field-lock).
+Klaim: POST /api/v1/usaha/:slug/claims (wajib login).
+Laporan: POST /api/v1/usaha/:slug/reports.
+Admin: /api/v1/admin/usaha*, /api/v1/admin/usaha-contributions,
+/api/v1/admin/usaha-claims, /api/v1/admin/usaha-reports.
+
+Dua dimensi status TERPISAH: publish_status (draft/published/archived/
+restricted) dan operational_status (unknown/open/temporarily_closed/
+permanently_closed). Approve kind=operational tidak mengubah publish_status.
+
+URL kontak disimpan BERSIH (tanpa UTM); UTM disisip saat render
+(rule external-link-utm).
+}

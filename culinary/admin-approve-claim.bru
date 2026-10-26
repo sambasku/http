@@ -1,0 +1,20 @@
+meta {
+  name: Admin Approve Claim
+  seq: 22
+}
+
+post {
+  url: {{baseUrl}}/api/v1/admin/culinary-claims/{{place_claim_id}}/approve
+  body: none
+  auth: bearer
+}
+
+auth:bearer {
+  token: {{access_token}}
+}
+
+docs {
+  # POST /api/v1/admin/culinary-claims/:id/approve
+  Set `manager_id` tempat ke pengklaim; klaim pending lain untuk tempat
+  sama otomatis ditolak (`claim_conflict`) dalam satu transaksi.
+}

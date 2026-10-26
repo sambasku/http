@@ -1,0 +1,37 @@
+meta {
+  name: Admin Approve Contribution
+  seq: 26
+}
+
+post {
+  url: {{baseUrl}}/api/v1/admin/usaha-contributions/{{usaha_contribution_id}}/approve
+  body: none
+  auth: bearer
+}
+
+auth:bearer {
+  token: {{admin_access_token}}
+}
+
+docs {
+# POST /api/v1/admin/usaha-contributions/:id/approve
+Efek approve tergantung `kind`:
+- `new` -> insert `usahas` (published) + `usaha_items`, activity `usaha_published`
+- `profile` -> update field di `locked_fields` saja
+- `item_add` / `item_edit` / `item_delete` -> mutasi katalog
+- `operational` -> hanya `operational_status`
+- `archive` / `restore` -> `publish_status`
+
+Respons 409 bila `base_updated_at` basi atau data bentrok.
+}
+
+tests {
+  test("200", () => {
+    expect(res.status).to.equal(200);
+    expect(res.body.success).to.equal(true);
+  });
+}
+
+vars:pre-request {
+  usaha_contribution_id: ganti-dengan-id-usulan
+}

@@ -1,0 +1,39 @@
+meta {
+  name: Admin List Usaha Contributions
+  seq: 25
+}
+
+get {
+  url: {{baseUrl}}/api/v1/admin/usaha-contributions?status=pending
+  body: none
+  auth: bearer
+}
+
+auth:bearer {
+  token: {{admin_access_token}}
+}
+
+params:query {
+  status: pending
+  ~kind: new
+}
+
+docs {
+# GET /api/v1/admin/usaha-contributions
+Antrean moderasi. Filter `kind` (new/profile/item_add/item_edit/
+item_delete/operational/archive/restore) dan `status`
+(pending/needs_revision/approved/rejected).
+}
+
+tests {
+  test("200 + items array", () => {
+    expect(res.status).to.equal(200);
+    expect(res.body.success).to.equal(true);
+    expect(res.body.data.items).to.be.an('array');
+  });
+}
+
+script:post-response {
+  const first = res.body?.data?.items?.[0];
+  if (first?.id) bru.setVar('usaha_contribution_id', first.id);
+}

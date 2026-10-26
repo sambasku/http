@@ -1,0 +1,25 @@
+meta {
+  name: Admin Request Revision
+  seq: 20
+}
+
+post {
+  url: {{baseUrl}}/api/v1/admin/culinary-contributions/{{cuisine_contribution_id}}/request-revision
+  body: json
+  auth: bearer
+}
+
+auth:bearer {
+  token: {{access_token}}
+}
+
+body:json {
+  {
+    "note": "Tambahkan sumber tertulis untuk resepnya ya."
+  }
+}
+
+docs {
+  # POST /api/v1/admin/culinary-contributions/:id/request-revision
+  Status jadi `needs_revision`; pengusul bisa kirim ulang lewat PUT.
+}

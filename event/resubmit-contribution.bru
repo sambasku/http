@@ -1,0 +1,45 @@
+meta {
+  name: Resubmit Event Contribution
+  seq: 14
+}
+
+put {
+  url: {{baseUrl}}/api/v1/event-contributions/{{event_contribution_id}}
+  body: json
+  auth: bearer
+}
+
+auth:bearer {
+  token: {{access_token}}
+}
+
+body:json {
+{
+  "name": "Usulan Pawai Bruno (revisi)",
+  "description": "Usulan acara dari Bruno collection, sudah direvisi.",
+  "category_id": "festival-hiburan",
+  "starts_at": "2026-12-20T10:00:00.000Z",
+  "ends_at": "2026-12-20T17:00:00.000Z",
+  "location_text": "Lapangan utama Pemangkat",
+  "organizer": "Panitia Usulan Bruno"
+}
+}
+
+docs {
+# PUT /api/v1/event-contributions/:id
+Kirim ulang usulan yang diminta revisi (status `needs_revision`).
+Body = payload baru (sama seperti submit). Status balik `pending`.
+409 kalau usulan bukan miliknya atau tidak butuh revisi.
+}
+
+tests {
+  test("200 + status pending", () => {
+    expect(res.status).to.equal(200);
+    expect(res.body.success).to.equal(true);
+    expect(res.body.data.status).to.equal('pending');
+  });
+}
+
+vars:pre-request {
+  event_contribution_id: ganti-dengan-id-usulan
+}

@@ -1,0 +1,22 @@
+docs {
+DELETE /api/v1/admin/achievements/:id/awards/:awardId - revoke satu award (soft delete).
+awardId = user_achievements.id (user_achievement_id pada respons list).
+}
+meta {
+  name: Admin Revoke Award
+  seq: 17
+}
+delete {
+  url: {{baseUrl}}/api/v1/admin/achievements/{{achievementId}}/awards/{{awardId}}
+  body: none
+  auth: bearer
+}
+auth:bearer {
+  token: {{admin_token}}
+}
+tests {
+  test("200 + data null", () => {
+    expect(res.status).to.equal(200);
+    expect(res.body.data).to.equal(null);
+  });
+}

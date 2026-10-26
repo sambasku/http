@@ -1,0 +1,23 @@
+docs {
+GET /api/v1/admin/achievements/:id/preview - jumlah + sampel (±10)
+pemenuh kriteria, tanpa memberi award.
+}
+meta {
+  name: Admin Preview Achievement
+  seq: 15
+}
+get {
+  url: {{baseUrl}}/api/v1/admin/achievements/{{achievementId}}/preview
+  body: none
+  auth: bearer
+}
+auth:bearer {
+  token: {{admin_token}}
+}
+tests {
+  test("200 + total + sample", () => {
+    expect(res.status).to.equal(200);
+    expect(res.body.data).to.have.property('total');
+    expect(res.body.data.sample).to.be.an('array');
+  });
+}

@@ -1,0 +1,26 @@
+meta {
+  name: Admin Restrict Cuisine
+  seq: 27
+}
+
+post {
+  url: {{baseUrl}}/api/v1/admin/culinary/cuisines/{{cuisine_id}}/restrict
+  body: json
+  auth: bearer
+}
+
+auth:bearer {
+  token: {{access_token}}
+}
+
+body:json {
+  {
+    "reason": "Atribusi gambar belum terverifikasi."
+  }
+}
+
+docs {
+  # POST /api/v1/admin/culinary/cuisines/:id/restrict
+  Sembunyikan sementara (`publish_status=restricted`) + alasan wajib.
+  Pulihkan lewat `/restore`.
+}

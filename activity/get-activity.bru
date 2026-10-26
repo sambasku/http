@@ -1,6 +1,11 @@
 docs {
 Feed lintas aktivitas publik (37-api-activity-feed.md).
-Tanpa auth. Rate 100/menit per IP. Cursor opaque (created_at + id).
+Tanpa auth = feed publik penuh. Rate 100/menit per IP. Cursor opaque
+(created_at + id). #167: dengan Bearer sah, baris milik sendiri otomatis
+disembunyikan server (lihat `get-activity-exclude-self.bru`).
+#193: `category` memfilter kategori chips feed beranda
+(all|search_miss|correction|announcement|joined; default all = tanpa filter,
+lihat `get-activity-category.bru`).
 
 200:
 

@@ -1,0 +1,36 @@
+meta {
+  name: Submit Change (edit/link/operational/archive)
+  seq: 8
+}
+
+post {
+  url: {{baseUrl}}/api/v1/culinary/contributions/change
+  body: json
+  auth: bearer
+}
+
+auth:bearer {
+  token: {{access_token}}
+}
+
+body:json {
+  {
+    "kind": "cuisine_edit",
+    "cuisine_id": "{{cuisine_id}}",
+    "fields": ["description", "serving_suggestion"],
+    "payload": {
+      "description": "Deskripsi diperbarui dengan rujukan tambahan.",
+      "serving_suggestion": "Sajikan dengan bawang goreng."
+    }
+  }
+}
+
+docs {
+  # POST /api/v1/culinary/contributions/change
+  Pengajuan perbaikan data. `kind`: link | cuisine_edit | place_edit |
+  link_edit | place_operational | archive | restore.
+  Field-lock: bila ada pengajuan pending lain yang menyentuh field sama
+  untuk target sama -> 409 PENDING_FIELD_LOCK.
+  Canonical `locked_fields`: edit = daftar field, link = `link:<cuisine>:<place>`,
+  operational = `operationalStatus`, archive/restore = `publishStatus`.
+}

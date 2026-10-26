@@ -1,0 +1,29 @@
+docs {
+POST /api/v1/admin/achievements/:id/scan - backfill idempotent.
+Anti-join user memenuhi kriteria + belum beraward; INSERT onConflictDoNothing.
+Body limit 1-5000, default 1000.
+}
+meta {
+  name: Admin Scan Achievement
+  seq: 13
+}
+post {
+  url: {{baseUrl}}/api/v1/admin/achievements/{{achievementId}}/scan
+  body: json
+  auth: bearer
+}
+auth:bearer {
+  token: {{admin_token}}
+}
+body:json {
+  {
+    "limit": 1000
+  }
+}
+tests {
+  test("200 + scanned/awarded", () => {
+    expect(res.status).to.equal(200);
+    expect(res.body.data).to.have.property('scanned');
+    expect(res.body.data).to.have.property('awarded');
+  });
+}

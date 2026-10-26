@@ -1,0 +1,38 @@
+meta {
+  name: Admin Reject Contribution
+  seq: 27
+}
+
+post {
+  url: {{baseUrl}}/api/v1/admin/usaha-contributions/{{usaha_contribution_id}}/reject
+  body: json
+  auth: bearer
+}
+
+auth:bearer {
+  token: {{admin_access_token}}
+}
+
+body:json {
+  {
+    "reason_code": "incomplete",
+    "reason_text": "Alamat dan kontak belum diisi, jadi warga susah menghubungi."
+  }
+}
+
+docs {
+# POST /api/v1/admin/usaha-contributions/:id/reject
+`reason_code`: duplicate | incomplete | invalid | not_owner | stale | violation | other.
+`reason_text` opsional, ikut disertakan di notifikasi.
+}
+
+tests {
+  test("200", () => {
+    expect(res.status).to.equal(200);
+    expect(res.body.success).to.equal(true);
+  });
+}
+
+vars:pre-request {
+  usaha_contribution_id: ganti-dengan-id-usulan
+}

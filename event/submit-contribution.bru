@@ -1,0 +1,49 @@
+meta {
+  name: Submit Event Contribution (anon ok)
+  seq: 8
+}
+
+post {
+  url: {{baseUrl}}/api/v1/event-contributions
+  body: json
+  auth: none
+}
+
+body:json {
+{
+  "name": "Usulan Pawai Bruno",
+  "description": "Usulan acara dari Bruno collection.",
+  "category_id": "festival-hiburan",
+  "starts_at": "2026-12-20T09:00:00.000Z",
+  "ends_at": "2026-12-20T16:00:00.000Z",
+  "location_text": "Lapangan utama Pemangkat",
+  "organizer": "Panitia Usulan Bruno",
+  "source_url": "https://instagram.com/usulan.pawai.bruno",
+  "source_type": "instagram",
+  "source_attribution": "@usulan_pawai_bruno"
+}
+}
+
+docs {
+# POST /api/v1/event-contributions
+Kirim usulan acara. Boleh tanpa login (atribusi ke user sistem anonim) -
+request tanpa token dibatasi 5/jam per IP.
+
+`slug` dari pengusul diabaikan (slug final dibuat saat approve).
+Usulan maks 10 pending per user. Status awal `pending`.
+}
+
+tests {
+  test("200 + status pending", () => {
+    expect(res.status).to.equal(200);
+    expect(res.body.success).to.equal(true);
+    expect(res.body.data.status).to.equal('pending');
+    expect(res.body.data.payload.source_url).to.not.include('utm_source');
+  });
+}
+
+script:post-response {
+  if (res.body && res.body.data && res.body.data.id) {
+    bru.setVar('event_contribution_id', res.body.data.id);
+  }
+}

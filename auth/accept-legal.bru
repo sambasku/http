@@ -1,0 +1,51 @@
+meta {
+  name: Accept Legal
+  type: http
+  seq: 1
+}
+
+post {
+  url: {{baseUrl}}/api/v1/auth/accept-legal
+  body: json
+  auth: bearer
+}
+
+auth:bearer {
+  token: {{access_token}}
+}
+
+headers {
+  Content-Type: application/json
+}
+
+body:json {
+  {
+    "consents": [
+      { "document_type": "terms", "document_version": "{{legal_terms_version}}" },
+      { "document_type": "privacy", "document_version": "{{legal_privacy_version}}" }
+    ],
+    "client_id": "sambasku-mobile",
+    "source": "social_gate"
+  }
+}
+
+docs {
+  POST /api/v1/auth/accept-legal - setujui terms + privacy versi aktif.
+
+  Wajib Bearer. Versi harus SAMA dengan legal.terms_version /
+  legal.privacy_version aktif, kalau tidak 403 LEGAL_CONSENT_OUTDATED.
+  source: social_gate (sheet setelah login sosial) | reconsent |
+  accept_legal (default).
+
+  200: { "success": true, "data": { "accepted": true } }
+  Setelah sukses, GET /api/v1/users/me balas requires_consent: false.
+
+  Lihat docs/api/44-api-consent-oauth.md.
+}
+
+tests {
+  test("status 200 + accepted true", () => {
+    expect(res.status).to.equal(200);
+    expect(res.body.data.accepted).to.equal(true);
+  });
+}

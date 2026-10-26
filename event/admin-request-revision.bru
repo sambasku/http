@@ -1,0 +1,38 @@
+meta {
+  name: Admin Request Revision (Event Contribution)
+  seq: 13
+}
+
+post {
+  url: {{baseUrl}}/api/v1/admin/event-contributions/{{event_contribution_id}}/request-revision
+  body: json
+  auth: bearer
+}
+
+auth:bearer {
+  token: {{admin_access_token}}
+}
+
+body:json {
+{
+  "note": "Jadwalnya belum jelas, perbaiki ya."
+}
+}
+
+docs {
+# POST /api/v1/admin/event-contributions/:id/request-revision
+Minta revisi -> status `needs_revision` + `revision_note` untuk pengusul.
+Pengusul kirim ulang lewat `PUT /api/v1/event-contributions/:id` (status
+balik `pending`).
+}
+
+tests {
+  test("200 + data null", () => {
+    expect(res.status).to.equal(200);
+    expect(res.body.success).to.equal(true);
+  });
+}
+
+vars:pre-request {
+  event_contribution_id: ganti-dengan-id-usulan
+}

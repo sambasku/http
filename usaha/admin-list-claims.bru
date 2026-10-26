@@ -1,0 +1,36 @@
+meta {
+  name: Admin List Claims
+  seq: 29
+}
+
+get {
+  url: {{baseUrl}}/api/v1/admin/usaha-claims?status=pending
+  body: none
+  auth: bearer
+}
+
+auth:bearer {
+  token: {{admin_access_token}}
+}
+
+params:query {
+  status: pending
+}
+
+docs {
+# GET /api/v1/admin/usaha-claims
+Antrean klaim pengelolaan. Admin satu-satunya pihak yang boleh baca
+`contact_evidence` (tidak pernah keluar di endpoint publik).
+}
+
+tests {
+  test("200 + items array", () => {
+    expect(res.status).to.equal(200);
+    expect(res.body.data.items).to.be.an('array');
+  });
+}
+
+script:post-response {
+  const first = res.body?.data?.items?.[0];
+  if (first?.id) bru.setVar('usaha_claim_id', first.id);
+}

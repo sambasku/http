@@ -1,7 +1,7 @@
 docs {
 Toggle upvote/downvote pada target polymorphic (08-api-upvote-downvote.md).
-Login wajib (semua role, termasuk contributor). Pakai word_id dari request
-Create Word (variable koleksi).
+Login wajib (semua role, termasuk contributor). Sejak 0101 vote level KATA
+ditolak (400) - pakai meaning_id dari detail kata (variable koleksi).
 
 Semantik TOGGLE: vote searah kedua kali = batal (my_vote null); vote beda
 arah = ganti. Response selalu membawa state final - jalankan request ini
@@ -12,7 +12,7 @@ dua kali untuk melihat my_vote 1 → null.
     {
       "success": true,
       "data": {
-        "target_type": "word",
+        "target_type": "meaning",
         "target_id": "01J...",
         "my_vote": 1,
         "upvotes": 1,
@@ -25,6 +25,7 @@ dua kali untuk melihat my_vote 1 → null.
     { "success": false, "error_code": "VOTE_TARGET_NOT_FOUND", "message": "Target vote tidak ditemukan atau sudah dihapus", "details": null }
 
 400 target_type di luar word|meaning|example|pronunciation|word_image
+400 target_type "word" - vote kata pensiun sejak 0101, pilih makna.
 401 tanpa token; 429 lebih dari 60 toggle/menit per user.
 
 TANPA audit trail per vote (keputusan 08: volume tinggi, bukan aksi admin).
@@ -47,8 +48,8 @@ auth:bearer {
 
 body:json {
   {
-    "target_type": "word",
-    "target_id": "{{word_id}}",
+    "target_type": "meaning",
+    "target_id": "{{meaning_id}}",
     "value": 1
   }
 }
@@ -57,8 +58,8 @@ tests {
   test("200 + state final vote (my_vote/upvotes/downvotes)", () => {
     expect(res.status).to.equal(200);
     expect(res.body.success).to.equal(true);
-    expect(res.body.data.target_type).to.equal("word");
-    expect(res.body.data.target_id).to.equal(vars.word_id);
+    expect(res.body.data.target_type).to.equal("meaning");
+    expect(res.body.data.target_id).to.equal(vars.meaning_id);
     // Jalankan dua kali: my_vote 1 lalu null (toggle). Angka harus konsisten:
     expect(res.body.data.upvotes + res.body.data.downvotes).to.be.at.least(0);
   });

@@ -1,0 +1,32 @@
+meta {
+  name: Cancel Usaha Contribution
+  seq: 7
+}
+
+delete {
+  url: {{baseUrl}}/api/v1/usaha-contributions/{{usaha_contribution_id}}
+  body: none
+  auth: bearer
+}
+
+auth:bearer {
+  token: {{access_token}}
+}
+
+docs {
+# DELETE /api/v1/usaha-contributions/:id
+Batalkan usulan yang masih `pending`/`needs_revision`. 404 kalau bukan
+milik user, 409 kalau sudah ditinjau admin.
+}
+
+tests {
+  test("200 + data null", () => {
+    expect(res.status).to.equal(200);
+    expect(res.body.success).to.equal(true);
+    expect(res.body.data).to.equal(null);
+  });
+}
+
+vars:pre-request {
+  usaha_contribution_id: ganti-dengan-id-usulan
+}

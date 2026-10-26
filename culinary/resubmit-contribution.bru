@@ -1,0 +1,31 @@
+meta {
+  name: Resubmit Contribution
+  seq: 11
+}
+
+put {
+  url: {{baseUrl}}/api/v1/culinary/contributions/{{cuisine_contribution_id}}
+  body: json
+  auth: bearer
+}
+
+auth:bearer {
+  token: {{access_token}}
+}
+
+body:json {
+  {
+    "kind": "new_cuisine",
+    "payload": {
+      "name": "Pengkang",
+      "description": "Versi perbaikan setelah catatan admin.",
+      "category_id": "makanan-utama"
+    }
+  }
+}
+
+docs {
+  # PUT /api/v1/culinary/contributions/:id
+  Kirim ulang usulan berstatus `needs_revision`. Jenis (`kind`) harus sama
+  dengan pengajuan asli.
+}

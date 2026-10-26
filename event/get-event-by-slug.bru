@@ -1,0 +1,35 @@
+meta {
+  name: Get Event by Slug (public)
+  seq: 2
+}
+
+get {
+  url: {{baseUrl}}/api/v1/events/{{event_slug}}
+  body: none
+  auth: none
+}
+
+docs {
+# GET /api/v1/events/:slug
+Detail acara published. 404 kalau draft/archived/soft-delete.
+
+Response punya `category` (nama kategori), `village` (desa), `places`
+(tempat wisata terkait) dan `source_url` / `source_type` /
+`source_attribution` (link original konten, disimpan tanpa UTM).
+}
+
+tests {
+  test("200 + sumber resmi opsional", () => {
+    expect(res.status).to.equal(200);
+    expect(res.body.success).to.equal(true);
+    expect(res.body.data).to.have.property('slug');
+    expect(res.body.data).to.have.property('places');
+    if (res.body.data.source_url) {
+      expect(res.body.data.source_url).to.not.include('utm_source');
+    }
+  });
+}
+
+vars:pre-request {
+  event_slug: ganti-dengan-slug-acara
+}

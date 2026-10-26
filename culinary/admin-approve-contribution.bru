@@ -1,0 +1,21 @@
+meta {
+  name: Admin Approve Contribution
+  seq: 18
+}
+
+post {
+  url: {{baseUrl}}/api/v1/admin/culinary-contributions/{{cuisine_contribution_id}}/approve
+  body: none
+  auth: bearer
+}
+
+auth:bearer {
+  token: {{access_token}}
+}
+
+docs {
+  # POST /api/v1/admin/culinary-contributions/:id/approve
+  Approve per kind. `new_cuisine`/`new_place` membuat entitas published +
+  menulis activity event `cuisine_published`. Kind lain memakai stale check
+  (`STALE_DATA` bila target berubah sejak pengajuan). Approve ganda = 409.
+}

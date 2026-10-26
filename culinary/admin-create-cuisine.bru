@@ -1,0 +1,30 @@
+meta {
+  name: Admin Create Cuisine
+  seq: 26
+}
+
+post {
+  url: {{baseUrl}}/api/v1/admin/culinary/cuisines
+  body: json
+  auth: bearer
+}
+
+auth:bearer {
+  token: {{access_token}}
+}
+
+body:json {
+  {
+    "slug": "pengkang",
+    "name": "Pengkang",
+    "description": "Kuliner khas Sambas.",
+    "category_id": "makanan-utama",
+    "origin_region": "Sambas",
+    "publish_status": "published"
+  }
+}
+
+docs {
+  # POST /api/v1/admin/culinary/cuisines
+  Buat kuliner langsung dari console (tanpa antrean usulan).
+}

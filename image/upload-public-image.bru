@@ -1,10 +1,11 @@
 docs {
 Upload gambar publik ke penyimpanan (GitHub → jsDelivr).
-Multipart field `file`, query `purpose=word|campaign`. Role: admin, editor,
+Multipart field `file`, query `purpose=word|campaign|place`. Role: admin, editor,
 contributor, root, reviewer. Rate 30/menit.
 
 - `purpose=word` → `assets/words/<ulid>.<ext>`
 - `purpose=campaign` → `assets/campaigns/<ulid>.<ext>`
+- `purpose=place` → `assets/places/<ulid>.<ext>`
 
 ImageKit tetap dipakai laporan bug / bukti verifikator
 (`GET /admin/images/upload-token`, `GET /bug-reports/upload-token`).

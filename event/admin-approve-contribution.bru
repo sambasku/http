@@ -1,0 +1,35 @@
+meta {
+  name: Admin Approve Event Contribution
+  seq: 11
+}
+
+post {
+  url: {{baseUrl}}/api/v1/admin/event-contributions/{{event_contribution_id}}/approve
+  body: json
+  auth: bearer
+}
+
+auth:bearer {
+  token: {{admin_access_token}}
+}
+
+body:json {
+{}
+
+docs {
+# POST /api/v1/admin/event-contributions/:id/approve
+Setujui usulan -> event dibuat `published` (slug unik dari nama).
+Idempoten: approve dua kali = 409 NOT_PENDING, event tidak dobel.
+Pengusul (bukan anonim) dapat notifikasi `event_contribution_approved`.
+}
+
+tests {
+  test("200 + data null", () => {
+    expect(res.status).to.equal(200);
+    expect(res.body.success).to.equal(true);
+  });
+}
+
+vars:pre-request {
+  event_contribution_id: ganti-dengan-id-usulan
+}

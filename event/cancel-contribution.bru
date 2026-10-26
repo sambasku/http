@@ -1,0 +1,32 @@
+meta {
+  name: Cancel Event Contribution
+  seq: 15
+}
+
+delete {
+  url: {{baseUrl}}/api/v1/event-contributions/{{event_contribution_id}}
+  body: none
+  auth: bearer
+}
+
+auth:bearer {
+  token: {{access_token}}
+}
+
+docs {
+# DELETE /api/v1/event-contributions/:id
+Batalkan usulan yang masih `pending`/`needs_revision`. Baris dihapus.
+404 kalau bukan milik user, 409 kalau sudah ditinjau.
+}
+
+tests {
+  test("200 + data null", () => {
+    expect(res.status).to.equal(200);
+    expect(res.body.success).to.equal(true);
+    expect(res.body.data).to.equal(null);
+  });
+}
+
+vars:pre-request {
+  event_contribution_id: ganti-dengan-id-usulan
+}

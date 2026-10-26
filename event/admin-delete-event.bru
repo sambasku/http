@@ -1,0 +1,31 @@
+meta {
+  name: Admin Delete Event
+  seq: 7
+}
+
+delete {
+  url: {{baseUrl}}/api/v1/admin/events/{{event_id}}
+  body: none
+  auth: bearer
+}
+
+auth:bearer {
+  token: {{admin_access_token}}
+}
+
+docs {
+# DELETE /api/v1/admin/events/:id
+Soft delete - hilang dari list & detail publik.
+}
+
+tests {
+  test("200 + data null", () => {
+    expect(res.status).to.equal(200);
+    expect(res.body.success).to.equal(true);
+    expect(res.body.data).to.equal(null);
+  });
+}
+
+vars:pre-request {
+  event_id: ganti-dengan-id-acara
+}

@@ -1,7 +1,8 @@
 docs {
 Antrean review kontribusi (Section 22 approval gate) - hanya verifikator
 admin/root/reviewer. Filter status/entity_type/action + cursor pagination
-(Section 13). Item: contributor_username (handle) + contributor_display_name (label UI).
+(Section 13). randomize=true (opsional) = acak isi halaman per
+user auth (mobile); default false (console kronologis). Item: contributor_username (handle) + contributor_display_name (label UI).
 
 200 sukses:
 
@@ -32,7 +33,7 @@ meta {
 }
 
 get {
-  url: {{baseUrl}}/api/v1/admin/contributions?status=pending&limit=20
+  url: {{baseUrl}}/api/v1/admin/contributions?status=pending&limit=20&randomize=true
   body: none
   auth: bearer
 }

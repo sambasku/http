@@ -8,7 +8,7 @@ dengan Get Vote Counts. Login wajib (semua role).
     {
       "success": true,
       "data": [
-        { "target_type": "word", "target_id": "01J...", "value": 1 }
+        { "target_type": "meaning", "target_id": "01J...", "value": 1 }
       ]
     }
 
@@ -21,7 +21,7 @@ meta {
 }
 
 get {
-  url: {{baseUrl}}/api/v1/votes/my?targets=word:{{word_id}}
+  url: {{baseUrl}}/api/v1/votes/my?targets=meaning:{{meaning_id}}
   auth: bearer
 }
 

@@ -1,0 +1,25 @@
+meta {
+  name: List Usaha Categories (public)
+  seq: 3
+}
+
+get {
+  url: {{baseUrl}}/api/v1/usaha-categories
+  body: none
+  auth: none
+}
+
+docs {
+# GET /api/v1/usaha-categories
+Katalog kategori usaha berstatus `published`, urut `sort_order`.
+Seed: kuliner, jasa, toko-kelontong, pertanian, perikanan, kerajinan,
+jasa-otomotif, laundry, lainnya.
+}
+
+tests {
+  test("200 + items array", () => {
+    expect(res.status).to.equal(200);
+    expect(res.body.success).to.equal(true);
+    expect(res.body.data.items).to.be.an('array');
+  });
+}

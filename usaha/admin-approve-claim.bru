@@ -1,0 +1,31 @@
+meta {
+  name: Admin Approve Claim
+  seq: 30
+}
+
+post {
+  url: {{baseUrl}}/api/v1/admin/usaha-claims/{{usaha_claim_id}}/approve
+  body: none
+  auth: bearer
+}
+
+auth:bearer {
+  token: {{admin_access_token}}
+}
+
+docs {
+# POST /api/v1/admin/usaha-claims/:id/approve
+Set `usaha.manager_id = claim.user_id`, tandai klaim `approved`, dan
+auto-reject klaim `pending` lain untuk usaha yang sama (`CLAIM_CONFLICT`).
+}
+
+tests {
+  test("200", () => {
+    expect(res.status).to.equal(200);
+    expect(res.body.success).to.equal(true);
+  });
+}
+
+vars:pre-request {
+  usaha_claim_id: ganti-dengan-id-klaim
+}

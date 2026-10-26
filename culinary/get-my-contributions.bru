@@ -1,0 +1,19 @@
+meta {
+  name: Get My Contributions
+  seq: 9
+}
+
+get {
+  url: {{baseUrl}}/api/v1/culinary/contributions/mine
+  body: none
+  auth: bearer
+}
+
+auth:bearer {
+  token: {{access_token}}
+}
+
+docs {
+  # GET /api/v1/culinary/contributions/mine
+  Daftar usulan milik user login (semua status).
+}

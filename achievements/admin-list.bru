@@ -1,0 +1,24 @@
+docs {
+GET /api/v1/admin/achievements - katalog penuh (admin/root).
+Semua status aktif/nonaktif; tiap baris + recipient_count.
+}
+meta {
+  name: Admin List Achievements
+  seq: 10
+}
+get {
+  url: {{baseUrl}}/api/v1/admin/achievements?limit=20
+  body: none
+  auth: bearer
+}
+auth:bearer {
+  token: {{admin_token}}
+}
+tests {
+  test("200 + recipient_count", () => {
+    expect(res.status).to.equal(200);
+    for (const item of res.body.data.items) {
+      expect(item).to.have.property('recipient_count');
+    }
+  });
+}

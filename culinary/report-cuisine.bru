@@ -1,0 +1,28 @@
+meta {
+  name: Report Cuisine
+  seq: 15
+}
+
+post {
+  url: {{baseUrl}}/api/v1/culinary/cuisines/{{cuisine_slug}}/reports
+  body: json
+  auth: bearer
+}
+
+auth:bearer {
+  token: {{access_token}}
+}
+
+body:json {
+  {
+    "reason_code": "misleading",
+    "note": "Bahan yang tertulis tidak sesuai narasumber."
+  }
+}
+
+docs {
+  # POST /api/v1/culinary/cuisines/:slug/reports
+  Laporkan data kuliner (wajib login). `reason_code`: closed |
+  wrong_location | invalid_contact | misleading | duplicate | abuse.
+  Laporan TIDAK mengubah data publik - admin yang memutuskan.
+}

@@ -1,0 +1,53 @@
+docs {
+Kirim pantun 4 baris (50-api-pantun.md). Wajib login. Struktur wajib:
+tepat 4 baris, tanpa baris kosong. Pola rima: ABAB atau AAAA.
+Rima dicek server (suffix substring): mismatch = 400 dengan pasangan
+baris yang belum berima; rima ambigu = tetap diterima.
+
+400 rima tidak pas:
+
+    {
+      "success": false,
+      "error_code": "VALIDATION_ERROR",
+      "message": "Pola rima ABAB belum pas: baris 1 & 3 belum berima."
+    }
+}
+
+meta {
+  name: Create Pantun
+  seq: 2
+}
+
+post {
+  url: {{baseUrl}}/api/v1/pantuns
+  body: json
+  auth: bearer
+}
+
+auth:bearer {
+  token: {{access_token}}
+}
+
+body:json {
+  {
+    "lines": ["Pergi ke pasar Sambas", "Membeli ikan teri", "Jalan kaki pagi",
+    "Pulang membawa nasi"],
+    "rhyme_scheme": "ABAB",
+    "language": "id"
+  }
+}
+
+script:post-response {
+  if (res.body?.data?.id) {
+    bru.setVar("pantun_id", res.body.data.id);
+  }
+}
+
+tests {
+  test("201 published", () => {
+    expect(res.status).to.equal(201);
+    expect(res.body.success).to.equal(true);
+    expect(res.body.data.status).to.equal("published");
+    expect(res.body.data.lines).to.have.lengthOf(4);
+  });
+}

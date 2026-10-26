@@ -17,11 +17,19 @@ headers {
 body:json {
   {
     "access_token": "{{githubAccessToken}}",
-    "client_type": "mobile"
+    "client_type": "mobile",
+    "consents": [
+      { "document_type": "terms", "document_version": "{{legal_terms_version}}" },
+      { "document_type": "privacy", "document_version": "{{legal_privacy_version}}" }
+    ]
   }
 }
 
 docs {
   POST /api/v1/auth/github - access_token ATAU code+redirect_uri (+ code_verifier).
 
+  consents OPSIONAL. Halaman Daftar mengirimnya (checkbox legal wajib);
+  login page tidak. Akun baru tanpa consents: mode lenient = akun dibuat +
+  backfill, response `requires_consent: true`; mode enforce = 400
+  CONSENT_REQUIRED. Lihat docs/api/44-api-consent-oauth.md.
 }

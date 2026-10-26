@@ -1,0 +1,21 @@
+docs {
+  Koleksi kuliner/tempat makan (48-api-culinary.md).
+  Publik: GET /api/v1/culinary/cuisines (list published), GET /api/v1/culinary/cuisines/:slug,
+  GET /api/v1/culinary/places, GET /api/v1/culinary/places/:slug,
+  GET /api/v1/culinary/categories.
+  Usulan: POST /api/v1/culinary/contributions (boleh anonim, 5/jam per IP),
+  POST /api/v1/culinary/contributions/change (perbaikan, field-lock),
+  mine/cancel/resubmit.
+  Klaim: POST /api/v1/culinary/places/:slug/claims (wajib login).
+  Laporan: POST /api/v1/culinary/cuisines/:slug/reports dan
+  POST /api/v1/culinary/places/:slug/reports.
+  Admin: /api/v1/admin/culinary*, /api/v1/admin/culinary-contributions,
+  /api/v1/admin/culinary-claims, /api/v1/admin/culinary-reports.
+  Dua dimensi status TERPISAH: publish_status (draft/published/archived/
+  restricted) dan operational_status (unknown/open/temporarily_closed/
+  permanently_closed). Approve kind=place_operational tidak mengubah
+  publish_status.
+  Atribusi gambar WAJIB (name + license) - disimpan verbatim, ikut tampil.
+  URL kontak disimpan BERSIH (tanpa UTM); UTM disisip saat render
+  (rule external-link-utm).
+}

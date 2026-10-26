@@ -1,0 +1,28 @@
+docs {
+PATCH /api/v1/me/profile/border - set / lepas bingkai profil.
+border_id = AWARD id (user_achievement_id), bukan id katalog achievement.
+null = lepas bingkai.
+}
+meta {
+  name: Set Active Border
+  seq: 4
+}
+patch {
+  url: {{baseUrl}}/api/v1/me/profile/border
+  body: json
+  auth: bearer
+}
+auth:bearer {
+  token: {{access_token}}
+}
+body:json {
+  {
+    "border_id": "{{borderAwardId}}"
+  }
+}
+tests {
+  test("200 + active_border_id", () => {
+    expect(res.status).to.equal(200);
+    expect(res.body.data).to.have.property('active_border_id');
+  });
+}

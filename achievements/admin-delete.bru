@@ -1,0 +1,22 @@
+docs {
+DELETE /api/v1/admin/achievements/:id - soft delete katalog.
+Award yang sudah terlanjur tetap; scan berhenti.
+}
+meta {
+  name: Admin Delete Achievement
+  seq: 16
+}
+delete {
+  url: {{baseUrl}}/api/v1/admin/achievements/{{achievementId}}
+  body: none
+  auth: bearer
+}
+auth:bearer {
+  token: {{admin_token}}
+}
+tests {
+  test("200 + data null", () => {
+    expect(res.status).to.equal(200);
+    expect(res.body.data).to.equal(null);
+  });
+}

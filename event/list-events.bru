@@ -1,0 +1,43 @@
+meta {
+  name: List Events (public)
+  seq: 1
+}
+
+get {
+  url: {{baseUrl}}/api/v1/events?limit=50
+  body: none
+  auth: none
+}
+
+docs {
+# GET /api/v1/events
+List acara `published` (soft-delete disembunyikan). Query: category_id,
+village_id, region_id (ULID/slug kecamatan - acara di kecamatan itu + desanya),
+place_id, q, not_ended=1 (hanya yang belum selesai),
+order=asc|desc, before (cursor), limit.
+
+`before` = `next_cursor` halaman sebelumnya.
+}
+
+tests {
+  test("200 + items array", () => {
+    expect(res.status).to.equal(200);
+    expect(res.body.success).to.equal(true);
+    expect(res.body.data.items).to.be.an('array');
+    expect(res.body.data).to.have.property('next_cursor');
+  });
+
+  test("item punya occurrence_status turunan", () => {
+    for (const item of res.body.data.items) {
+      expect(item).to.have.property('occurrence_status');
+      expect([
+        'upcoming',
+        'ongoing',
+        'completed',
+        'cancelled',
+      ]).to.include(item.occurrence_status);
+      expect(item).to.have.property('starts_at');
+      expect(item).to.have.property('ends_at');
+    }
+  });
+}

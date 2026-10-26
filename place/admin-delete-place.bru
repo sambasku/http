@@ -1,0 +1,23 @@
+meta {
+  name: Admin Soft-delete Place
+  seq: 5
+}
+
+delete {
+  url: {{baseUrl}}/api/v1/admin/places/{{placeId}}
+  body: none
+  auth: bearer
+}
+
+auth:bearer {
+  token: {{adminAccessToken}}
+}
+
+docs {
+  # DELETE /api/v1/admin/places/:id
+  Soft delete - hilang dari list publik.
+}
+
+vars:pre-request {
+  placeId: ganti-dengan-id-place
+}

@@ -1,0 +1,40 @@
+meta {
+  name: Admin Create Place
+  seq: 4
+}
+
+post {
+  url: {{baseUrl}}/api/v1/admin/places
+  body: json
+  auth: bearer
+}
+
+auth:bearer {
+  token: {{adminAccessToken}}
+}
+
+body:json {
+  {
+    "slug": "tempat-uji-bruno",
+    "name": "Tempat Uji Bruno",
+    "category": "wisata",
+    "type": "alam",
+    "lat": 1.35,
+    "lng": 109.25,
+    "short_description": "Place uji dari Bruno.",
+    "region_id": "sambas",
+    "status": "published",
+    "images": [
+      {
+        "url": "https://cdn.jsdelivr.net/gh/sambasku/images@main/assets/places/placeholder.webp",
+        "is_main": true,
+        "attribution": { "name": "SambasKu", "provider": "sambasku" }
+      }
+    ]
+  }
+}
+
+docs {
+  # POST /api/v1/admin/places
+  Buat place. 409 SLUG_TAKEN bila slug bentrok.
+}

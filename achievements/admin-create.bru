@@ -1,0 +1,44 @@
+docs {
+POST /api/v1/admin/achievements - buat katalog baru.
+code immutable setelah dibuat. criteria.source wajib di registry.
+Window ISO 8601 WAJIB offset (+07:00); from < to.
+}
+meta {
+  name: Admin Create Achievement
+  seq: 11
+}
+post {
+  url: {{baseUrl}}/api/v1/admin/achievements
+  body: json
+  auth: bearer
+}
+auth:bearer {
+  token: {{admin_token}}
+}
+body:json {
+  {
+    "code": "angkatan-ke-2",
+    "title": "Angkatan Ke-2",
+    "description": "Terdaftar pada angkatan kedua SambasKu",
+    "category": "kohort",
+    "reward_type": "profile_border",
+    "badge_url": "https://cdn.jsdelivr.net/gh/sambasku/images@main/assets/achievements/angkatan-ke-2.png",
+    "criteria": {
+      "source": "registration",
+      "window": {
+        "from": "2027-01-01T00:00:00+07:00",
+        "to": "2028-01-01T00:00:00+07:00"
+      }
+    },
+    "family": null,
+    "level": null,
+    "is_active": true
+  }
+}
+tests {
+  test("200 + code", () => {
+    expect(res.status).to.equal(200);
+    expect(res.body.data.code).to.equal('angkatan-ke-2');
+    bru.setEnvVar('achievementId', res.body.data.id);
+  });
+}

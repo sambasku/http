@@ -1,0 +1,28 @@
+meta {
+  name: Admin List Event Contributions (pending)
+  seq: 10
+}
+
+get {
+  url: {{baseUrl}}/api/v1/admin/event-contributions
+  body: none
+  auth: bearer
+}
+
+auth:bearer {
+  token: {{admin_access_token}}
+}
+
+docs {
+# GET /api/v1/admin/event-contributions
+Antrean usulan acara yang masih `pending` (root/admin/reviewer).
+Bisa juga `?status=needs_revision` untuk lihat yang minta revisi.
+}
+
+tests {
+  test("200 + items array", () => {
+    expect(res.status).to.equal(200);
+    expect(res.body.success).to.equal(true);
+    expect(res.body.data.items).to.be.an('array');
+  });
+}

@@ -1,0 +1,27 @@
+meta {
+  name: Report Place
+  seq: 16
+}
+
+post {
+  url: {{baseUrl}}/api/v1/culinary/places/{{place_slug}}/reports
+  body: json
+  auth: bearer
+}
+
+auth:bearer {
+  token: {{access_token}}
+}
+
+body:json {
+  {
+    "reason_code": "closed",
+    "note": "Warung sudah tutup sejak bulan lalu."
+  }
+}
+
+docs {
+  # POST /api/v1/culinary/places/:slug/reports
+  Laporkan data tempat kuliner (wajib login). Satu laporan `open` per
+  (target, user) - kirim ulang setelah ditindaklanjuti.
+}

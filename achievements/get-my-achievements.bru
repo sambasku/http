@@ -1,0 +1,28 @@
+docs {
+GET /api/v1/me/achievements - owned + locked milik user login.
+Filter reward_type=profile_border untuk picker bingkai; tiap baris
+membawa is_active_border.
+}
+meta {
+  name: Get My Achievements
+  seq: 3
+}
+get {
+  url: {{baseUrl}}/api/v1/me/achievements?limit=50
+  body: none
+  auth: bearer
+}
+auth:bearer {
+  token: {{access_token}}
+}
+tests {
+  test("200 + ownership fields", () => {
+    expect(res.status).to.equal(200);
+    const items = res.body.data.items;
+    expect(items).to.be.an('array');
+    for (const item of items) {
+      expect(item).to.have.property('user_achievement_id');
+      expect(item).to.have.property('awarded_at');
+    }
+  });
+}

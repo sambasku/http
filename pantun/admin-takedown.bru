@@ -1,0 +1,28 @@
+docs {
+Tarik pantun dari feed (50-api-pantun.md). Wajib
+admin/root/reviewer/editor. Pantun published -> taken_down;
+event feed ikut disembunyikan (visibility read-time).
+}
+
+meta {
+  name: Admin Takedown Pantun
+  seq: 7
+}
+
+post {
+  url: {{baseUrl}}/api/v1/admin/pantuns/:id/takedown
+  body: none
+  auth: bearer
+}
+
+auth:bearer {
+  token: {{access_token}}
+}
+
+tests {
+  test("200 taken_down", () => {
+    expect(res.status).to.equal(200);
+    expect(res.body.success).to.equal(true);
+    expect(res.body.data.status).to.equal("taken_down");
+  });
+}

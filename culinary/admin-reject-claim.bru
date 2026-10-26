@@ -1,0 +1,26 @@
+meta {
+  name: Admin Reject Claim
+  seq: 23
+}
+
+post {
+  url: {{baseUrl}}/api/v1/admin/culinary-claims/{{place_claim_id}}/reject
+  body: json
+  auth: bearer
+}
+
+auth:bearer {
+  token: {{access_token}}
+}
+
+body:json {
+  {
+    "reason_code": "evidence_insufficient",
+    "reason_text": "Nomor kontak tidak bisa dihubungi."
+  }
+}
+
+docs {
+  # POST /api/v1/admin/culinary-claims/:id/reject
+  `reason_code`: evidence_insufficient | claim_conflict | not_owner | other.
+}

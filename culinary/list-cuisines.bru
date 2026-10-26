@@ -1,0 +1,33 @@
+meta {
+  name: List Cuisines (public)
+  seq: 1
+}
+
+get {
+  url: {{baseUrl}}/api/v1/culinary/cuisines?limit=20
+  body: none
+  auth: none
+}
+
+params:query {
+  limit: 20
+  ~q: bubur
+  ~category_id: makanan-utama
+  ~before: cursor-halaman-sebelumnya
+}
+
+docs {
+  # GET /api/v1/culinary/cuisines
+  Daftar kuliner `publish_status=published`. Filter: `q` (nama),
+  `category_id`, `before` (cursor), `limit` (default 50, maks 500).
+  `q` juga dipakai cek duplikat sebelum mengusulkan (read-only, tidak
+  memblokir usulan).
+}
+
+tests {
+  test("200 daftar kuliner", function () {
+    expect(res.status).to.equal(200);
+    expect(res.body.success).to.equal(true);
+    expect(res.body.data.items).to.be.an('array');
+  });
+}

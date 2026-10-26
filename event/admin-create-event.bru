@@ -1,0 +1,57 @@
+meta {
+  name: Admin Create Event
+  seq: 4
+}
+
+post {
+  url: {{baseUrl}}/api/v1/admin/events
+  body: json
+  auth: bearer
+}
+
+auth:bearer {
+  token: {{admin_access_token}}
+}
+
+body:json {
+{
+  "slug": "acara-uji-bruno",
+  "name": "Acara Uji Bruno",
+  "description": "Acara uji dari Bruno collection.",
+  "category_id": "budaya-tradisi",
+  "starts_at": "2026-12-01T09:00:00.000Z",
+  "ends_at": "2026-12-01T14:00:00.000Z",
+  "location_text": "Lapangan utama Pemangkat",
+  "organizer": "Panitia Uji Bruno",
+  "source_url": "https://facebook.com/acara.uji.bruno",
+  "source_type": "facebook",
+  "source_attribution": "@acara_uji_bruno",
+  "status": "published"
+}
+}
+
+docs {
+# POST /api/v1/admin/events
+Buat acara. 409 SLUG_TAKEN bila slug bentrok, 400 kalau jadwal salah
+(ends_at < starts_at) atau kategori/desa/wisata tidak valid.
+
+`source_url` hanya boleh https dan disimpan BERSIH (tanpa UTM).
+`organizer` opsional - UI skip kalau kosong.
+}
+
+tests {
+  test("200 + event published", () => {
+    expect(res.status).to.equal(200);
+    expect(res.body.success).to.equal(true);
+    expect(res.body.data).to.have.property('id');
+    expect(res.body.data).to.have.property('slug');
+    expect(res.body.data.source_url).to.not.include('utm_source');
+  });
+}
+
+script:post-response {
+  if (res.body && res.body.data && res.body.data.id) {
+    bru.setVar('event_id', res.body.data.id);
+    bru.setVar('event_slug', res.body.data.slug);
+  }
+}

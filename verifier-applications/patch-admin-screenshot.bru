@@ -1,0 +1,34 @@
+docs {
+Ganti screenshot satu akun sosial pengajuan pending (20-api-verifier-application.md, issue #50).
+Admin/root saja; hanya status pending. Byte gambar tidak lewat worker:
+upload dulu ke ImageKit via GET /api/v1/admin/images/upload-token?folder=/verifier-applications,
+lalu PATCH dengan url + provider_file_id hasil upload.
+Index di luar daftar -> 404 SOCIAL_LINK_NOT_FOUND. Sudah decided -> 409.
+}
+
+meta {
+  name: Patch Verifier Application Screenshot
+  seq: 8
+}
+
+patch {
+  url: {{baseUrl}}/api/v1/admin/verifier-applications/{{verifier_application_id}}/social-links/0/screenshot
+  body: json
+  auth: bearer
+}
+
+auth:bearer {
+  token: {{access_token}}
+}
+
+body:json {
+  {"url":"https://ik.imagekit.io/sambasku/verifier-applications/budi-v2.jpg","provider_file_id":"file_va_budi_v2"}
+}
+
+tests {
+  test("200 + screenshot berganti", () => {
+    expect(res.status).to.equal(200);
+    expect(res.body.success).to.equal(true);
+    expect(res.body.data.social_links[0].screenshot.provider_file_id).to.equal("file_va_budi_v2");
+  });
+}

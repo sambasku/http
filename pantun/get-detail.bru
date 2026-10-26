@@ -1,0 +1,33 @@
+docs {
+Detail pantun + balasan (50-api-pantun.md). Tanpa auth.
+404 bila id tidak ada atau pantun sudah di-takedown.
+}
+
+meta {
+  name: Get Pantun Detail
+  seq: 3
+}
+
+get {
+  url: {{baseUrl}}/api/v1/pantuns/{{pantun_id}}
+  body: none
+  auth: none
+}
+
+tests {
+  test("200 detail + replies", () => {
+    expect(res.status).to.equal(200);
+    expect(res.body.success).to.equal(true);
+    expect(res.body.data.id).to.be.a("string");
+    expect(res.body.data.upvotes).to.be.a("number");
+    expect(res.body.data.downvotes).to.be.a("number");
+    expect(res.body.data.replies).to.be.an("array");
+  });
+
+  test("balasan membawa counts vote", () => {
+    for (const reply of res.body.data.replies) {
+      expect(reply.upvotes).to.be.a("number");
+      expect(reply.downvotes).to.be.a("number");
+    }
+  });
+}

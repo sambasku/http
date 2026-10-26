@@ -1,29 +1,20 @@
 docs {
-Feed aktivitas dengan karya sendiri disembunyikan (37-api-activity-feed.md).
+#167 Bearer sah → exclude otomatis (server-side); client tidak filter sama
+sekali (cuma render). `exclude_self=1` tetap dikirim saat login BUKAN
+sebagai filter, tapi sebagai pembeda cache key L1: `GET|/api/v1/activity|
+exclude_self=1&limit=20` dan `GET|/api/v1/activity|limit=20` adalah dua entri
+cache terpisah. `exclude_self` di validator deprecated/no-op (agar app lama
+tidak 400).
 
-BUTUH login: `?exclude_self=true` hanya berlaku bila Bearer valid. Tanpa token
-sah flag diabaikan dan feed tetap publik penuh - bukan gate, tidak ada 400.
+Announce exception: broadcast, jadi `activity-event-feed.repository.impl.ts`
+guard `baseConditions`: `(actor_id is null or actor_id <> X or kind =
+'announcement')` supaya admin pembuat pengumuman tetap melihatnya.
 
-Token rusak/kedaluarsa juga TIDAK 401 (soft auth menelan, feed lengkap dikembalikan).
+Token rusak/kedaluarsa juga TIDAK 401 (soft auth menelan, feed lengkap).
 Request terpisah: `get-activity-bad-token.bru`.
 
-Semua jenis terfilter: comment, vote, discussion, word, word_image/audio/
-pronunciation/example, card_share, suggestion, welcome.
-
-`vote` disaring pelaku DAN target: vote orang lain atas kata milik sendiri
-juga disembunyikan.
-
-`search_miss` disaring lewat `search_miss_searchers`: miss yang pernah dicari
-viewer sendiri disembunyikan dari berandanya saja. User lain tetap melihat
-miss yang sama, dan tanpa flag miss tetap publik penuh. Baris searcher hanya
-tercatat kalau `GET /words/search` dipanggil dengan Bearer sah (soft auth).
-
-Kata impor sistem (`created_by` NULL) tetap tampil.
-
 Butuh `Login Contributor` lebih dulu (menyimpan `contributor_access_token` +
-`contributor_username`). Untuk membuktikan search_miss: cari satu istilah yang
-tidak ada di kamus (`GET /words/search?q=...` dengan token yang sama) sebelum
-request ini.
+`contributor_username`).
 }
 
 meta {

@@ -1,0 +1,25 @@
+meta {
+  name: Admin List Contributions
+  seq: 17
+}
+
+get {
+  url: {{baseUrl}}/api/v1/admin/culinary-contributions?status=pending
+  body: none
+  auth: bearer
+}
+
+auth:bearer {
+  token: {{access_token}}
+}
+
+params:query {
+  status: pending
+  ~kind: new_cuisine
+}
+
+docs {
+  # GET /api/v1/admin/culinary-contributions
+  Antrean pengajuan kuliner. Filter `status` (pending/needs_revision/
+  approved/rejected) dan `kind`. Butuh role root/admin/reviewer.
+}

@@ -1,0 +1,33 @@
+meta {
+  name: Submit New Place
+  seq: 7
+}
+
+post {
+  url: {{baseUrl}}/api/v1/culinary/contributions
+  body: json
+  auth: none
+}
+
+body:json {
+  {
+    "kind": "new_place",
+    "payload": {
+      "name": "Warung Bubur Pedas Bu Siti",
+      "type": "warung",
+      "description": "Menjual bubur pedas sejak 2005.",
+      "location_hint": "Dekat pasar Sambas",
+      "address_text": "Jl. Merdeka No. 10, Sambas",
+      "lat": 1.3621,
+      "lng": 109.3011,
+      "phone": "081234567890",
+      "cover_url": "https://cdn.jsdelivr.net/gh/sambasku/data@main/assets/culinary/warung.jpg"
+    }
+  }
+}
+
+docs {
+  # POST /api/v1/culinary/contributions (kind=new_place)
+  Usulan tempat/penjual baru. Minimum `name`. `lat` dan `lng` harus
+  berpasangan (400 LATLNG_PAIR bila hanya salah satu).
+}

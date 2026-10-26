@@ -1,0 +1,43 @@
+meta {
+  name: List Usaha (public)
+  seq: 1
+}
+
+get {
+  url: {{baseUrl}}/api/v1/usaha?limit=20&category_id=kuliner
+  body: none
+  auth: none
+}
+
+params:query {
+  limit: 20
+  category_id: kuliner
+  ~q: kopi
+  ~region_id: pemangkat
+  ~village_id: pemangkat-kota
+  ~kind: product
+  ~operational_status: open
+  ~before: cursor-halaman-sebelumnya
+}
+
+docs {
+# GET /api/v1/usaha
+Daftar usaha `publish_status=published`. Filter: `q`, `category_id`,
+`region_id`, `village_id`, `kind` (product/service/both),
+`operational_status`, `before` (cursor), `limit` (default 50, maks 500).
+
+Katalog item TIDAK diikutkan di list - ambil di detail.
+Kategori + desa di-JOIN dalam satu query (rule #26, hemat subrequest).
+}
+
+tests {
+  test("200 + items array", () => {
+    expect(res.status).to.equal(200);
+    expect(res.body.success).to.equal(true);
+    expect(res.body.data.items).to.be.an('array');
+    res.body.data.items.forEach((item) => {
+      expect(item).to.have.property('publish_status');
+      expect(item).to.not.have.property('items');
+    });
+  });
+}

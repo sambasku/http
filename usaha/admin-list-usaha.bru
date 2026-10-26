@@ -1,0 +1,36 @@
+meta {
+  name: Admin List Usaha (all status)
+  seq: 20
+}
+
+get {
+  url: {{baseUrl}}/api/v1/admin/usaha?limit=50
+  body: none
+  auth: bearer
+}
+
+auth:bearer {
+  token: {{admin_access_token}}
+}
+
+params:query {
+  limit: 50
+  ~publish_status: draft
+  ~category_id: kuliner
+  ~operational_status: open
+  ~q: kopi
+}
+
+docs {
+# GET /api/v1/admin/usaha
+Daftar usaha SEMUA status (draft/published/archived/restricted), termasuk
+yang soft-deleted bila `include_deleted=1`.
+}
+
+tests {
+  test("200 + items array", () => {
+    expect(res.status).to.equal(200);
+    expect(res.body.success).to.equal(true);
+    expect(res.body.data.items).to.be.an('array');
+  });
+}

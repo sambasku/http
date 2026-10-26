@@ -1,0 +1,39 @@
+meta {
+  name: Admin Resolve Report
+  seq: 33
+}
+
+post {
+  url: {{baseUrl}}/api/v1/admin/usaha-reports/{{usaha_report_id}}/resolve
+  body: json
+  auth: bearer
+}
+
+auth:bearer {
+  token: {{admin_access_token}}
+}
+
+body:json {
+  {
+    "status": "resolved",
+    "resolution": "Nomor WhatsApp sudah diperbarui, laporan ditutup.",
+    "resolution_note": "Dihubungi lewat telepon desa."
+  }
+}
+
+docs {
+# POST /api/v1/admin/usaha-reports/:id/resolve
+`status`: resolved | dismissed (default resolved). `resolution` wajib
+3-500 karakter, `resolution_note` opsional.
+}
+
+tests {
+  test("200", () => {
+    expect(res.status).to.equal(200);
+    expect(res.body.success).to.equal(true);
+  });
+}
+
+vars:pre-request {
+  usaha_report_id: ganti-dengan-id-laporan
+}

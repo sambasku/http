@@ -1,0 +1,32 @@
+docs {
+Semua pantun (semua status) untuk moderasi (50-api-pantun.md).
+Wajib admin/root/reviewer/editor.
+}
+
+meta {
+  name: Admin List Pantuns
+  seq: 6
+}
+
+get {
+  url: {{baseUrl}}/api/v1/admin/pantuns?limit=20
+  body: none
+  auth: bearer
+}
+
+auth:bearer {
+  token: {{access_token}}
+}
+
+script:post-response {
+  const items = res.body.data || [];
+  if (items[0]) bru.setVar("admin_pantun_id", items[0].id);
+}
+
+tests {
+  test("200 list all statuses", () => {
+    expect(res.status).to.equal(200);
+    expect(res.body.success).to.equal(true);
+    expect(res.body.data).to.be.an("array");
+  });
+}

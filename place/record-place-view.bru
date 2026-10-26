@@ -1,0 +1,18 @@
+meta {
+  name: Record Place View (public)
+  seq: 6
+}
+
+post {
+  url: {{baseUrl}}/api/v1/places/{{placeSlug}}/view
+  body: none
+  auth: none
+}
+
+docs {
+  # POST /api/v1/places/:slug/view
+  Catat view detail place (dipanggil web + mobile saat detail dibuka).
+  Slug tak dikenal / draft = no-op tetap 200.
+  Unik per pembaca per hari WIB: user login (u:) > X-Device-Id (d:) > IP (ip:).
+  Refresh berkali-kali di hari sama tetap dihitung 1.
+}

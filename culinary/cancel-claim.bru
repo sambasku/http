@@ -1,0 +1,19 @@
+meta {
+  name: Cancel Claim
+  seq: 14
+}
+
+delete {
+  url: {{baseUrl}}/api/v1/culinary/places/claims/{{place_claim_id}}
+  body: none
+  auth: bearer
+}
+
+auth:bearer {
+  token: {{access_token}}
+}
+
+docs {
+  # DELETE /api/v1/culinary/places/claims/:id
+  Batalkan klaim sendiri saat masih `pending`.
+}

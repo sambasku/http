@@ -1,0 +1,24 @@
+meta {
+  name: Admin List Reports
+  seq: 24
+}
+
+get {
+  url: {{baseUrl}}/api/v1/admin/culinary-reports?status=open
+  body: none
+  auth: bearer
+}
+
+auth:bearer {
+  token: {{access_token}}
+}
+
+params:query {
+  status: open
+}
+
+docs {
+  # GET /api/v1/admin/culinary-reports
+  Antrean laporan data kuliner. `status`: open | resolved | dismissed.
+  Item membawa `target_type` (cuisine/place) + nama/slug target.
+}

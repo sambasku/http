@@ -1,0 +1,36 @@
+meta {
+  name: Admin Restore Usaha
+  seq: 24
+}
+
+post {
+  url: {{baseUrl}}/api/v1/admin/usaha/{{usaha_id}}/restore
+  body: json
+  auth: bearer
+}
+
+auth:bearer {
+  token: {{admin_access_token}}
+}
+
+body:json {
+  {}
+}
+
+docs {
+# POST /api/v1/admin/usaha/:id/restore
+Pulihkan usaha dari `archived` atau `restricted` -> `published`.
+Audit log dicatat.
+}
+
+tests {
+  test("200 + published", () => {
+    expect(res.status).to.equal(200);
+    expect(res.body.success).to.equal(true);
+    expect(res.body.data.publish_status).to.equal('published');
+  });
+}
+
+vars:pre-request {
+  usaha_id: ganti-dengan-id-usaha
+}

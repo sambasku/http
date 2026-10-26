@@ -1,12 +1,13 @@
 docs {
 Lewati kartu deck tanpa menulis vote. Idempoten.
-Kata hilang dari GET /votes/deck user ini. User lain tetap melihat.
-200: { word_id, skipped: true }
-404 VOTE_TARGET_NOT_FOUND jika kata tidak ada.
+Sejak 0101 deck per MAKNA: target = meaning_id, bukan word_id.
+Makna hilang dari GET /votes/deck user ini. User lain tetap melihat.
+200: { meaning_id, skipped: true }
+404 VOTE_TARGET_NOT_FOUND jika makna tidak ada.
 }
 
 meta {
-  name: Skip Vote Deck Word
+  name: Skip Vote Deck Meaning
   type: http
   seq: 7
 }
@@ -23,7 +24,7 @@ auth:bearer {
 
 body:json {
   {
-    "word_id": "{{word_id}}"
+    "meaning_id": "{{meaning_id}}"
   }
 }
 
@@ -35,6 +36,6 @@ tests {
     if (res.status !== 200) return;
     expect(res.body.success).to.equal(true);
     expect(res.body.data.skipped).to.equal(true);
-    expect(res.body.data.word_id).to.equal(bru.getEnvVar("word_id"));
+    expect(res.body.data.meaning_id).to.equal(bru.getEnvVar("meaning_id"));
   });
 }

@@ -1,0 +1,28 @@
+meta {
+  name: Claim Place
+  seq: 12
+}
+
+post {
+  url: {{baseUrl}}/api/v1/culinary/places/{{place_slug}}/claims
+  body: json
+  auth: bearer
+}
+
+auth:bearer {
+  token: {{access_token}}
+}
+
+body:json {
+  {
+    "contact_evidence": "WhatsApp 081234567890 atas nama saya, IG @warungbubur",
+    "note": "Saya pemilik warung ini sejak 2005."
+  }
+}
+
+docs {
+  # POST /api/v1/culinary/places/:slug/claims
+  Ajukan klaim pengelolaan tempat (wajib login). `contact_evidence` min 5
+  karakter dan PRIVAT - tidak pernah diserialkan di endpoint publik,
+  hanya di antrean admin.
+}

@@ -1,0 +1,20 @@
+meta {
+  name: Get Place by Slug (public)
+  seq: 4
+}
+
+get {
+  url: {{baseUrl}}/api/v1/culinary/places/{{place_slug}}
+  body: none
+  auth: none
+}
+
+vars:pre-request {
+  place_slug: warung-bubur-pedas
+}
+
+docs {
+  # GET /api/v1/culinary/places/:slug
+  Detail tempat published + `cuisines[]` (kuliner yang tersedia) + status
+  ketersediaan per relasi (`available`/`seasonal`/`unavailable`/`unknown`).
+}

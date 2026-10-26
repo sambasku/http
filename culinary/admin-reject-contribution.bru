@@ -1,0 +1,28 @@
+meta {
+  name: Admin Reject Contribution
+  seq: 19
+}
+
+post {
+  url: {{baseUrl}}/api/v1/admin/culinary-contributions/{{cuisine_contribution_id}}/reject
+  body: json
+  auth: bearer
+}
+
+auth:bearer {
+  token: {{access_token}}
+}
+
+body:json {
+  {
+    "reason_code": "incomplete",
+    "reason_text": "Atribusi gambar belum lengkap."
+  }
+}
+
+docs {
+  # POST /api/v1/admin/culinary-contributions/:id/reject
+  `reason_code`: duplicate | incomplete | invalid | unverifiable |
+  attribution | violation | stale | other. Pengusul dapat notifikasi inbox
+  + push (best-effort).
+}

@@ -1,0 +1,19 @@
+meta {
+  name: Get Place by slug (public)
+  seq: 2
+}
+
+get {
+  url: {{baseUrl}}/api/v1/places/{{placeSlug}}
+  body: none
+  auth: none
+}
+
+docs {
+  # GET /api/v1/places/:slug
+  Detail place published. 404 bila draft/archived/soft-deleted.
+}
+
+vars:pre-request {
+  placeSlug: istana-alwatzikoebillah
+}

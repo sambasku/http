@@ -1,0 +1,38 @@
+meta {
+  name: Admin Reject Event Contribution
+  seq: 12
+}
+
+post {
+  url: {{baseUrl}}/api/v1/admin/event-contributions/{{event_contribution_id}}/reject
+  body: json
+  auth: bearer
+}
+
+auth:bearer {
+  token: {{admin_access_token}}
+}
+
+body:json {
+{
+  "reason_code": "duplicate",
+  "reason_text": "Sudah ada acara serupa di kalender."
+}
+}
+
+docs {
+# POST /api/v1/admin/event-contributions/:id/reject
+Tolak usulan. `reason_code`: not_suitable | duplicate | inaccurate |
+past_event | other. Kalau `other`, `reason_text` wajib (min 3 karakter).
+}
+
+tests {
+  test("200 + data null", () => {
+    expect(res.status).to.equal(200);
+    expect(res.body.success).to.equal(true);
+  });
+}
+
+vars:pre-request {
+  event_contribution_id: ganti-dengan-id-usulan
+}

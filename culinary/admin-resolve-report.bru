@@ -1,0 +1,27 @@
+meta {
+  name: Admin Resolve Report
+  seq: 25
+}
+
+post {
+  url: {{baseUrl}}/api/v1/admin/culinary-reports/{{report_id}}/resolve
+  body: json
+  auth: bearer
+}
+
+auth:bearer {
+  token: {{access_token}}
+}
+
+body:json {
+  {
+    "status": "resolved",
+    "resolution": "Data diperbarui",
+    "resolution_note": "Alamat sudah dikoreksi lewat pengajuan perbaikan."
+  }
+}
+
+docs {
+  # POST /api/v1/admin/culinary-reports/:id/resolve
+  `status`: resolved | dismissed. Laporan yang sudah ditindaklanjuti -> 409.
+}

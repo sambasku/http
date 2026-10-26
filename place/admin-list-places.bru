@@ -1,0 +1,19 @@
+meta {
+  name: Admin List Places
+  seq: 3
+}
+
+get {
+  url: {{baseUrl}}/api/v1/admin/places?limit=30
+  body: none
+  auth: bearer
+}
+
+auth:bearer {
+  token: {{adminAccessToken}}
+}
+
+docs {
+  # GET /api/v1/admin/places
+  List semua status (admin/root). Query sama dengan list publik (termasuk type) + status.
+}

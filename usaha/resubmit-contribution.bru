@@ -1,0 +1,45 @@
+meta {
+  name: Resubmit Usaha Contribution
+  seq: 6
+}
+
+put {
+  url: {{baseUrl}}/api/v1/usaha-contributions/{{usaha_contribution_id}}
+  body: json
+  auth: bearer
+}
+
+auth:bearer {
+  token: {{access_token}}
+}
+
+body:json {
+  {
+    "name": "Warung Kopi Bruno (revisi)",
+    "region_id": "pemangkat",
+    "description": "Sudah dilengkapi setelah catatan admin.",
+    "category_id": "kuliner",
+    "kind": "both",
+    "phone": "081234567890",
+    "whatsapp": "081234567890",
+    "wants_claim": true
+  }
+}
+
+docs {
+# PUT /api/v1/usaha-contributions/:id
+Kirim ulang usulan berstatus `needs_revision`. Body sama dengan POST.
+Status kembali `pending`. 409 kalau status bukan `needs_revision`.
+}
+
+tests {
+  test("200 + pending", () => {
+    expect(res.status).to.equal(200);
+    expect(res.body.success).to.equal(true);
+    expect(res.body.data.status).to.equal('pending');
+  });
+}
+
+vars:pre-request {
+  usaha_contribution_id: ganti-dengan-id-usulan
+}

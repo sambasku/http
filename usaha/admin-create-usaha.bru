@@ -1,0 +1,47 @@
+meta {
+  name: Admin Create Usaha
+  seq: 21
+}
+
+post {
+  url: {{baseUrl}}/api/v1/admin/usaha
+  body: json
+  auth: bearer
+}
+
+auth:bearer {
+  token: {{admin_access_token}}
+}
+
+body:json {
+  {
+    "name": "Toko Kelontong Bruno",
+    "description": "Sembako dan kebutuhan harian.",
+    "category_id": "toko-kelontong",
+    "kind": "product",
+    "region_id": "pemangkat",
+    "address_text": "Jl. Raya Pemangkat no. 2",
+    "phone": "081234567891",
+    "publish_status": "published",
+    "operational_status": "open"
+  }
+}
+
+docs {
+# POST /api/v1/admin/usaha
+Buat usaha langsung (tanpa antrean moderasi). Slug dibuat dari nama.
+Menulis activity event `usaha_published` (AGENTS.md #25).
+}
+
+tests {
+  test("200/201 + slug", () => {
+    expect([200, 201]).to.include(res.status);
+    expect(res.body.success).to.equal(true);
+    expect(res.body.data).to.have.property('slug');
+  });
+}
+
+script:post-response {
+  if (res.body?.data?.id) bru.setVar('usaha_id', res.body.data.id);
+  if (res.body?.data?.slug) bru.setVar('usaha_slug', res.body.data.slug);
+}

@@ -1,0 +1,58 @@
+meta {
+  name: Submit Manager Change (Usaha Saya)
+  seq: 8
+}
+
+post {
+  url: {{baseUrl}}/api/v1/usaha-contributions/manager
+  body: json
+  auth: bearer
+}
+
+auth:bearer {
+  token: {{access_token}}
+}
+
+body:json {
+  {
+    "kind": "profile",
+    "usaha_id": "{{usaha_id}}",
+    "payload": {
+      "phone": "089876543210",
+      "whatsapp": "089876543210"
+    },
+    "fields": ["phone", "whatsapp"]
+  }
+}
+
+docs {
+# POST /api/v1/usaha-contributions/manager
+Pengajuan pengelola terverifikasi (`manager_id = user`). Satu endpoint,
+payload per `kind`:
+
+- `profile` -> `payload` camelCase (`name`, `phone`, `description`, ...),
+  `fields[]` menentukan field yang dikunci.
+- `item_add` -> `{ name, description?, priceText?, imageUrl? }`
+- `item_edit` -> sama + `item_id`
+- `item_delete` -> cukup `item_id`
+- `operational` -> `{ operationalStatus }` (open/temporarily_closed/
+  permanently_closed/unknown)
+- `archive` / `restore` -> payload `{}`
+
+Field-lock: 409 `PENDING_FIELD_LOCK` bila `locked_fields` beririsan dengan
+pengajuan pending lain untuk usaha yang sama.
+Stale: 409 `STALE_DATA` bila `usaha.updated_at` lebih baru dari
+`base_updated_at`.
+}
+
+tests {
+  test("200 + pending", () => {
+    expect(res.status).to.equal(200);
+    expect(res.body.success).to.equal(true);
+    expect(res.body.data.status).to.equal('pending');
+  });
+}
+
+vars:pre-request {
+  usaha_id: ganti-dengan-id-usaha
+}

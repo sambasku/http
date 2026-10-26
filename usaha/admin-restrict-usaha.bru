@@ -1,0 +1,39 @@
+meta {
+  name: Admin Restrict Usaha
+  seq: 23
+}
+
+post {
+  url: {{baseUrl}}/api/v1/admin/usaha/{{usaha_id}}/restrict
+  body: json
+  auth: bearer
+}
+
+auth:bearer {
+  token: {{admin_access_token}}
+}
+
+body:json {
+  {
+    "reason": "Informasi menyesatkan, menunggu konfirmasi pemilik."
+  }
+}
+
+docs {
+# POST /api/v1/admin/usaha/:id/restrict
+Set `publish_status='restricted'` + `restricted_reason`/`restricted_at` dan
+tulis audit log. Endpoint publik menganggap restricted = 404.
+Pulihkan lewat `POST /:id/restore`.
+}
+
+tests {
+  test("200 + restricted", () => {
+    expect(res.status).to.equal(200);
+    expect(res.body.success).to.equal(true);
+    expect(res.body.data.publish_status).to.equal('restricted');
+  });
+}
+
+vars:pre-request {
+  usaha_id: ganti-dengan-id-usaha
+}

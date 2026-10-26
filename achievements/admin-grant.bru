@@ -1,0 +1,30 @@
+docs {
+POST /api/v1/admin/achievements/:id/grant - grant manual.
+Body usernames[] (1-200). User sudah punya = skipped (bukan error).
+Username tak dikenal = masuk daftar missing.
+}
+meta {
+  name: Admin Grant Achievement
+  seq: 14
+}
+post {
+  url: {{baseUrl}}/api/v1/admin/achievements/{{achievementId}}/grant
+  body: json
+  auth: bearer
+}
+auth:bearer {
+  token: {{admin_token}}
+}
+body:json {
+  {
+    "usernames": ["budi"]
+  }
+}
+tests {
+  test("200 + awarded/skipped/missing", () => {
+    expect(res.status).to.equal(200);
+    expect(res.body.data).to.have.property('awarded');
+    expect(res.body.data).to.have.property('skipped');
+    expect(res.body.data.missing).to.be.an('array');
+  });
+}

@@ -1,0 +1,44 @@
+docs {
+Upsert versi release per platform (issue mobile#196). Hanya admin/root.
+Console: System > Mobile Release. Saat update, store_url/notes kosong mempertahankan nilai lama.
+200:
+{
+"success": true,
+"data": {
+"id": "01J…",
+"platform": "android",
+"version": "0.2.0",
+"store_url": "https://play.google.com/store/apps/details?id=com.iamutaki.sambasku",
+"notes": "Perbaikan bug",
+"created_at": "2026-10-24T10:00:00.000Z",
+"updated_at": "2026-10-24T11:00:00.000Z"
+}
+}
+}
+meta {
+name: Upsert Mobile Release
+seq: 2
+}
+put {
+url: {{baseUrl}}/api/v1/admin/mobile-release/android
+body: json
+auth: bearer
+}
+auth:bearer {
+token: {{access_token}}
+}
+body:json {
+{
+"version": "0.2.0",
+"store_url": "https://play.google.com/store/apps/details?id=com.iamutaki.sambasku",
+"notes": "Perbaikan bug"
+}
+}
+tests {
+test("status 200 + envelope data platform android", () => {
+expect(res.status).to.equal(200);
+expect(res.body.success).to.equal(true);
+expect(res.body.data.platform).to.equal('android');
+expect(res.body.data.version).to.equal('0.2.0');
+});
+}

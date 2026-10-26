@@ -1,0 +1,43 @@
+docs {
+Feed dengan filter kategori chips (mobile#193, 37-api-activity-feed.md).
+
+Query `category` enum: all (default, tanpa filter) | search_miss | correction
+| announcement | joined. Nilai di luar enum = 400 (bukan diam-diam all).
+
+Mapping kategori -> kind event DB (FEED_CATEGORY_KINDS, merge-activity.ts):
+- all        -> null (TANPA filter)
+- search_miss-> search_miss
+- correction -> contribution_image/audio/pron/example + suggestion_created/
+               suggestion_applied/suggestion_selfapply
+- announcement -> announcement
+- joined     -> user_joined (wire kind: welcome)
+
+Filter dieksekusi server-side: 1 query dengan kondisi kind IN (...) + keyset
+cursor yang sama. Rows read dijaga index composite
+activity_events_kind_feed_idx (kind, occurred_at, id).
+
+200: bentuk identik dengan get-activity.bru (kind wire tidak berubah).
+}
+
+meta {
+  name: Get Activity Feed - category (chips #193)
+  seq: 7
+}
+
+get {
+  url: {{baseUrl}}/api/v1/activity?limit=20&category=joined
+  body: none
+  auth: none
+}
+
+tests {
+  test("200: semua item sesuai kategori joined (wire kind welcome)", () => {
+    expect(res.status).to.equal(200);
+    expect(res.body.success).to.equal(true);
+    expect(res.body.data).to.be.an("array");
+    for (const item of res.body.data) {
+      expect(item.kind).to.equal("welcome");
+      expect(item).to.not.have.property("email");
+    }
+  });
+}

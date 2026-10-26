@@ -1,0 +1,29 @@
+meta {
+  name: Get My Event Contributions
+  seq: 9
+}
+
+get {
+  url: {{baseUrl}}/api/v1/event-contributions/mine
+  body: none
+  auth: bearer
+}
+
+auth:bearer {
+  token: {{access_token}}
+}
+
+docs {
+# GET /api/v1/event-contributions/mine
+Daftar usulan milik user login. Status: pending | needs_revision |
+approved | rejected. `revision_note` = catatan revisi dari admin,
+`reject_reason_display` = teks alasan penolakan yang ramah dibaca.
+}
+
+tests {
+  test("200 + items array", () => {
+    expect(res.status).to.equal(200);
+    expect(res.body.success).to.equal(true);
+    expect(res.body.data.items).to.be.an('array');
+  });
+}

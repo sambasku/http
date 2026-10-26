@@ -1,0 +1,24 @@
+docs {
+GET /api/v1/users/:username/achievements - reward milik user publik.
+Dipakai profil publik: badge + bingkai aktif di avatar.
+}
+meta {
+  name: Get User Achievements
+  seq: 2
+}
+get {
+  url: {{baseUrl}}/api/v1/users/{{username}}/achievements
+  body: none
+  auth: none
+}
+tests {
+  test("200 + items array", () => {
+    expect(res.status).to.equal(200);
+    const items = res.body.data.items;
+    expect(items).to.be.an('array');
+    for (const item of items) {
+      expect(item).to.have.property('user_achievement_id');
+      expect(item.user_achievement_id).to.not.equal(null);
+    }
+  });
+}

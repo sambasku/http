@@ -1,0 +1,37 @@
+meta {
+  name: Current Legal Versions
+  type: http
+  seq: 2
+}
+
+get {
+  url: {{baseUrl}}/api/v1/legal/current
+  body: none
+  auth: none
+}
+
+docs {
+  GET /api/v1/legal/current - versi aktif Syarat Ketentuan + Kebijakan
+  Privasi. Dipakai mobile untuk mengisi `consents` di sheet /accept-legal.
+
+  200:
+  {
+    "success": true,
+    "data": {
+      "terms":   { "version": "2026-01-01", "title": "...", "url": "..." },
+      "privacy": { "version": "2026-01-01", "title": "...", "url": "..." }
+    }
+  }
+
+  `terms` / `privacy` bisa null bila belum dipublikasikan. Konsumen wajib
+  menangani null (jangan kirim consents dengan versi kosong).
+
+  Lihat docs/api/44-api-consent-oauth.md.
+}
+
+tests {
+  test("status 200 + data.terms object", () => {
+    expect(res.status).to.equal(200);
+    expect(res.body.data).to.exist;
+  });
+}

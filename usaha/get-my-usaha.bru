@@ -1,0 +1,29 @@
+meta {
+  name: Get My Usaha (Usaha Saya)
+  seq: 13
+}
+
+get {
+  url: {{baseUrl}}/api/v1/usaha/mine
+  body: none
+  auth: bearer
+}
+
+auth:bearer {
+  token: {{access_token}}
+}
+
+docs {
+# GET /api/v1/usaha/mine
+Usaha yang `manager_id = user`, masing-masing dengan `pending_changes`
+(jumlah pengajuan pending) + ringkasan `pending_claim_count`.
+}
+
+tests {
+  test("200 + items array", () => {
+    expect(res.status).to.equal(200);
+    expect(res.body.success).to.equal(true);
+    expect(res.body.data.items).to.be.an('array');
+    expect(res.body.data).to.have.property('pending_claim_count');
+  });
+}

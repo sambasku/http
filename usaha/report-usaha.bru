@@ -1,0 +1,40 @@
+meta {
+  name: Report Usaha
+  seq: 12
+}
+
+post {
+  url: {{baseUrl}}/api/v1/usaha/{{usaha_slug}}/reports
+  body: json
+  auth: bearer
+}
+
+auth:bearer {
+  token: {{access_token}}
+}
+
+body:json {
+  {
+    "reason_code": "wrong_location",
+    "note": "Pin peta menunjuk ke bangunan sebelah."
+  }
+}
+
+docs {
+# POST /api/v1/usaha/:slug/reports
+Laporkan info usaha yang salah/usang. `reason_code`: closed,
+wrong_location, invalid_contact, misleading, duplicate, abuse.
+Satu laporan `open` per user per usaha.
+}
+
+tests {
+  test("200 + open", () => {
+    expect(res.status).to.equal(200);
+    expect(res.body.success).to.equal(true);
+    expect(res.body.data.status).to.equal('open');
+  });
+}
+
+vars:pre-request {
+  usaha_slug: ganti-dengan-slug-usaha
+}

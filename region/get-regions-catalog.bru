@@ -1,0 +1,26 @@
+meta {
+  name: Get Regions Catalog (public)
+  seq: 1
+}
+
+get {
+  url: {{baseUrl}}/api/v1/regions/catalog
+  body: none
+  auth: none
+}
+
+docs {
+  # GET /api/v1/regions/catalog
+  Katalog wilayah `published` untuk mobile Eksplorasi > Wilayah.
+  Satu response, tanpa cursor. `id` dan `parent_id` adalah slug
+  (sama dengan `regions.json` dan `properties.id` di geojson).
+  Polygon tetap asset app, tidak lewat endpoint ini.
+}
+
+tests {
+  test("status 200 + regions", () => {
+    expect(res.status).to.equal(200);
+    expect(res.body.success).to.equal(true);
+    expect(res.body.data.regions).to.be.an('array');
+  });
+}

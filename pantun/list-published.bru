@@ -1,0 +1,61 @@
+docs {
+Feed pantun tayang (50-api-pantun.md). Tanpa auth. Cursor pagination.
+Query category_id opsional (tema pantun).
+
+200 sukses:
+
+    {
+      "success": true,
+      "data": [
+        {
+          "id": "01JD...",
+          "user_id": "01JD...",
+          "username": "budi",
+          "display_name": "Budi",
+"avatar_url": null,
+"is_verifier": false,
+"parent_id": null,
+          "language": "id",
+          "theme_id": null,
+          "rhyme_scheme": "ABAB",
+          "lines": ["Pergi berjalan ke Sambas", "Membeli ikan di pasar", "Ikan segar murah harga", "Pulang membawa ceria"],
+          "status": "published",
+          "upvotes": 0,
+          "downvotes": 0,
+          "created_at": "2026-10-25T00:00:00.000Z",
+          "updated_at": null
+        }
+      ],
+      "meta": { "limit": 20, "next_cursor": null, "has_more": false }
+    }
+}
+
+meta {
+  name: List Published Pantuns
+  seq: 1
+}
+
+get {
+  url: {{baseUrl}}/api/v1/pantuns?limit=20
+  body: none
+  auth: none
+}
+
+script:post-response {
+  const items = res.body.data || [];
+  if (items[0]) bru.setVar("pantun_id", items[0].id);
+}
+
+tests {
+  test("200 + envelope cursor + published only", () => {
+    expect(res.status).to.equal(200);
+    expect(res.body.success).to.equal(true);
+    expect(res.body.data).to.be.an("array");
+    expect(res.body.meta).to.have.property("has_more");
+    for (const item of res.body.data) {
+      expect(item.status).to.equal("published");
+      expect(item.rhyme_scheme).to.be.oneOf(["ABAB", "AAAA"]);
+      expect(item.lines).to.have.lengthOf(4);
+    }
+  });
+}

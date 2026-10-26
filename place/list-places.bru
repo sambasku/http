@@ -1,0 +1,23 @@
+meta {
+  name: List Places (public)
+  seq: 1
+}
+
+get {
+  url: {{baseUrl}}/api/v1/places?limit=50
+  body: none
+  auth: none
+}
+
+docs {
+  # GET /api/v1/places
+  List place `published` (soft-delete disembunyikan). Query: category, type, region_id, q, before, limit. `before` = `next_cursor` halaman sebelumnya.
+}
+
+tests {
+  test("status 200 + items", () => {
+    expect(res.status).to.equal(200);
+    expect(res.body.success).to.equal(true);
+    expect(res.body.data.items).to.be.an('array');
+  });
+}

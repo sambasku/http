@@ -1,0 +1,37 @@
+meta {
+  name: Admin Request Revision
+  seq: 28
+}
+
+post {
+  url: {{baseUrl}}/api/v1/admin/usaha-contributions/{{usaha_contribution_id}}/request-revision
+  body: json
+  auth: bearer
+}
+
+auth:bearer {
+  token: {{admin_access_token}}
+}
+
+body:json {
+  {
+    "note": "Tolong lengkapi alamat dan nomor WhatsApp, biar warga gampang datang."
+  }
+}
+
+docs {
+# POST /api/v1/admin/usaha-contributions/:id/request-revision
+Status -> `needs_revision`. Pengusul bisa kirim ulang lewat
+`PUT /api/v1/usaha-contributions/:id`.
+}
+
+tests {
+  test("200", () => {
+    expect(res.status).to.equal(200);
+    expect(res.body.success).to.equal(true);
+  });
+}
+
+vars:pre-request {
+  usaha_contribution_id: ganti-dengan-id-usulan
+}

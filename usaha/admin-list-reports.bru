@@ -1,0 +1,35 @@
+meta {
+  name: Admin List Reports
+  seq: 32
+}
+
+get {
+  url: {{baseUrl}}/api/v1/admin/usaha-reports?status=open
+  body: none
+  auth: bearer
+}
+
+auth:bearer {
+  token: {{admin_access_token}}
+}
+
+params:query {
+  status: open
+}
+
+docs {
+# GET /api/v1/admin/usaha-reports
+Antrean laporan masyarakat. `status`: open | resolved | dismissed.
+}
+
+tests {
+  test("200 + items array", () => {
+    expect(res.status).to.equal(200);
+    expect(res.body.data.items).to.be.an('array');
+  });
+}
+
+script:post-response {
+  const first = res.body?.data?.items?.[0];
+  if (first?.id) bru.setVar('usaha_report_id', first.id);
+}

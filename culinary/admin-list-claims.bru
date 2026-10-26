@@ -1,0 +1,24 @@
+meta {
+  name: Admin List Claims
+  seq: 21
+}
+
+get {
+  url: {{baseUrl}}/api/v1/admin/culinary-claims?status=pending
+  body: none
+  auth: bearer
+}
+
+auth:bearer {
+  token: {{access_token}}
+}
+
+params:query {
+  status: pending
+}
+
+docs {
+  # GET /api/v1/admin/culinary-claims
+  Antrean klaim tempat kuliner. Respons admin MEMUAT `contact_evidence`
+  (bukti privat) - jangan pernah diserialkan di endpoint publik.
+}

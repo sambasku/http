@@ -1,0 +1,29 @@
+docs {
+PUT /api/v1/admin/achievements/:id - ubah katalog. code tidak bisa diganti.
+Ubah criteria tidak menghapus award lama (hanya memengaruhi scan berikutnya).
+}
+meta {
+  name: Admin Update Achievement
+  seq: 12
+}
+put {
+  url: {{baseUrl}}/api/v1/admin/achievements/{{achievementId}}
+  body: json
+  auth: bearer
+}
+auth:bearer {
+  token: {{admin_token}}
+}
+body:json {
+  {
+    "title": "Angkatan Ke-2",
+    "description": "Terdaftar pada angkatan kedua SambasKu (diperbarui)",
+    "is_active": true
+  }
+}
+tests {
+  test("200 + title baru", () => {
+    expect(res.status).to.equal(200);
+    expect(res.body.data.title).to.equal('Angkatan Ke-2');
+  });
+}

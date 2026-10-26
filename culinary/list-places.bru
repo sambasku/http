@@ -1,0 +1,25 @@
+meta {
+  name: List Places (public)
+  seq: 3
+}
+
+get {
+  url: {{baseUrl}}/api/v1/culinary/places?limit=20
+  body: none
+  auth: none
+}
+
+params:query {
+  limit: 20
+  ~q: warung
+  ~type: warung
+  ~operational_status: open
+  ~before: cursor-halaman-sebelumnya
+}
+
+docs {
+  # GET /api/v1/culinary/places
+  Daftar tempat makan `publish_status=published`. Filter: `q`, `type`
+  (restaurant/warung/kedai/market_stall/street_vendor/home_industry/other),
+  `operational_status`, `before`, `limit`.
+}

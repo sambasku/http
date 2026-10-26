@@ -1,0 +1,42 @@
+meta {
+  name: Admin Update Usaha
+  seq: 22
+}
+
+patch {
+  url: {{baseUrl}}/api/v1/admin/usaha/{{usaha_id}}
+  body: json
+  auth: bearer
+}
+
+auth:bearer {
+  token: {{admin_access_token}}
+}
+
+body:json {
+  {
+    "publish_status": "published",
+    "operational_status": "temporarily_closed",
+    "category_id": "kuliner"
+  }
+}
+
+docs {
+# PATCH /api/v1/admin/usaha/:id
+Update langsung. Bisa ubah `publish_status`, `operational_status`,
+`category_id`, dan field data lain.
+
+Dua dimensi status TERPISAH: mengubah `operational_status` tidak menyentuh
+`publish_status`.
+}
+
+tests {
+  test("200 + data", () => {
+    expect(res.status).to.equal(200);
+    expect(res.body.success).to.equal(true);
+  });
+}
+
+vars:pre-request {
+  usaha_id: ganti-dengan-id-usaha
+}

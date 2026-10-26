@@ -1,0 +1,62 @@
+meta {
+  name: Submit Usaha Contribution (anon ok)
+  seq: 4
+}
+
+post {
+  url: {{baseUrl}}/api/v1/usaha-contributions
+  body: json
+  auth: none
+}
+
+body:json {
+  {
+    "name": "Warung Kopi Bruno",
+    "description": "Kopi robusta dan gorengan pagi. Usulan dari Bruno collection.",
+    "category_id": "kuliner",
+    "kind": "both",
+    "region_id": "pemangkat",
+    "village_id": null,
+    "address_text": "Jl. Raya Pemangkat no. 1, depan pasar",
+    "lat": null,
+    "lng": null,
+    "phone": "081234567890",
+    "whatsapp": "081234567890",
+    "website": null,
+    "social_url": null,
+    "cover_url": null,
+    "wants_claim": true,
+    "items": [
+      {
+        "name": "Kopi susu gula aren",
+        "description": "Khas Pemangkat",
+        "price_text": "Rp 15.000",
+        "image_url": null
+      }
+    ]
+  }
+}
+
+docs {
+# POST /api/v1/usaha-contributions
+Usulan usaha baru, **boleh anonim** (5/jam per IP). Wajib: `name` (3-200) +
+`region_id` (kecamatan published). Opsional: sisanya, termasuk `items[]`
+(maks 20) dan `wants_claim`.
+
+`wants_claim=true` + login -> klaim pending otomatis dibuat saat approve.
+Anonim: klaim di-skip (tidak ada identitas penerima notifikasi).
+
+`PENDING_CAP` 10 pengajuan menunggu per user.
+}
+
+tests {
+  test("200 + pending", () => {
+    expect(res.status).to.equal(200);
+    expect(res.body.success).to.equal(true);
+    expect(res.body.data.status).to.equal('pending');
+  });
+}
+
+script:post-response {
+  if (res.body?.data?.id) bru.setVar('usaha_contribution_id', res.body.data.id);
+}

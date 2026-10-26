@@ -1,0 +1,19 @@
+meta {
+  name: Get My Claims
+  seq: 13
+}
+
+get {
+  url: {{baseUrl}}/api/v1/culinary/places/claims/mine
+  body: none
+  auth: bearer
+}
+
+auth:bearer {
+  token: {{access_token}}
+}
+
+docs {
+  # GET /api/v1/culinary/places/claims/mine
+  Klaim milik user login (tanpa `contact_evidence`).
+}

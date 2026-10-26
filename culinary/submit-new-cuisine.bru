@@ -1,0 +1,66 @@
+meta {
+  name: Submit New Cuisine
+  seq: 6
+}
+
+post {
+  url: {{baseUrl}}/api/v1/culinary/contributions
+  body: json
+  auth: none
+}
+
+body:json {
+  {
+    "kind": "new_cuisine",
+    "payload": {
+      "name": "Pengkang",
+      "description": "Kuliner khas Sambas dari ketan dan udang.",
+      "category_id": "makanan-utama",
+      "origin_region": "Sambas",
+      "images": [
+        {
+          "url": "https://cdn.jsdelivr.net/gh/sambasku/data@main/assets/culinary/contoh.jpg",
+          "is_main": true,
+          "attribution": {
+            "name": "Nama Pemilik",
+            "provider": "Wikimedia Commons",
+            "url": "https://commons.wikimedia.org/wiki/File:Contoh.jpg",
+            "license": "CC BY-SA 4.0",
+            "license_url": "https://creativecommons.org/licenses/by-sa/4.0/"
+          }
+        }
+      ],
+      "ingredients": ["ketan", "udang", "kelapa"],
+      "serving_suggestion": "Paling enak disantap hangat.",
+      "tags": ["tradisional", "sambas"],
+      "sources": [
+        {
+          "name": "Wikipedia Indonesia",
+          "type": "encyclopedia",
+          "address": "https://id.wikipedia.org/wiki/Pengkang",
+          "license": "CC BY-SA 4.0"
+        }
+      ]
+    }
+  }
+}
+
+docs {
+  # POST /api/v1/culinary/contributions (kind=new_cuisine)
+  Usulan kuliner baru. Boleh tanpa login (anonim 5/jam per IP).
+  Minimum: `name`. Setiap gambar WAJIB punya `attribution.name` dan
+  `attribution.license` - kalau tidak, 400 ATTRIBUTION_REQUIRED.
+  Status awal `pending`; tayang setelah admin approve.
+}
+
+tests {
+  test("200 usulan tersimpan", function () {
+    expect(res.status).to.equal(200);
+    expect(res.body.success).to.equal(true);
+    expect(res.body.data.status).to.equal('pending');
+  });
+}
+
+script:post-response {
+  if (res.body?.data?.id) bru.setVar('cuisine_contribution_id', res.body.data.id);
+}

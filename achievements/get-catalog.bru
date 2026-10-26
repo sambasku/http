@@ -1,0 +1,26 @@
+docs {
+GET /api/v1/achievements - katalog aktif (publik, rate 60/menit per IP).
+Filter reward_type: badge | profile_border | sticker. Cursor = id katalog.
+}
+meta {
+  name: Get Achievement Catalog
+  seq: 1
+}
+get {
+  url: {{baseUrl}}/api/v1/achievements?limit=20
+  body: none
+  auth: none
+}
+tests {
+  test("200 + items array", () => {
+    expect(res.status).to.equal(200);
+    expect(res.body.success).to.equal(true);
+    expect(res.body.data.items).to.be.an('array');
+    for (const item of res.body.data.items) {
+      expect(item).to.have.property('code');
+      expect(item).to.have.property('reward_type');
+      expect(item).to.have.property('criteria');
+      expect(item.criteria).to.have.property('source');
+    }
+  });
+}

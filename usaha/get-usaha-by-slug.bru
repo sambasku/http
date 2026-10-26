@@ -1,0 +1,36 @@
+meta {
+  name: Get Usaha by Slug (public)
+  seq: 2
+}
+
+get {
+  url: {{baseUrl}}/api/v1/usaha/{{usaha_slug}}
+  body: none
+  auth: none
+}
+
+docs {
+# GET /api/v1/usaha/:slug
+Detail usaha published + `items[]` (hanya `status='active'`) + `category`,
+`village`, `region`.
+
+`restricted` -> 404 (tidak membocorkan alasan pembatasan ke publik).
+Kontak publik (`phone`, `whatsapp`, `website`, `social_url`, `maps_url`)
+disimpan BERSIH tanpa UTM.
+}
+
+tests {
+  test("200 + items array", () => {
+    expect(res.status).to.equal(200);
+    expect(res.body.success).to.equal(true);
+    expect(res.body.data).to.have.property('slug');
+    expect(res.body.data.items).to.be.an('array');
+    if (res.body.data.website) {
+      expect(res.body.data.website).to.not.include('utm_source');
+    }
+  });
+}
+
+vars:pre-request {
+  usaha_slug: ganti-dengan-slug-usaha
+}
