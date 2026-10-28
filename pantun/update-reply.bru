@@ -1,0 +1,25 @@
+docs {
+  Edit balasan pantun oleh penulis sendiri (PATCH). Non-penulis / admin → 403.
+}
+
+meta {
+  name: Update Pantun Reply
+  seq: 8
+}
+
+patch {
+  url: {{baseUrl}}/api/v1/pantuns/replies/{{pantun_reply_id}}
+  body: json
+  auth: bearer
+}
+
+auth:bearer {
+  token: {{access_token}}
+}
+
+body:json {
+  {
+    "lines": ["Buah kelapa di pohon", "Jatuh malam hari", "Bulan purnama tampil", "Terang benderang bumi"],
+    "rhyme_scheme": "ABAB"
+  }
+}

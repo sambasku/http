@@ -1,0 +1,34 @@
+docs {
+  Edit balasan diskusi oleh penulis sendiri (PATCH). Non-penulis / admin → 403.
+  Audio tidak diganti. Body kosong hanya valid jika balasan punya audio.
+}
+
+meta {
+  name: Update Discussion Reply
+  seq: 1
+}
+
+patch {
+  url: {{baseUrl}}/api/v1/discussions/replies/{{discussion_reply_id}}
+  body: json
+  auth: bearer
+}
+
+auth:bearer {
+  token: {{contributor_access_token}}
+}
+
+body:json {
+  {
+    "body": "teks balasan setelah diedit"
+  }
+}
+
+tests {
+  test("200 + is_edited true", () => {
+    expect(res.status).to.equal(200);
+    expect(res.body.success).to.equal(true);
+    expect(res.body.data.body).to.equal("teks balasan setelah diedit");
+    expect(res.body.data.is_edited).to.equal(true);
+  });
+}

@@ -1,0 +1,23 @@
+docs {
+  Riwayat suntingan komentar (publik). Hanya jika status masih published.
+  taken_down / deleted_by_author → 404 (teks lama tidak dibocorkan).
+}
+
+meta {
+  name: Get Comment Edit History
+  seq: 5
+}
+
+get {
+  url: {{baseUrl}}/api/v1/comments/{{comment_id}}/edit-history
+  auth: none
+}
+
+tests {
+  test("200 + current + revisions", () => {
+    expect(res.status).to.equal(200);
+    expect(res.body.success).to.equal(true);
+    expect(res.body.data.current).to.be.an("object");
+    expect(res.body.data.revisions).to.be.an("array");
+  });
+}
