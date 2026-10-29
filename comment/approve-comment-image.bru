@@ -1,0 +1,33 @@
+docs {
+Admin approve foto komentar pending → tayang publik.
+}
+
+meta {
+  name: Approve Comment Image
+  seq: 17
+}
+
+post {
+  url: {{baseUrl}}/api/v1/admin/comments/{{comment_id}}/approve-image
+  body: json
+  auth: bearer
+}
+
+auth:bearer {
+  token: {{admin_access_token}}
+}
+
+body:json {
+  {
+    "content_warnings": []
+  }
+}
+
+tests {
+  test("200 + image published", () => {
+    expect(res.status).to.equal(200);
+    expect(res.body.success).to.equal(true);
+    expect(res.body.data.image.status).to.equal("published");
+    expect(res.body.data.image.public_url).to.be.a("string");
+  });
+}
