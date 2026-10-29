@@ -1,0 +1,36 @@
+docs {
+Lampirkan foto staging ke komentar published milik sendiri (opsi B).
+Foto masuk pending_review; teks sudah tayang.
+}
+
+meta {
+  name: Attach Comment Image
+  seq: 16
+}
+
+post {
+  url: {{baseUrl}}/api/v1/comments/{{comment_id}}/image
+  body: json
+  auth: bearer
+}
+
+auth:bearer {
+  token: {{contributor_access_token}}
+}
+
+body:json {
+  {
+    "url": "https://ik.imagekit.io/demo/staging-comment.jpg",
+    "provider_file_id": "file_demo_comment_image"
+  }
+}
+
+tests {
+  test("201 + image pending_review", () => {
+    expect(res.status).to.equal(201);
+    expect(res.body.success).to.equal(true);
+    expect(res.body.data.status).to.equal("published");
+    expect(res.body.data.image.status).to.equal("pending_review");
+    expect(res.body.data.image.public_url).to.equal(null);
+  });
+}

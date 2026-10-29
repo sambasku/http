@@ -1,0 +1,32 @@
+docs {
+Admin tolak foto komentar pending. Teks komentar tetap tayang.
+}
+
+meta {
+  name: Reject Comment Image
+  seq: 18
+}
+
+post {
+  url: {{baseUrl}}/api/v1/admin/comments/{{comment_id}}/reject-image
+  body: json
+  auth: bearer
+}
+
+auth:bearer {
+  token: {{admin_access_token}}
+}
+
+body:json {
+  {
+    "abusive": false
+  }
+}
+
+tests {
+  test("200 + image rejected or null publik", () => {
+    expect(res.status).to.equal(200);
+    expect(res.body.success).to.equal(true);
+    expect(res.body.data.status).to.equal("published");
+  });
+}

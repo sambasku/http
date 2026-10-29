@@ -1,0 +1,27 @@
+docs {
+Kredensial ImageKit untuk foto komentar. Folder wajib /comments.
+}
+
+meta {
+  name: Comment Upload Token
+  seq: 15
+}
+
+get {
+  url: {{baseUrl}}/api/v1/comments/upload-token?folder=/comments
+  body: none
+  auth: bearer
+}
+
+auth:bearer {
+  token: {{contributor_access_token}}
+}
+
+tests {
+  test("200 + token fields", () => {
+    expect(res.status).to.equal(200);
+    expect(res.body.success).to.equal(true);
+    expect(res.body.data).to.have.property("token");
+    expect(res.body.data).to.have.property("signature");
+  });
+}
