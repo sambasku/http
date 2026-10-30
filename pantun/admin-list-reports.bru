@@ -1,0 +1,27 @@
+docs {
+Antrean laporan pantun (50-api-pantun.md). Wajib
+admin/root/reviewer/editor. Default status=open, urut id desc.
+target_lines = isi 4 baris target (snapshot untuk ditinjau).
+}
+meta {
+  name: Admin List Pantun Reports
+  seq: 12
+}
+
+get {
+  url: {{baseUrl}}/api/v1/admin/pantun-reports?status=open&limit=20
+  body: none
+  auth: bearer
+}
+
+auth:bearer {
+  token: {{access_token}}
+}
+
+tests {
+  test("200 list", () => {
+    expect(res.status).to.equal(200);
+    expect(res.body.success).to.equal(true);
+    expect(res.body.data).to.be.an("array");
+  });
+}

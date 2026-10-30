@@ -26,7 +26,7 @@ tests {
     expect(res.body.data).to.be.an("array");
     expect(res.body.meta).to.have.property("has_more");
     for (const vote of res.body.data) {
-      expect(["word", "meaning", "example", "pronunciation", "word_image", "comment"]).to.include(vote.target_type);
+      expect(["word", "meaning", "example", "pronunciation", "word_image", "comment", "discussion", "discussion_reply", "pantun", "pantun_reply"]).to.include(vote.target_type);
       expect([1, -1]).to.include(vote.value);
       expect(vote).to.have.property("voted_at");
       if (vote.word !== null) {

@@ -1,0 +1,34 @@
+docs {
+Tinjau laporan pantun (50-api-pantun.md). Wajib
+admin/root/reviewer/editor. resolution: dismissed (konten tetap tayang)
+atau taken_down (target ditarik + semua laporan open target ditutup).
+note minimal 3 karakter. 409 bila laporan sudah ditutup.
+}
+meta {
+  name: Admin Resolve Pantun Report
+  seq: 13
+}
+
+post {
+  url: {{baseUrl}}/api/v1/admin/pantun-reports/:id/resolve
+  body: json
+  auth: bearer
+}
+
+auth:bearer {
+  token: {{access_token}}
+}
+
+body:json {
+  {
+    "resolution": "taken_down",
+    "note": "spam terbukti, konten ditarik"
+  }
+}
+
+tests {
+  test("200 resolved", () => {
+    expect(res.status).to.equal(200);
+    expect(res.body.success).to.equal(true);
+  });
+}

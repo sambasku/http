@@ -1,9 +1,10 @@
 docs {
 Lewati kartu deck tanpa menulis vote. Idempoten.
-Sejak 0101 deck per MAKNA: target = meaning_id, bukan word_id.
+Sejak 0101 deck per MAKNA: body meaning_id (client baru) ATAU word_id
+(compat mobile ≤ v0.4.0, 52) - bila keduanya ada, utamakan meaning_id.
 Makna hilang dari GET /votes/deck user ini. User lain tetap melihat.
 200: { meaning_id, skipped: true }
-404 VOTE_TARGET_NOT_FOUND jika makna tidak ada.
+404 VOTE_TARGET_NOT_FOUND jika target tidak resolve ke makna.
 }
 
 meta {

@@ -1,0 +1,38 @@
+docs {
+Laporkan pantun/balasan (50-api-pantun.md). Wajib login.
+target_type: pantun | pantun_reply; target_id = ULID target.
+reason_code: inappropriate | sexual | harassment | hate_speech | spam | other
+(other wajib note). 409 bila laporan serupa masih open.
+Konten tetap tayang sampai admin meninjau.
+}
+meta {
+  name: Report Pantun
+  seq: 11
+}
+
+post {
+  url: {{baseUrl}}/api/v1/pantuns/reports
+  body: json
+  auth: bearer
+}
+
+auth:bearer {
+  token: {{access_token}}
+}
+
+body:json {
+  {
+    "target_type": "pantun",
+    "target_id": "{{pantun_id}}",
+    "reason_code": "spam",
+    "note": "promosi link di balasan"
+  }
+}
+
+tests {
+  test("201 created", () => {
+    expect(res.status).to.equal(201);
+    expect(res.body.success).to.equal(true);
+    expect(res.body.data.status).to.equal("open");
+  });
+}

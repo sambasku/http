@@ -17,6 +17,16 @@ setelah decode). Email/phone/hash/is_active tidak pernah tampil.
           "contributions_approved": 12,
           "verifications_done": 34,
           "comments_published": 5
+        },
+        "leveling": {
+          "points": 2250,
+          "level": 6,
+          "next_level_points": 2800,
+          "title_code": "penjaga-jejak",
+          "exploration": 150,
+          "accuracy": 42,
+          "depth": 20,
+          "streak_days": 6
         }
       }
     }
@@ -59,6 +69,10 @@ tests {
     expect(res.body.data.stats.contributions_approved).to.be.a("number");
     expect(res.body.data.stats.verifications_done).to.be.a("number");
     expect(res.body.data.stats.comments_published).to.be.a("number");
+    expect(res.body.data.leveling.points).to.be.a("number");
+    expect(res.body.data.leveling.level).to.be.a("number");
+    expect(res.body.data.leveling.title_code).to.be.a("string");
+    expect(res.body.data.leveling.streak_days).to.be.a("number");
     expect(res.body.data).to.not.have.property("email");
     expect(res.body.data).to.not.have.property("phone");
     expect(res.body.data).to.not.have.property("is_active");

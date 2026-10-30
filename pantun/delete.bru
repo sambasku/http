@@ -1,0 +1,27 @@
+docs {
+Hapus pantun sendiri (50-api-pantun.md). Wajib login.
+Soft delete: status jadi deleted_by_author (feed + event feed hilang).
+403 bila bukan penulis; 404 bila tidak ditemukan / sudah tidak tayang.
+}
+
+meta {
+  name: Delete Pantun
+  seq: 6
+}
+
+delete {
+  url: {{baseUrl}}/api/v1/pantuns/:pantun_id
+  body: none
+  auth: bearer
+}
+
+auth:bearer {
+  token: {{access_token}}
+}
+
+tests {
+  test("200 deleted", () => {
+    expect(res.status).to.equal(200);
+    expect(res.body.success).to.equal(true);
+  });
+}

@@ -12,6 +12,7 @@ verifikasi OTP / email gagal terkirim).
         {
           "id": "01J...",
           "username": "budi",
+          "display_name": "Budi Santoso",
           "email": "budi@example.com",
           "phone": "6281234567890",
           "roles": ["contributor"],
@@ -67,6 +68,7 @@ tests {
     expect(res.body.meta).to.have.property("has_more");
     for (const item of res.body.data) {
       expect(item).to.have.property("avatar_url");
+      expect(item).to.have.property("display_name");
       expect(item).to.have.property("phone");
       expect(item).to.have.property("email_verified");
       expect(item.otp === null || (item.otp && item.otp.expires_at)).to.equal(true);

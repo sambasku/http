@@ -33,5 +33,7 @@ tests {
     expect(res.body.data).to.have.property("village_id");
     expect(res.body.data).to.have.property("has_read_contribution_guide");
     expect(res.body.data).to.have.property("requires_consent");
+    expect(res.body.data.leveling.level).to.be.a("number");
+    expect(res.body.data.leveling.title_code).to.be.a("string");
   });
 }
