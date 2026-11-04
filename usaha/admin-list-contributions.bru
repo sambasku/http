@@ -16,13 +16,15 @@ auth:bearer {
 params:query {
   status: pending
   ~kind: new
+  ~usaha_id: 
 }
 
 docs {
 # GET /api/v1/admin/usaha-contributions
 Antrean moderasi. Filter `kind` (new/profile/item_add/item_edit/
-item_delete/operational/archive/restore) dan `status`
-(pending/needs_revision/approved/rejected).
+item_delete/operational/archive/restore), `status`
+(pending/needs_revision/approved/rejected), dan `usaha_id`
+(riwayat: `usaha_id` ATAU `result_usaha_id`).
 }
 
 tests {

@@ -15,14 +15,20 @@ auth:bearer {
 
 body:json {
   {
-    "contact_evidence": "WhatsApp 081234567890 atas nama saya, IG @warungbruno",
-    "note": "Saya pemilik warung ini sejak 2019."
+    "evidence_images": [
+      {
+        "url": "https://ik.imagekit.io/test/usaha-claims/bukti-toko.jpg",
+        "provider_file_id": "file_usaha_claim_1"
+      }
+    ],
+    "note": "Foto toko dan SS WhatsApp atas nama saya."
   }
 }
 
 docs {
 # POST /api/v1/usaha/:slug/claims
-Ajukan klaim pengelolaan (wajib login). `contact_evidence` min 5 karakter.
+Ajukan klaim pengelolaan (wajib login). Body wajib `evidence_images` (1-5)
+dengan `url` + `provider_file_id` ImageKit folder `/usaha-claims`.
 Bukti TIDAK pernah diserialkan di endpoint publik - hanya admin.
 Satu klaim `pending` per `(usaha_id, user_id)`.
 }

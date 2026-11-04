@@ -1,0 +1,42 @@
+meta {
+  name: Suggest Edit Usaha
+  seq: 10
+}
+
+post {
+  url: {{baseUrl}}/api/v1/usaha-contributions/suggest-edit
+  body: json
+  auth: bearer
+}
+
+auth:bearer {
+  token: {{access_token}}
+}
+
+body:json {
+  {
+    "usaha_slug": "{{usaha_slug}}",
+    "phone": "081234567890",
+    "fields": ["phone", "whatsapp"]
+  }
+}
+
+docs {
+# POST /api/v1/usaha-contributions/suggest-edit
+Usulan perubahan publik (wajib login, bukan wajib pengelola).
+Prefill dari detail di klien; kirim field yang berubah + `fields[]`.
+Membuat kontribusi `kind=profile` dengan field-lock.
+}
+
+tests {
+  test("200 + pending profile", () => {
+    expect(res.status).to.equal(200);
+    expect(res.body.success).to.equal(true);
+    expect(res.body.data.kind).to.equal('profile');
+    expect(res.body.data.status).to.equal('pending');
+  });
+}
+
+vars:pre-request {
+  usaha_slug: ganti-dengan-slug-usaha
+}
