@@ -1,0 +1,11 @@
+meta {
+  name: List by word
+  type: http
+  seq: 70
+}
+
+get {
+  url: {{baseUrl}}/api/v1/jinye?word_id={{wordId}}&limit=5
+  body: none
+  auth: none
+}
