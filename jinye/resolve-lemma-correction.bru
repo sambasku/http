@@ -1,0 +1,21 @@
+meta {
+  name: Resolve lemma correction
+  type: http
+  seq: 43
+}
+
+post {
+  url: {{baseUrl}}/api/v1/jinye/{{jinyeId}}/lemma-links/{{lemmaLinkId}}/resolve
+  body: json
+  auth: bearer
+}
+
+auth:bearer {
+  token: {{accessToken}}
+}
+
+body:json {
+  {
+    "action": "approve"
+  }
+}

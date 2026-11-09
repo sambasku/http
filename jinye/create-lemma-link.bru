@@ -1,0 +1,23 @@
+meta {
+  name: Create lemma link
+  type: http
+  seq: 41
+}
+
+post {
+  url: {{baseUrl}}/api/v1/jinye/{{jinyeId}}/lemma-links
+  body: json
+  auth: bearer
+}
+
+auth:bearer {
+  token: {{accessToken}}
+}
+
+body:json {
+  {
+    "start": 0,
+    "end": 5,
+    "word_id": "{{wordId}}"
+  }
+}

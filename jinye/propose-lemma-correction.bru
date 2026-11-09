@@ -1,0 +1,21 @@
+meta {
+  name: Propose lemma correction
+  type: http
+  seq: 42
+}
+
+post {
+  url: {{baseUrl}}/api/v1/jinye/{{jinyeId}}/lemma-links/{{lemmaLinkId}}/corrections
+  body: json
+  auth: bearer
+}
+
+auth:bearer {
+  token: {{accessToken}}
+}
+
+body:json {
+  {
+    "word_id": "{{wordId}}"
+  }
+}

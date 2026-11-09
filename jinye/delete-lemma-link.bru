@@ -1,0 +1,15 @@
+meta {
+  name: Delete lemma link
+  type: http
+  seq: 44
+}
+
+delete {
+  url: {{baseUrl}}/api/v1/jinye/{{jinyeId}}/lemma-links/{{lemmaLinkId}}
+  body: none
+  auth: bearer
+}
+
+auth:bearer {
+  token: {{accessToken}}
+}
