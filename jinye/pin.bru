@@ -1,0 +1,15 @@
+meta {
+  name: Pin Jinye
+  type: http
+  seq: 32
+}
+
+post {
+  url: {{baseUrl}}/api/v1/jinye/{{jinyeId}}/pin
+  body: none
+  auth: bearer
+}
+
+auth:bearer {
+  token: {{accessToken}}
+}

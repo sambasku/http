@@ -1,0 +1,15 @@
+meta {
+  name: Archive Jinye
+  type: http
+  seq: 30
+}
+
+post {
+  url: {{baseUrl}}/api/v1/jinye/{{jinyeId}}/archive
+  body: none
+  auth: bearer
+}
+
+auth:bearer {
+  token: {{accessToken}}
+}

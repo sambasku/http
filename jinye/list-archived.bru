@@ -1,0 +1,15 @@
+meta {
+  name: List archived Jinye
+  type: http
+  seq: 34
+}
+
+get {
+  url: {{baseUrl}}/api/v1/jinye/archived?limit=20
+  body: none
+  auth: bearer
+}
+
+auth:bearer {
+  token: {{accessToken}}
+}
