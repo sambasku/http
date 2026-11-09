@@ -1,0 +1,18 @@
+docs {
+Hapus Jinye sendiri -> deleted_by_author (56-api-jinye.md).
+}
+
+meta {
+  name: Delete Jinye
+  seq: 4
+}
+
+delete {
+  url: {{baseUrl}}/api/v1/jinye/{{jinye_id}}
+  body: none
+  auth: bearer
+}
+
+auth:bearer {
+  token: {{access_token}}
+}

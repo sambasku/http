@@ -1,0 +1,23 @@
+docs {
+Lampirkan voice note ke Jinye (owner). Multipart field `audio` + opsional duration_ms.
+}
+
+meta {
+  name: Attach Audio
+  seq: 3
+}
+
+post {
+  url: {{baseUrl}}/api/v1/jinye/{{jinye_id}}/audio
+  body: multipartForm
+  auth: bearer
+}
+
+auth:bearer {
+  token: {{access_token}}
+}
+
+body:multipart-form {
+  audio: @file(/path/ke/recording.wav)
+  duration_ms: 1500
+}

@@ -1,0 +1,33 @@
+docs {
+Buat Jinye (56-api-jinye.md). Wajib login. Teks <=500 dan/atau foto.
+Kuota 1 create / 24 jam / user (429 RATE_LIMITED).
+}
+
+meta {
+  name: Create Jinye
+  seq: 2
+}
+
+post {
+  url: {{baseUrl}}/api/v1/jinye
+  body: json
+  auth: bearer
+}
+
+auth:bearer {
+  token: {{access_token}}
+}
+
+body:json {
+  {
+    "body": "Jinye percobaan dari Bruno"
+  }
+}
+
+script:post-response {
+  if (res.getStatus() === 201) {
+    const body = res.getBody();
+    const id = body?.data?.id;
+    if (id) bru.setEnvVar("jinye_id", id);
+  }
+}

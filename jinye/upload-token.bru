@@ -1,0 +1,18 @@
+docs {
+Kredensial ImageKit untuk foto Jinye. Folder wajib /jinye.
+}
+
+meta {
+  name: Upload Token
+  seq: 1
+}
+
+get {
+  url: {{baseUrl}}/api/v1/jinye/upload-token?folder=/jinye
+  body: none
+  auth: bearer
+}
+
+auth:bearer {
+  token: {{access_token}}
+}

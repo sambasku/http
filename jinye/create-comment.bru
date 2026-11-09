@@ -1,0 +1,24 @@
+docs {
+Buat komen atau reply Jinye. parent_id opsional (reply 1 level).
+}
+
+meta {
+  name: Create Comment
+  seq: 4
+}
+
+post {
+  url: {{baseUrl}}/api/v1/jinye/{{jinye_id}}/comments
+  body: json
+  auth: bearer
+}
+
+auth:bearer {
+  token: {{access_token}}
+}
+
+body:json {
+  {
+    "body": "Balasan dari Bruno"
+  }
+}
