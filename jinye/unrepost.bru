@@ -1,0 +1,15 @@
+meta {
+  name: Unrepost
+  type: http
+  seq: 63
+}
+
+delete {
+  url: {{baseUrl}}/api/v1/jinye/{{jinyeId}}/repost
+  body: none
+  auth: bearer
+}
+
+auth:bearer {
+  token: {{accessToken}}
+}

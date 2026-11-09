@@ -1,0 +1,21 @@
+meta {
+  name: Quote
+  type: http
+  seq: 64
+}
+
+post {
+  url: {{baseUrl}}/api/v1/jinye/{{jinyeId}}/quote
+  body: json
+  auth: bearer
+}
+
+auth:bearer {
+  token: {{accessToken}}
+}
+
+body:json {
+  {
+    "quote_body": "Kutipan singkat dari Jinye ini"
+  }
+}

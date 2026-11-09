@@ -1,0 +1,15 @@
+meta {
+  name: Repost
+  type: http
+  seq: 62
+}
+
+post {
+  url: {{baseUrl}}/api/v1/jinye/{{jinyeId}}/repost
+  body: none
+  auth: bearer
+}
+
+auth:bearer {
+  token: {{accessToken}}
+}

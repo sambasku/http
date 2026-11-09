@@ -1,0 +1,21 @@
+meta {
+  name: Update Jinye
+  type: http
+  seq: 60
+}
+
+patch {
+  url: {{baseUrl}}/api/v1/jinye/{{jinyeId}}
+  body: json
+  auth: bearer
+}
+
+auth:bearer {
+  token: {{accessToken}}
+}
+
+body:json {
+  {
+    "body": "Teks Jinye yang sudah disunting"
+  }
+}
