@@ -1,0 +1,21 @@
+meta {
+  name: Resolve translation
+  type: http
+  seq: 53
+}
+
+post {
+  url: {{baseUrl}}/api/v1/jinye/{{jinyeId}}/translations/{{translationId}}/resolve
+  body: json
+  auth: bearer
+}
+
+auth:bearer {
+  token: {{accessToken}}
+}
+
+body:json {
+  {
+    "action": "approve"
+  }
+}

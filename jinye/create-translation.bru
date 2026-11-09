@@ -1,0 +1,21 @@
+meta {
+  name: Create translation
+  type: http
+  seq: 52
+}
+
+post {
+  url: {{baseUrl}}/api/v1/jinye/{{jinyeId}}/translations
+  body: json
+  auth: bearer
+}
+
+auth:bearer {
+  token: {{accessToken}}
+}
+
+body:json {
+  {
+    "body_id": "Saya makan nasi"
+  }
+}
