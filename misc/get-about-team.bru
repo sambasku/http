@@ -1,0 +1,15 @@
+meta {
+  name: get-about-team
+  type: http
+  seq: 1
+}
+
+get {
+  url: {{baseUrl}}/api/v1/about/team
+  body: none
+  auth: none
+}
+
+docs {
+  Daftar Tim Kami (users.is_team). Wire: username, display_name, avatar_url, team_as, team_note.
+}

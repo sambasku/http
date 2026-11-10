@@ -1,0 +1,52 @@
+docs {
+Usulkan ubah contoh kalimat published (#244 / mobile#244).
+reason_code = change_example. proposed_changes.examples[] wajib
+example_id + action=update + source_sentence dan/atau target_sentence.
+Hanya contoh status=published milik kata. Isi harus beda dari data
+sekarang. Nested meanings[].examples tetap ditolak.
+Tambah contoh baru tetap POST /api/v1/meanings/:meaningId/examples.
+}
+
+meta {
+  name: Suggest Edit Change Example
+  seq: 12
+}
+
+post {
+  url: {{baseUrl}}/api/v1/words/{{word_id}}/suggest-edit
+  body: json
+  auth: bearer
+}
+
+auth:bearer {
+  token: {{contributor_access_token}}
+}
+
+body:json {
+  {
+    "proposed_changes": {
+      "examples": [
+        {
+          "example_id": "{{example_id}}",
+          "action": "update",
+          "source_sentence": "Kami makan kalintiak.",
+          "target_sentence": "Kami makan kue."
+        }
+      ]
+    },
+    "reason_code": "change_example",
+    "reason_text": "Perbaiki typo contoh"
+  }
+}
+
+tests {
+  test("201 pending|approved ATAU 400|404|409", () => {
+    expect([201, 400, 403, 404, 409]).to.include(res.status);
+    if (res.status === 201) {
+      expect(res.body.success).to.equal(true);
+      expect(["pending", "approved"]).to.include(res.body.data.status);
+      expect(res.body.data.suggestion_id).to.have.lengthOf(26);
+      bru.setVar("suggestion_id", res.body.data.suggestion_id);
+    }
+  });
+}

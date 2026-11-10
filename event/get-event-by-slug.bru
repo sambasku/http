@@ -14,8 +14,9 @@ docs {
 Detail acara published. 404 kalau draft/archived/soft-delete.
 
 Response punya `category` (nama kategori), `village` (desa), `places`
-(tempat wisata terkait) dan `source_url` / `source_type` /
-`source_attribution` (link original konten, disimpan tanpa UTM).
+(tempat wisata terkait), `going_count` / `viewer_going` (soft RSVP),
+dan `source_url` / `source_type` / `source_attribution` (link original
+konten, disimpan tanpa UTM).
 }
 
 tests {
@@ -24,6 +25,8 @@ tests {
     expect(res.body.success).to.equal(true);
     expect(res.body.data).to.have.property('slug');
     expect(res.body.data).to.have.property('places');
+    expect(res.body.data).to.have.property('going_count');
+    expect(res.body.data).to.have.property('viewer_going');
     if (res.body.data.source_url) {
       expect(res.body.data.source_url).to.not.include('utm_source');
     }

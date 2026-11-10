@@ -1,0 +1,17 @@
+meta {
+  name: get-contributors
+  type: http
+  seq: 20
+}
+
+get {
+  url: {{baseUrl}}/api/v1/users/contributors?limit=50
+  body: none
+  auth: none
+}
+
+docs {
+  Daftar user role contributor (nama flat) untuk halaman Tentang → Tim Kami.
+  Publik, tanpa auth. Cursor: `cursor` = id baris terakhir.
+  `data.total` = jumlah semua kontributor, bukan cuma halaman ini.
+}

@@ -1,0 +1,30 @@
+meta {
+  name: List Layanan (public)
+  seq: 1
+}
+
+get {
+  url: {{baseUrl}}/api/v1/layanan?region_id=
+  body: none
+  auth: none
+}
+
+docs {
+# GET /api/v1/layanan
+Daftar layanan publik `published` (ambulans dan pemadam). Query: region_id
+(ULID atau slug kecamatan), category=ambulance|fire.
+
+Setiap item = satu organisasi. Field `phones` = array 1-5
+`{ phone, note?, whatsapp? }`. `logo_url` opsional (https).
+
+Tidak ada cursor. Paling banyak 200 baris.
+}
+
+tests {
+  test("200 + items array", () => {
+    expect(res.status).to.equal(200);
+    expect(res.body.success).to.equal(true);
+    expect(res.body.data.items).to.be.an('array');
+    expect(res.body.data).to.not.have.property('next_cursor');
+  });
+}

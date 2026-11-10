@@ -1,0 +1,26 @@
+docs {
+  GET /api/v1/users/me/username-availability?username= - cek format + ketersediaan handle sebelum PATCH profil.
+  status: available | current | invalid | reserved | taken.
+  Auth Bearer wajib.
+}
+
+meta {
+  name: Get Username Availability
+  seq: 5
+}
+
+get {
+  url: {{baseUrl}}/api/v1/users/me/username-availability?username=warga.sambas
+  body: none
+  auth: bearer
+}
+
+auth:bearer {
+  token: {{access_token}}
+}
+
+tests {
+  test("200 + status username", () => {
+    expect(res.status).to.be.oneOf([200, 400, 401]);
+  });
+}

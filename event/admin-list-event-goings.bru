@@ -1,0 +1,33 @@
+meta {
+  name: Admin List Event Goings
+  seq: 22
+}
+
+get {
+  url: {{baseUrl}}/api/v1/admin/events/{{event_id}}/goings?limit=20
+  body: none
+  auth: bearer
+}
+
+auth:bearer {
+  token: {{admin_access_token}}
+}
+
+docs {
+# GET /api/v1/admin/events/:id/goings
+Daftar orang yang berencana datang (root/admin/reviewer). Cursor keyset
+`(created_at, id)`. Meta memuat `total`.
+}
+
+tests {
+  test("200 + data array", () => {
+    expect(res.status).to.equal(200);
+    expect(res.body.success).to.equal(true);
+    expect(res.body.data).to.be.an('array');
+    expect(res.body.meta).to.have.property('total');
+  });
+}
+
+vars:pre-request {
+  event_id: ganti-dengan-id-acara
+}

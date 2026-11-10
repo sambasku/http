@@ -1,0 +1,16 @@
+meta {
+  name: get-verifiers
+  type: http
+  seq: 21
+}
+
+get {
+  url: {{baseUrl}}/api/v1/users/verifiers
+  body: none
+  auth: none
+}
+
+docs {
+  Daftar verifikator (role reviewer) untuk apresiasi di Tentang → Tim Kami.
+  Publik, tanpa auth. Wire: username, display_name, avatar_url.
+}

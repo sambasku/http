@@ -1,0 +1,25 @@
+docs {
+Balas pantun dengan bacaan suara (multipart). Teks opsional ([] = voice-only).
+Path: POST /api/v1/pantuns/:id/replies/audio. Durasi 10-60 detik.
+}
+
+meta {
+  name: Create Pantun Reply Audio
+  seq: 4
+}
+
+post {
+  url: {{baseUrl}}/api/v1/pantuns/{{pantun_id}}/replies/audio
+  body: multipartForm
+  auth: bearer
+}
+
+auth:bearer {
+  token: {{access_token}}
+}
+
+body:multipart-form {
+  lines: []
+  duration_ms: 15000
+  audio: @file(/tmp/pantun-sample.wav)
+}

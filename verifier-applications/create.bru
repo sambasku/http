@@ -1,7 +1,10 @@
 docs {
 Pengajuan jadi verifikator (20-api-verifier-application.md).
-Login contributor. Body: phone + address (min 10) + social_links min 1
-(platform + username + screenshot).
+Login contributor. Body: full_name + phone + address (min 10) + social_links min 1
+(platform + username + screenshot) + reason (min 10).
+Dialek tidak dikirim; server menyimpan umum.
+Foto (`photo`) opsional. Butuh minimal 3 kontribusi disetujui
+(403 VERIFIER_CONTRIBUTIONS_TOO_FEW).
 
 201 sukses (baris baru, status pending). 409 APPLICATION_ALREADY_EXISTS
 jika sudah pernah apply. 403 ALREADY_VERIFIER jika bukan contributor.
@@ -25,6 +28,7 @@ auth:bearer {
 
 body:json {
   {
+    "full_name": "Budi Santoso",
     "phone": "81234567890",
     "address": "Jl. Merdeka No. 1, Sambas, Kalimantan Barat",
     "social_links": [
@@ -36,7 +40,8 @@ body:json {
           "provider_file_id": "file_va_budi"
         }
       }
-    ]
+    ],
+    "reason": "Saya ingin meninjau kata."
   }
 }
 

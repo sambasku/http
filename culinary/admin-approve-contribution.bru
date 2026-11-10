@@ -18,4 +18,6 @@ docs {
   Approve per kind. `new_cuisine`/`new_place` membuat entitas published +
   menulis activity event `cuisine_published`. Kind lain memakai stale check
   (`STALE_DATA` bila target berubah sejak pengajuan). Approve ganda = 409.
+  Body opsional (`images` untuk override foto sebelum tayang). Tanpa body
+  (seperti request mobile / Bruno `body: none`) = setujui payload usulan apa adanya.
 }

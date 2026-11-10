@@ -1,0 +1,35 @@
+meta {
+  name: Mark Event Going
+  seq: 20
+}
+
+post {
+  url: {{baseUrl}}/api/v1/events/{{event_id}}/going
+  body: none
+  auth: bearer
+}
+
+auth:bearer {
+  token: {{contributor_access_token}}
+}
+
+docs {
+# POST /api/v1/events/:id/going
+Tandai berencana datang (login). Idempotent. 400 jika acara dibatalkan
+atau sudah selesai. Rate limit 30/menit per user.
+
+Respons: `{ event_id, going_count, viewer_going: true }`.
+}
+
+tests {
+  test("200 + viewer_going true", () => {
+    expect(res.status).to.equal(200);
+    expect(res.body.success).to.equal(true);
+    expect(res.body.data.viewer_going).to.equal(true);
+    expect(res.body.data.going_count).to.be.at.least(1);
+  });
+}
+
+vars:pre-request {
+  event_id: ganti-dengan-id-acara
+}

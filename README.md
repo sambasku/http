@@ -109,14 +109,12 @@ dari `local.bru`:
 
 | Environment | `baseUrl` | Tier |
 |---|---|---|
-| `production` | `https://api.sambasku.com` | 1 - Cloudflare Worker |
-| `production-deno` | `https://deno.sambasku.com` | 2 - Deno Deploy |
-| `production-render` | `https://render.sambasku.com` | 3 - Render (bisa tidur) |
+| `production` | `https://api.sambasku.com` | 1 - Server Utama |
+| `production-cloudflare` | `https://cloudflare.sambasku.com` | 2 - Cloudflare |
 
 ```bash
-npx @usebruno/cli run --env production-render misc/ping.bru
+npx @usebruno/cli run --env production-cloudflare misc/ping.bru
 ```
 
 `GET /api/v1/ping` mengembalikan `host` (dari header `Host`) supaya
-bisa dipastikan request benar mendarat di tier yang dipilih. `runtime`
-saja tidak cukup: tier 2 dan 3 keduanya `node`.
+bisa dipastikan request benar mendarat di tier yang dipilih.

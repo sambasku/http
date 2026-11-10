@@ -1,0 +1,63 @@
+docs {
+  Kirim email test dari console (admin/root). Jalur yang sama dengan OTP.
+
+  200, provider siap:
+
+      {
+        "success": true,
+        "data": {
+          "sent": true,
+          "provider": "resend",
+          "message_id": "re_...",
+          "error_code": null,
+          "error_message": null
+        }
+      }
+
+  200, key tidak terbaca proses (kasus provider none):
+
+      {
+        "success": true,
+        "data": {
+          "sent": false,
+          "provider": "none",
+          "message_id": null,
+          "error_code": "EMAIL_NOT_CONFIGURED",
+          "error_message": "Tidak ada provider email terkonfigurasi. Set RESEND_API_KEY di environment proses API, lalu restart."
+        }
+      }
+
+  Body `provider` opsional. Kosong = auto. Rate limit 5/menit.
+}
+
+meta {
+  name: Send test email
+  seq: 1
+}
+
+post {
+  url: {{baseUrl}}/api/v1/admin/email/test
+  body: json
+  auth: bearer
+}
+
+auth:bearer {
+  token: {{access_token}}
+}
+
+body:json {
+  {
+    "to": "{{admin_email}}"
+  }
+}
+
+tests {
+  test("status 200 + envelope hasil kirim", () => {
+    expect(res.status).to.equal(200);
+    expect(res.body.success).to.equal(true);
+    expect(res.body.data.sent).to.be.a("boolean");
+    expect(res.body.data).to.have.property("provider");
+    expect(res.body.data).to.have.property("error_code");
+    expect(res.body.data).to.have.property("error_message");
+  });
+}

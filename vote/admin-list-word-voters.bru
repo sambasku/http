@@ -1,0 +1,36 @@
+docs {
+Daftar voter makna milik satu kata.
+GET /api/v1/admin/words/:wordId/voters
+Role root/admin/reviewer. Disebut di 08-api-upvote-downvote.md.
+}
+
+meta {
+  name: Admin List Word Voters
+  seq: 8
+}
+
+get {
+  url: {{baseUrl}}/api/v1/admin/words/{{word_id}}/voters?limit=20
+  auth: bearer
+}
+
+auth:bearer {
+  token: {{access_token}}
+}
+
+tests {
+  test("200 list voters + meta counts", () => {
+    expect(res.status).to.equal(200);
+    expect(res.body.success).to.equal(true);
+    expect(res.body.data).to.be.an("array");
+    expect(res.body.meta).to.have.property("has_more");
+    expect(res.body.meta).to.have.property("upvotes");
+    expect(res.body.meta).to.have.property("downvotes");
+    for (const v of res.body.data) {
+      expect(v).to.have.property("voter_username");
+      expect(v).to.have.property("voter_email");
+      expect(v).to.have.property("meaning_id");
+      expect(v).to.have.property("value");
+    }
+  });
+}

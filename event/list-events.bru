@@ -14,9 +14,15 @@ docs {
 List acara `published` (soft-delete disembunyikan). Query: category_id,
 village_id, region_id (ULID/slug kecamatan - acara di kecamatan itu + desanya),
 place_id, q, not_ended=1 (hanya yang belum selesai),
-order=asc|desc, before (cursor), limit.
+order=asc|desc (by created_at; diabaikan bila overlaps aktif),
+overlaps_from + overlaps_to (ISO berpasangan, max 45 hari - overlap
+starts_at < to AND ends_at >= from; sort starts_at ASC),
+before (cursor), limit.
 
 `before` = `next_cursor` halaman sebelumnya.
+
+Contoh kalender bulan Desember 2026 (WIB):
+`?overlaps_from=2026-11-30T17:00:00.000Z&overlaps_to=2026-12-31T17:00:00.000Z&limit=500`
 }
 
 tests {

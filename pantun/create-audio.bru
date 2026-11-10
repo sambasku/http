@@ -1,0 +1,27 @@
+docs {
+Kirim pantun suara (50-api-pantun.md). Multipart: audio wajib,
+duration_ms 10000-60000. lines opsional ([] = voice-only; 4 baris = teks+audio).
+Rate limit audio: 10/jam/user.
+}
+
+meta {
+  name: Create Pantun Audio
+  seq: 3
+}
+
+post {
+  url: {{baseUrl}}/api/v1/pantuns/audio
+  body: multipartForm
+  auth: bearer
+}
+
+auth:bearer {
+  token: {{access_token}}
+}
+
+body:multipart-form {
+  lines: []
+  language: id
+  duration_ms: 12000
+  audio: @file(/tmp/pantun-sample.wav)
+}
