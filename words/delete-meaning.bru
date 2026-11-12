@@ -1,0 +1,24 @@
+docs {
+Soft-delete satu makna (#253). Role admin/root/reviewer. 204 sukses.
+}
+
+meta {
+  name: Delete Meaning
+  seq: 40
+}
+
+delete {
+  url: {{baseUrl}}/api/v1/words/{{word_id}}/meanings/{{meaning_id}}
+  body: none
+  auth: bearer
+}
+
+auth:bearer {
+  token: {{access_token}}
+}
+
+tests {
+  test("204 ATAU 403/404/409", () => {
+    expect([204, 403, 404, 409]).to.include(res.status);
+  });
+}

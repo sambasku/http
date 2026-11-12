@@ -1,0 +1,34 @@
+docs {
+Hapus makna dari laporan makna (#253). Body note opsional.
+}
+
+meta {
+  name: Admin Remove Meaning Word Report
+  seq: 7
+}
+
+post {
+  url: {{baseUrl}}/api/v1/admin/word-reports/{{word_report_id}}/remove-meaning
+  body: json
+  auth: bearer
+}
+
+auth:bearer {
+  token: {{access_token}}
+}
+
+body:json {
+  {
+    "note": "Makna tidak sesuai - uji Bruno"
+  }
+}
+
+tests {
+  test("200 meaning_removed ATAU 404/409", () => {
+    expect([200, 404, 409]).to.include(res.status);
+    if (res.status === 200) {
+      expect(res.body.success).to.equal(true);
+      expect(res.body.data.resolution).to.equal("meaning_removed");
+    }
+  });
+}
