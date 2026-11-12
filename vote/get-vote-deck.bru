@@ -45,4 +45,15 @@ tests {
       expect(card.word_class).to.have.property("name");
     }
   });
+
+  test("#260: pronunciation_value + has_audio per kartu", function() {
+    if (!res.body.data.length) return;
+    const card = res.body.data[0];
+    expect(card).to.have.property("pronunciation_value");
+    expect(card).to.have.property("has_audio");
+    expect(card.has_audio).to.be.a("boolean");
+    if (card.pronunciation_value !== null) {
+      expect(card.pronunciation_value).to.be.a("string");
+    }
+  });
 }
