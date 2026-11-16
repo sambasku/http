@@ -1,5 +1,7 @@
 docs {
-  GET /api/v1/users/me - prefill editor profil (display_name, bio, region_id, village_id) + flag guide kontribusi + consent legal + cooldown username (#257).
+  GET /api/v1/users/me - prefill editor profil (display_name, bio,
+  speaker_status native|learner|null, region_id, village_id) + flag guide
+  kontribusi + consent legal + cooldown username (#257).
   Auth Bearer wajib.
 
   `requires_consent` (boolean, selalu ada): true bila user belum
@@ -33,6 +35,7 @@ tests {
     expect(res.body.data.username).to.be.a("string");
     expect(res.body.data.display_name).to.be.a("string");
     expect(res.body.data).to.have.property("bio");
+    expect(res.body.data).to.have.property("speaker_status");
     expect(res.body.data).to.have.property("region_id");
     expect(res.body.data).to.have.property("village_id");
     expect(res.body.data).to.have.property("has_read_contribution_guide");

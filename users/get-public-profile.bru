@@ -62,6 +62,7 @@ tests {
     expect(res.body.data.username).to.be.a("string");
     expect(res.body.data.display_name).to.be.a("string");
     expect(res.body.data).to.have.property("bio");
+    expect(res.body.data).to.have.property("speaker_status");
     expect(res.body.data.role).to.be.a("string");
     expect(res.body.data.is_verifier).to.be.a("boolean");
     expect(res.body.data.joined_at).to.be.a("string");

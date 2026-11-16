@@ -1,6 +1,9 @@
 docs {
-PATCH /api/v1/users/me - edit username, display_name, bio, region_id (kecamatan), village_id (desa), atau tandai guide kontribusi sudah dibaca.
-region_id dan village_id nullable. null mengosongkan. username opsional (6-30, a-z0-9._). Auth Bearer wajib.
+PATCH /api/v1/users/me - edit username, display_name, bio, speaker_status
+(native|learner|null), region_id (kecamatan), village_id (desa), atau tandai
+guide kontribusi sudah dibaca.
+region_id, village_id, speaker_status nullable. null mengosongkan.
+username opsional (6-30, a-z0-9._). Auth Bearer wajib.
 }
 
 meta {
@@ -23,6 +26,7 @@ body:json {
     "username": "budi.santoso",
     "display_name": "Budi Santoso",
     "bio": "Kontributor kamus Sambas",
+    "speaker_status": "native",
     "region_id": "pemangkat",
     "village_id": "pemangkat/perapakan"
   }
