@@ -1,0 +1,25 @@
+docs {
+Edit komen Jinye milik sendiri. Tulis revisi (cap 50). Tanpa activity event baru.
+}
+
+meta {
+  name: Update Comment
+  type: http
+  seq: 42
+}
+
+patch {
+  url: {{baseUrl}}/api/v1/jinye/{{jinye_id}}/comments/{{jinye_comment_id}}
+  body: json
+  auth: bearer
+}
+
+auth:bearer {
+  token: {{access_token}}
+}
+
+body:json {
+  {
+    "body": "Komen diedit dari Bruno"
+  }
+}

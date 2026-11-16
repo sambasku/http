@@ -1,0 +1,15 @@
+docs {
+Riwayat sunting komen Jinye (publik). Hanya jika status masih published.
+}
+
+meta {
+  name: Comment Edit History
+  type: http
+  seq: 44
+}
+
+get {
+  url: {{baseUrl}}/api/v1/jinye/{{jinye_id}}/comments/{{jinye_comment_id}}/edit-history
+  body: none
+  auth: none
+}

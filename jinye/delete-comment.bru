@@ -1,0 +1,19 @@
+docs {
+Hapus komen Jinye milik sendiri → status deleted_by_author (hilang dari list published).
+}
+
+meta {
+  name: Delete Comment
+  type: http
+  seq: 43
+}
+
+delete {
+  url: {{baseUrl}}/api/v1/jinye/{{jinye_id}}/comments/{{jinye_comment_id}}
+  body: none
+  auth: bearer
+}
+
+auth:bearer {
+  token: {{access_token}}
+}
