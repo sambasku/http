@@ -1,11 +1,15 @@
 docs {
-  GET /api/v1/users/me - prefill editor profil (display_name, bio, region_id, village_id) + flag guide kontribusi + consent legal.
+  GET /api/v1/users/me - prefill editor profil (display_name, bio, region_id, village_id) + flag guide kontribusi + consent legal + cooldown username (#257).
   Auth Bearer wajib.
 
   `requires_consent` (boolean, selalu ada): true bila user belum
   menyetujui terms/privacy versi aktif. Mobile memakai field ini sebagai
   sumber kebenaran untuk memunculkan sheet persetujuan (bukan flag sekali
   pakai dari response login). Lihat docs/api/44-api-consent-oauth.md.
+
+  Username change (#257):
+  - `username_changed_at` / `username_change_allowed_at` (ISO atau null)
+  - `username_change_cooldown_days` (7)
 }
 
 meta {
@@ -35,5 +39,8 @@ tests {
     expect(res.body.data).to.have.property("requires_consent");
     expect(res.body.data.leveling.level).to.be.a("number");
     expect(res.body.data.leveling.title_code).to.be.a("string");
+    expect(res.body.data).to.have.property("username_changed_at");
+    expect(res.body.data).to.have.property("username_change_allowed_at");
+    expect(res.body.data.username_change_cooldown_days).to.equal(7);
   });
 }
