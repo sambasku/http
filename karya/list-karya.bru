@@ -1,0 +1,24 @@
+meta {
+  name: List Karya (public)
+  seq: 1
+}
+
+get {
+  url: {{baseUrl}}/api/v1/karya?kind=&year=&q=
+  body: none
+  auth: none
+}
+
+docs {
+  # GET /api/v1/karya
+
+  Daftar karya published (Musik + Film). Query: kind, year, q (LIKE judul).
+}
+
+tests {
+  test("200 + items array", () => {
+    expect(res.status).to.equal(200);
+    expect(res.body.success).to.equal(true);
+    expect(res.body.data.items).to.be.an('array');
+  });
+}
