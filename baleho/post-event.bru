@@ -1,0 +1,23 @@
+meta {
+  name: Post Baleho event
+  type: http
+  seq: 3
+}
+
+post {
+  url: {{baseUrl}}/api/v1/baleho/events
+  body: json
+  auth: none
+}
+
+body:json {
+  {
+    "placement_id": "{{balehoPlacementId}}",
+    "frame_id": null,
+    "event_type": "tap"
+  }
+}
+
+docs {
+  Publik. event_type: impression | tap | action | action_success | action_fail.
+}
