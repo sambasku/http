@@ -1,0 +1,25 @@
+meta {
+  name: Admin reject Baleho
+  type: http
+  seq: 5
+}
+
+post {
+  url: {{baseUrl}}/api/v1/admin/baleho/placements/{{placementId}}/reject
+  body: json
+  auth: bearer
+}
+
+auth:bearer {
+  token: {{accessToken}}
+}
+
+body:json {
+  {
+    "reason": "Konten tidak sesuai"
+  }
+}
+
+docs {
+  Tolak pesanan → status rejected, occupancy dilepas.
+}

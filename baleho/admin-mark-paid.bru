@@ -1,0 +1,19 @@
+meta {
+  name: Admin mark paid Baleho
+  type: http
+  seq: 6
+}
+
+post {
+  url: {{baseUrl}}/api/v1/admin/baleho/placements/{{placementId}}/mark-paid
+  body: none
+  auth: bearer
+}
+
+auth:bearer {
+  token: {{accessToken}}
+}
+
+docs {
+  Tandai lunas → live + starts_at. ends_at dari booking tetap.
+}

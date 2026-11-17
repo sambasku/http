@@ -1,0 +1,25 @@
+meta {
+  name: Admin pause Baleho
+  type: http
+  seq: 7
+}
+
+post {
+  url: {{baseUrl}}/api/v1/admin/baleho/placements/{{placementId}}/pause
+  body: json
+  auth: bearer
+}
+
+auth:bearer {
+  token: {{accessToken}}
+}
+
+body:json {
+  {
+    "reason": "takedown"
+  }
+}
+
+docs {
+  Pause/takedown live atau awaiting_payment → cancelled + lepas slot.
+}

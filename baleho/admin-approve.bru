@@ -1,0 +1,19 @@
+meta {
+  name: Admin approve Baleho
+  type: http
+  seq: 4
+}
+
+post {
+  url: {{baseUrl}}/api/v1/admin/baleho/placements/{{placementId}}/approve
+  body: none
+  auth: bearer
+}
+
+auth:bearer {
+  token: {{accessToken}}
+}
+
+docs {
+  Setujui → awaiting_payment + email/WA instruksi bayar.
+}

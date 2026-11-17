@@ -1,0 +1,38 @@
+meta {
+  name: Create Baleho placement
+  type: http
+  seq: 2
+}
+
+post {
+  url: {{baseUrl}}/api/v1/baleho/placements
+  body: json
+  auth: bearer
+}
+
+auth:bearer {
+  token: {{accessToken}}
+}
+
+body:json {
+  {
+    "slide": 1,
+    "col": 2,
+    "row": 0,
+    "w": 1,
+    "h": 1,
+    "frames": [
+      {
+        "media_type": "text_cta",
+        "title": "Halo Baleho",
+        "cta_label": "Ketuk",
+        "action_type": "in_app",
+        "action_payload": "/usaha"
+      }
+    ]
+  }
+}
+
+docs {
+  Pesan slot 1x1. Butuh login. 201 atau 409 SLOT_TAKEN.
+}
