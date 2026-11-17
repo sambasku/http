@@ -1,0 +1,15 @@
+meta {
+  name: Get Baleho pricing
+  type: http
+  seq: 2
+}
+
+get {
+  url: {{baseUrl}}/api/v1/baleho/pricing
+  body: none
+  auth: none
+}
+
+docs {
+  Tarif publik: price_per_cell_per_day (IDR) dari app_settings.
+}
