@@ -6,7 +6,7 @@ meta {
 
 post {
   url: {{baseUrl}}/api/v1/admin/baleho/placements/{{placementId}}/mark-paid
-  body: none
+  body: json
   auth: bearer
 }
 
@@ -14,6 +14,14 @@ auth:bearer {
   token: {{accessToken}}
 }
 
+body:json {
+  {
+    "payment_proof_url": "https://ik.imagekit.io/example/baleho/payment-proofs/bukti.jpg",
+    "payment_proof_file_id": "file_example_id"
+  }
+}
+
 docs {
-  Tandai lunas → live + starts_at. ends_at dari booking tetap.
+  Tandai lunas wajib bukti ImageKit (url + file_id) → live + starts_at.
+  ends_at dari booking tetap.
 }
