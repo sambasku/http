@@ -1,0 +1,21 @@
+meta {
+  name: Resolve lemma correction
+  type: http
+  seq: 54
+}
+
+post {
+  url: {{baseUrl}}/api/v1/discussions/{{discussionId}}/lemma-links/{{lemmaLinkId}}/resolve
+  body: json
+  auth: bearer
+}
+
+auth:bearer {
+  token: {{accessToken}}
+}
+
+body:json {
+  {
+    "action": "approve"
+  }
+}

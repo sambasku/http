@@ -1,0 +1,11 @@
+meta {
+  name: List lemma links
+  type: http
+  seq: 50
+}
+
+get {
+  url: {{baseUrl}}/api/v1/discussions/{{discussionId}}/lemma-links
+  body: none
+  auth: none
+}

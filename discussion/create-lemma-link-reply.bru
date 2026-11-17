@@ -1,0 +1,24 @@
+meta {
+  name: Create lemma link on reply
+  type: http
+  seq: 52
+}
+
+post {
+  url: {{baseUrl}}/api/v1/discussions/{{discussionId}}/lemma-links
+  body: json
+  auth: bearer
+}
+
+auth:bearer {
+  token: {{accessToken}}
+}
+
+body:json {
+  {
+    "start": 0,
+    "end": 4,
+    "word_id": "{{wordId}}",
+    "reply_id": "{{replyId}}"
+  }
+}

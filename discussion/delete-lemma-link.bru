@@ -1,0 +1,15 @@
+meta {
+  name: Delete lemma link
+  type: http
+  seq: 55
+}
+
+delete {
+  url: {{baseUrl}}/api/v1/discussions/{{discussionId}}/lemma-links/{{lemmaLinkId}}
+  body: none
+  auth: bearer
+}
+
+auth:bearer {
+  token: {{accessToken}}
+}
