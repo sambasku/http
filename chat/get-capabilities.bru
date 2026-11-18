@@ -1,0 +1,24 @@
+docs {
+GET /api/v1/chat/capabilities - flag voice room dari app_settings
+`voice.room_enabled`. Publik, tanpa auth.
+}
+
+meta {
+  name: Get Chat Capabilities
+  seq: 1
+}
+
+get {
+  url: {{baseUrl}}/api/v1/chat/capabilities
+  body: none
+  auth: none
+}
+
+tests {
+  test("200 + voice_room_enabled boolean", () => {
+    expect(res.status).to.equal(200);
+    expect(res.body.success).to.equal(true);
+    expect(res.body.data).to.have.property("voice_room_enabled");
+    expect(res.body.data.voice_room_enabled).to.be.a("boolean");
+  });
+}

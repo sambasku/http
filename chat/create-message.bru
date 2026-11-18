@@ -1,0 +1,44 @@
+docs {
+POST /api/v1/chat/messages - kirim teks / stiker / reply. Bearer wajib.
+Response 201 = wire message (optimistic append). Mirror Supabase best-effort.
+}
+
+meta {
+  name: Create Chat Message
+  seq: 3
+}
+
+post {
+  url: {{baseUrl}}/api/v1/chat/messages
+  body: json
+  auth: bearer
+}
+
+auth:bearer {
+  token: {{contributor_access_token}}
+}
+
+body:json {
+  {
+    "kind": "text",
+    "body": "halo dari bruno chat"
+  }
+}
+
+vars:post-response {
+  chat_message_id: res.body.data.id
+}
+
+tests {
+  test("201 + wire message", () => {
+    expect(res.status).to.equal(201);
+    expect(res.body.success).to.equal(true);
+    expect(res.body.data.channel).to.equal("public");
+    expect(res.body.data.kind).to.equal("text");
+    expect(res.body.data.body).to.equal("halo dari bruno chat");
+    expect(res.body.data).to.have.property("id");
+    expect(res.body.data).to.have.property("username");
+    expect(res.body.data).to.not.have.property("audio_path");
+    expect(res.body.data).to.not.have.property("audio_sha");
+  });
+}

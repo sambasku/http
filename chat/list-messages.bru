@@ -1,0 +1,25 @@
+docs {
+GET /api/v1/chat/messages - histori channel public dari Turso (keyset).
+Query: limit (default 50 max 100), before_created_at+before_id atau
+after_created_at+after_id. Auth opsional.
+}
+
+meta {
+  name: List Chat Messages
+  seq: 2
+}
+
+get {
+  url: {{baseUrl}}/api/v1/chat/messages?limit=50
+  body: none
+  auth: none
+}
+
+tests {
+  test("200 + items array", () => {
+    expect(res.status).to.equal(200);
+    expect(res.body.success).to.equal(true);
+    expect(res.body.data.items).to.be.an("array");
+    expect(res.body.data).to.have.property("has_more");
+  });
+}
