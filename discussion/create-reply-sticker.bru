@@ -1,0 +1,35 @@
+docs {
+Balas diskusi dengan stiker katalog (sticker_id aktif). Caption teks
+opsional. Login. Help harus published.
+}
+
+meta {
+  name: Create Reply Sticker
+  seq: 6.1
+}
+
+post {
+  url: {{baseUrl}}/api/v1/discussions/{{discussion_id}}/replies
+  body: json
+  auth: bearer
+}
+
+auth:bearer {
+  token: {{access_token}}
+}
+
+body:json {
+  {
+    "body": "",
+    "sticker_id": "cheer"
+  }
+}
+
+tests {
+  test("201 sticker reply", () => {
+    expect(res.status).to.equal(201);
+    expect(res.body.success).to.equal(true);
+    expect(res.body.data.sticker_id).to.equal("cheer");
+    expect(res.body.data.status).to.equal("published");
+  });
+}

@@ -1,7 +1,7 @@
 docs {
-Balas diskusi yang sudah published. Login. Body 1..500. Blocklist
-diterapkan seperti komentar. 409 DISCUSSION_NOT_PUBLISHED jika
-help belum tayang.
+Balas diskusi yang sudah published. Login. Body 0..500 dan/atau
+sticker_id (katalog aktif). Minimal salah satu. Blocklist seperti
+komentar. 409 DISCUSSION_NOT_PUBLISHED jika help belum tayang.
 }
 
 meta {
@@ -40,5 +40,6 @@ tests {
     expect(res.body.data).to.have.property("avatar_url");
     expect(res.body.data).to.have.property("is_verifier");
     expect(res.body.data).to.have.property("is_pinned");
+    expect(res.body.data).to.have.property("sticker_id");
   });
 }
