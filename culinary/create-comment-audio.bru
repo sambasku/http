@@ -1,0 +1,48 @@
+docs {
+Komentar suara pada kuliner (cuisine) published (multipart). Login.
+Field audio wajib (≤5 MB); body caption opsional 0..1000; duration_ms
+opsional. Publish langsung (post-moderation). Voice-only diizinkan
+(body kosong). Set `cuisine_id` dari list/get cuisine.
+}
+
+meta {
+  name: Create Comment Audio
+  seq: 30
+}
+
+post {
+  url: {{baseUrl}}/api/v1/culinary/cuisines/{{cuisine_id}}/comments/audio
+  body: multipartForm
+  auth: bearer
+}
+
+auth:bearer {
+  token: {{access_token}}
+}
+
+body:multipart-form {
+  audio: @file(/path/to/sample.wav)
+  body: Caption opsional
+  duration_ms: 1200
+}
+
+vars {
+  cuisine_id: ganti-dengan-id-kuliner
+}
+
+script:post-response {
+  if (res.body?.data?.id) {
+    bru.setVar("cuisine_comment_id", res.body.data.id);
+  }
+}
+
+tests {
+  test("201 cuisine comment audio published", () => {
+    expect(res.status).to.equal(201);
+    expect(res.body.success).to.equal(true);
+    expect(res.body.data.status).to.equal("published");
+    expect(res.body.data.audio_url).to.be.a("string");
+    expect(res.body.data).to.have.property("audio_mime_type");
+    expect(res.body.data).to.have.property("audio_duration_ms");
+  });
+}
