@@ -1,0 +1,33 @@
+docs {
+Komen Jinye dengan sticker_id katalog aktif. Caption teks opsional.
+Tidak boleh digabung images[].
+}
+
+meta {
+  name: Create Comment Sticker
+  seq: 4.1
+}
+
+post {
+  url: {{baseUrl}}/api/v1/jinye/{{jinye_id}}/comments
+  body: json
+  auth: bearer
+}
+
+auth:bearer {
+  token: {{access_token}}
+}
+
+body:json {
+  {
+    "body": "",
+    "sticker_id": "cheer"
+  }
+}
+
+tests {
+  test("201 sticker comment", () => {
+    expect(res.status).to.equal(201);
+    expect(res.body.data.sticker_id).to.equal("cheer");
+  });
+}
