@@ -1,0 +1,34 @@
+docs {
+Komen artikel ensiklopedia dengan sticker_id katalog aktif.
+Caption teks opsional. Tidak boleh digabung image_url.
+}
+
+meta {
+  name: Create Comment Sticker
+  seq: 20
+}
+
+post {
+  url: {{baseUrl}}/api/v1/encyclopedia/articles/{{article_id}}/comments
+  body: json
+  auth: bearer
+}
+
+auth:bearer {
+  token: {{access_token}}
+}
+
+body:json {
+  {
+    "body": "",
+    "sticker_id": "cheer"
+  }
+}
+
+tests {
+  test("201 sticker comment", () => {
+    expect(res.status).to.equal(201);
+    expect(res.body.success).to.equal(true);
+    expect(res.body.data.sticker_id).to.equal("cheer");
+  });
+}
