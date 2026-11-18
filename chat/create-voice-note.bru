@@ -1,0 +1,44 @@
+docs {
+POST /api/v1/chat/messages/voice - kirim voice note (multipart).
+Bearer + approved client + legal consent. Field audio wajib (≤5 MB);
+duration_ms wajib 1000..60000; reply_to_id opsional.
+Urutan: upload GitHub → Turso kind=voice_note → mirror Supabase
+(tanpa audio_path/audio_sha). 503 jika PRONUNCIACION_* belum dikonfigurasi.
+}
+
+meta {
+  name: Create Chat Voice Note
+  seq: 4
+}
+
+post {
+  url: {{baseUrl}}/api/v1/chat/messages/voice
+  body: multipartForm
+  auth: bearer
+}
+
+auth:bearer {
+  token: {{contributor_access_token}}
+}
+
+body:multipart-form {
+  audio: @file(/path/to/sample.wav)
+  duration_ms: 4200
+}
+
+vars:post-response {
+  chat_voice_message_id: res.body.data.id
+}
+
+tests {
+  test("201 + voice_note wire", () => {
+    expect(res.status).to.equal(201);
+    expect(res.body.success).to.equal(true);
+    expect(res.body.data.channel).to.equal("public");
+    expect(res.body.data.kind).to.equal("voice_note");
+    expect(res.body.data.audio_url).to.be.a("string");
+    expect(res.body.data.duration_ms).to.equal(4200);
+    expect(res.body.data).to.not.have.property("audio_path");
+    expect(res.body.data).to.not.have.property("audio_sha");
+  });
+}
