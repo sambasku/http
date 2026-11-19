@@ -5,7 +5,7 @@ meta {
 }
 
 get {
-  url: {{baseUrl}}/api/v1/votes/check-deck?limit=10&randomize=true
+  url: {{baseUrl}}/api/v1/votes/check-deck?limit=10&randomize=false
   body: none
   auth: bearer
 }
@@ -16,7 +16,8 @@ auth:bearer {
 
 params:query {
   limit: 10
-  randomize: true
+  randomize: false
+  ~q: 
 }
 
 docs {
