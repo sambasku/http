@@ -2,13 +2,18 @@ docs {
 Feed dengan filter kategori chips (mobile#193, 37-api-activity-feed.md).
 
 Query `category` enum: all (default, tanpa filter) | search_miss | correction
-| announcement | joined. Nilai di luar enum = 400 (bukan diam-diam all).
+| explore | jinye | announcement | joined. Nilai di luar enum = 400
+(bukan diam-diam all).
 
 Mapping kategori -> kind event DB (FEED_CATEGORY_KINDS, merge-activity.ts):
 - all        -> null (TANPA filter)
 - search_miss-> search_miss
 - correction -> contribution_image/audio/pron/example + suggestion_created/
                suggestion_applied/suggestion_selfapply
+- explore    -> place/usaha/layanan/karya/cuisine/event/pantun/article +
+               place_photo_added
+- jinye      -> jinye_created / jinye_comment_created / jinye_reposted /
+               jinye_quote_created
 - announcement -> announcement
 - joined     -> user_joined (wire kind: welcome)
 
