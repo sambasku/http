@@ -1,0 +1,42 @@
+docs {
+Verifikasi satu makna (G1 trust per makna) - is_verified true + rollup lemma.
+Pakai meaning_id dari detail kata.
+
+200 sukses:
+
+    {
+      "success": true,
+      "data": {
+        "meaning_id": "...",
+        "word_id": "...",
+        "is_verified": true
+      }
+    }
+
+409 sudah terverifikasi; 404 makna tidak ada; 403 bukan verifikator.
+}
+
+meta {
+  name: Verify Meaning
+  seq: 41
+}
+
+post {
+  url: {{baseUrl}}/api/v1/admin/words/meanings/{{meaning_id}}/verify
+  body: none
+  auth: bearer
+}
+
+auth:bearer {
+  token: {{access_token}}
+}
+
+tests {
+  test("200 + makna terverifikasi", () => {
+    expect(res.status).to.equal(200);
+    expect(res.body.success).to.equal(true);
+    expect(res.body.data.is_verified).to.equal(true);
+    expect(res.body.data.meaning_id).to.be.a("string");
+    expect(res.body.data.word_id).to.be.a("string");
+  });
+}
