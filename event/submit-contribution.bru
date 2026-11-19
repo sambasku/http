@@ -29,6 +29,8 @@ docs {
 Kirim usulan acara. Boleh tanpa login (atribusi ke user sistem anonim) -
 request tanpa token dibatasi 5/jam per IP.
 
+Barebone: wajib `name`, `category_id`, `starts_at`. `ends_at`, `description`, `location_text` opsional.
+
 `slug` dari pengusul diabaikan (slug final dibuat saat approve).
 Usulan maks 10 pending per user. Status awal `pending`.
 }

@@ -1,0 +1,23 @@
+meta {
+  name: Submit Event Contribution Barebone
+  seq: 9
+}
+
+post {
+  url: {{baseUrl}}/api/v1/event-contributions
+  body: json
+  auth: none
+}
+
+body:json {
+  {
+    "name": "Usulan Barebone Bruno",
+    "category_id": "festival-hiburan",
+    "starts_at": "2026-12-21T00:00:00.000Z"
+  }
+}
+
+docs {
+  # POST /api/v1/event-contributions (barebone)
+  Hanya nama + kategori + tanggal mulai. Jam/selesai/deskripsi/lokasi boleh kosong.
+}

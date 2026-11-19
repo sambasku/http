@@ -4,7 +4,7 @@ meta {
 }
 
 get {
-  url: {{baseUrl}}/api/v1/admin/event-contributions
+  url: {{baseUrl}}/api/v1/admin/event-contributions?status=pending
   body: none
   auth: bearer
 }
@@ -15,8 +15,12 @@ auth:bearer {
 
 docs {
 # GET /api/v1/admin/event-contributions
-Antrean usulan acara yang masih `pending` (root/admin/reviewer).
-Bisa juga `?status=needs_revision` untuk lihat yang minta revisi.
+Antrean usulan acara (root/admin/reviewer).
+
+Query:
+- `status` - pending | needs_revision | approved | rejected (default pending bila tanpa decided)
+- `decided=1` - riwayat (approved|rejected|needs_revision); diabaikan bila status diisi
+- `q` - cari nama / lokasi di payload (case-insensitive)
 }
 
 tests {
