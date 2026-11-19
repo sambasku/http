@@ -1,8 +1,9 @@
 docs {
 GET /api/v1/hot-topics - kartu Hot hari ini (G4/G5).
 Publik, tanpa auth. Tiga tab dalam satu response: searched /
-proposed / near_threshold. Limit 1-10 (default 10) per tab.
-Jendela 24 jam + backfill 7 hari (meta.in_window / backfill_used).
+proposed / viewed. Limit 1-10 (default 10) per tab.
+searched/proposed: jendela 24 jam + backfill 7 hari.
+viewed: hari WIB ini + backfill 7 hari kalender.
 
 200:
 
@@ -24,7 +25,7 @@ Jendela 24 jam + backfill 7 hari (meta.in_window / backfill_used).
           "meta": { "in_window": 1, "backfilled": 0, "backfill_used": false }
         },
         "proposed": { "items": [], "meta": { "in_window": 0, "backfilled": 0, "backfill_used": false } },
-        "near_threshold": { "items": [], "meta": { "in_window": 0, "backfilled": 0, "backfill_used": false } }
+        "viewed": { "items": [], "meta": { "in_window": 0, "backfilled": 0, "backfill_used": false } }
       }
     }
 
@@ -48,8 +49,8 @@ tests {
     expect(res.body.success).to.equal(true);
     expect(res.body.data).to.have.property('searched');
     expect(res.body.data).to.have.property('proposed');
-    expect(res.body.data).to.have.property('near_threshold');
-    for (const tab of ['searched', 'proposed', 'near_threshold']) {
+    expect(res.body.data).to.have.property('viewed');
+    for (const tab of ['searched', 'proposed', 'viewed']) {
       expect(res.body.data[tab].items).to.be.an('array');
       expect(res.body.data[tab].items.length).to.be.at.most(10);
       expect(res.body.data[tab].meta).to.have.property('in_window');
