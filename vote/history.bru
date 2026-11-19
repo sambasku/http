@@ -11,7 +11,7 @@ meta {
 }
 
 get {
-  url: {{baseUrl}}/api/v1/votes/history?limit=20
+  url: {{baseUrl}}/api/v1/votes/history?limit=20&community_status=
   auth: bearer
 }
 
@@ -29,6 +29,10 @@ tests {
       expect(["word", "meaning", "example", "pronunciation", "word_image", "comment", "discussion", "discussion_reply", "pantun", "pantun_reply"]).to.include(vote.target_type);
       expect([1, -1]).to.include(vote.value);
       expect(vote).to.have.property("voted_at");
+      expect(vote).to.have.property("community_status");
+      if (vote.target_type === "meaning") {
+        expect([null, "pending", "verified", "rejected"]).to.include(vote.community_status);
+      }
       if (vote.word !== null) {
         expect(vote.word).to.have.property("lemma");
         expect(vote.word).to.have.property("is_verified");
