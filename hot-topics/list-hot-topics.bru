@@ -1,0 +1,60 @@
+docs {
+GET /api/v1/hot-topics - kartu Hot hari ini (G4/G5).
+Publik, tanpa auth. Tiga tab dalam satu response: searched /
+proposed / near_threshold. Limit 1-10 (default 10) per tab.
+Jendela 24 jam + backfill 7 hari (meta.in_window / backfill_used).
+
+200:
+
+    {
+      "success": true,
+      "data": {
+        "searched": {
+          "items": [
+            {
+              "kind": "search_miss",
+              "id": "01…",
+              "term": "kwintal",
+              "direction": "lemma",
+              "hit_count": 3,
+              "last_searched_at": "…",
+              "in_window": true
+            }
+          ],
+          "meta": { "in_window": 1, "backfilled": 0, "backfill_used": false }
+        },
+        "proposed": { "items": [], "meta": { "in_window": 0, "backfilled": 0, "backfill_used": false } },
+        "near_threshold": { "items": [], "meta": { "in_window": 0, "backfilled": 0, "backfill_used": false } }
+      }
+    }
+
+Dokumen: docs/api/58-api-hot-topics.md
+}
+
+meta {
+  name: List Hot Topics
+  seq: 1
+}
+
+get {
+  url: {{baseUrl}}/api/v1/hot-topics?limit=10
+  body: none
+  auth: none
+}
+
+tests {
+  test("200 + tiga tab + meta", () => {
+    expect(res.status).to.equal(200);
+    expect(res.body.success).to.equal(true);
+    expect(res.body.data).to.have.property('searched');
+    expect(res.body.data).to.have.property('proposed');
+    expect(res.body.data).to.have.property('near_threshold');
+    for (const tab of ['searched', 'proposed', 'near_threshold']) {
+      expect(res.body.data[tab].items).to.be.an('array');
+      expect(res.body.data[tab].items.length).to.be.at.most(10);
+      expect(res.body.data[tab].meta).to.have.property('in_window');
+      expect(res.body.data[tab].meta).to.have.property('backfilled');
+      expect(res.body.data[tab].meta).to.have.property('backfill_used');
+    }
+  });
+}

@@ -1,0 +1,30 @@
+docs {
+GET /api/v1/admin/words?needs_review=true - filter kata yang punya
+≥1 makna needs_review (G5 / Voting Warga net jelek setelah verified).
+Auth admin|editor|contributor|root|reviewer.
+
+Gabung dengan published / has_image / is_verified seperti list admin biasa.
+}
+
+meta {
+  name: Admin List Words (needs_review)
+  seq: 2
+}
+
+get {
+  url: {{baseUrl}}/api/v1/admin/words?limit=20&needs_review=true&published=true
+  body: none
+  auth: bearer
+}
+
+auth:bearer {
+  token: {{access_token}}
+}
+
+tests {
+  test("200 + array data", () => {
+    expect(res.status).to.equal(200);
+    expect(res.body.data).to.be.an('array');
+    expect(res.body.meta).to.have.property('has_more');
+  });
+}
