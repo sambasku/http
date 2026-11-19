@@ -1,0 +1,27 @@
+docs {
+GET /api/v1/admin/words/views/daily - tren + ranking lemma (G6).
+Role root|admin|reviewer. Default days=30.
+}
+
+meta {
+  name: Admin Word Views Daily
+  seq: 42
+}
+
+get {
+  url: {{baseUrl}}/api/v1/admin/words/views/daily?days=30
+  body: none
+  auth: bearer
+}
+
+auth:bearer {
+  token: {{access_token}}
+}
+
+tests {
+  test("200 + trend + items", () => {
+    expect(res.status).to.equal(200);
+    expect(res.body.data.trend).to.be.an('array');
+    expect(res.body.data.items).to.be.an('array');
+  });
+}

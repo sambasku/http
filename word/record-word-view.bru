@@ -1,0 +1,29 @@
+docs {
+POST /api/v1/words/:id/view - catat view detail lemma (G6).
+Publik, soft auth. Unik per pembaca per hari WIB.
+Id asing / draft = no-op tetap 200.
+Lihat juga POST /words/lemma/:lemma/view untuk URL web.
+}
+
+meta {
+  name: Record Word View
+  seq: 40
+}
+
+post {
+  url: {{baseUrl}}/api/v1/words/{{word_id}}/view
+  body: none
+  auth: none
+}
+
+headers {
+  X-Device-Id: {{device_id}}
+}
+
+tests {
+  test("200 no-op aman", () => {
+    expect(res.status).to.equal(200);
+    expect(res.body.success).to.equal(true);
+    expect(res.body.data).to.equal(null);
+  });
+}

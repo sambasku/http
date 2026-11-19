@@ -1,0 +1,26 @@
+docs {
+GET /api/v1/admin/words/views - total pembaca unik per kata (G6).
+Role root|admin|reviewer. days opsional 1-365.
+}
+
+meta {
+  name: Admin Word Views Totals
+  seq: 41
+}
+
+get {
+  url: {{baseUrl}}/api/v1/admin/words/views?days=30
+  body: none
+  auth: bearer
+}
+
+auth:bearer {
+  token: {{access_token}}
+}
+
+tests {
+  test("200 + items", () => {
+    expect(res.status).to.equal(200);
+    expect(res.body.data.items).to.be.an('array');
+  });
+}
