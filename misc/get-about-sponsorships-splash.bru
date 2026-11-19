@@ -1,0 +1,17 @@
+meta {
+  name: get-about-sponsorships-splash
+  type: http
+  seq: 3
+}
+
+get {
+  url: {{baseUrl}}/api/v1/about/sponsorships/splash
+  body: none
+  auth: none
+}
+
+docs {
+  Sponsor untuk splash: usaha_id terisi + tier emas/intan/mustika + jendela aktif
+  (deleted_at null, since <= hari ini, ends_on null atau >= hari ini).
+  Perak dan sponsor tanpa usaha_id tidak ikut.
+}
