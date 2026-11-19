@@ -1,0 +1,44 @@
+meta {
+  name: Get Vote Check Deck
+  type: http
+  seq: 2
+}
+
+get {
+  url: {{baseUrl}}/api/v1/votes/check-deck?limit=10&randomize=true
+  body: none
+  auth: bearer
+}
+
+auth:bearer {
+  token: {{accessToken}}
+}
+
+params:query {
+  limit: 10
+  randomize: true
+}
+
+docs {
+  Periksa Kata - antrean makna published belum verified yang user belum vote.
+  Kontrak produk: docs/produk/periksa-kata.md. Shape response sama /votes/deck.
+}
+
+tests {
+  test("status 200", function() {
+    expect(res.status).to.equal(200);
+  });
+  test("envelope success + data array", function() {
+    expect(res.body.success).to.equal(true);
+    expect(res.body.data).to.be.an("array");
+    expect(res.body.meta).to.have.property("has_more");
+  });
+  test("tiap kartu = makna belum verified (id makna + word_id + is_verified false)", function() {
+    if (!res.body.data.length) return;
+    const card = res.body.data[0];
+    expect(card).to.have.property("word_id");
+    expect(card).to.have.property("order_index");
+    expect(card.id).to.not.equal(card.word_id);
+    expect(card.is_verified).to.equal(false);
+  });
+}
