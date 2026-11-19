@@ -1,0 +1,39 @@
+meta {
+  name: Append Cuisine Images (login)
+  seq: 3
+}
+
+post {
+  url: {{baseUrl}}/api/v1/culinary/cuisines/{{cuisine_slug}}/images
+  body: json
+  auth: bearer
+}
+
+auth:bearer {
+  token: {{accessToken}}
+}
+
+body:json {
+  {
+    "urls": [
+      "https://cdn.jsdelivr.net/gh/sambasku/images@main/assets/culinary/example.webp"
+    ]
+  }
+}
+
+vars:pre-request {
+  cuisine_slug: bubur-pedas-sambas
+}
+
+docs {
+  # POST /api/v1/culinary/cuisines/:slug/images (#281)
+  Tambah foto ke kuliner published. Wajib login. Body `urls` 1-5 URL hasil
+  unggah SambasKu (`assets/culinary/`). Satu event `cuisine_photo_added`
+  per batch. Cap 20 foto; maks 5/user/kuliner/24 jam.
+}
+
+tests {
+  test("200 foto ditambahkan atau 404/401", function () {
+    expect([200, 401, 404]).to.include(res.status);
+  });
+}

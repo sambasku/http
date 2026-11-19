@@ -1,0 +1,38 @@
+docs {
+POST /api/v1/voice/token - mint JWT LiveKit voice room global.
+
+Wajib Bearer + header X-Device-Id (8-64). Device id disimpan di
+metadata participant LiveKit. Jika identity (user) sudah di room dari
+device lain → 409 VOICE_ALREADY_JOINED. Remint device yang sama OK
+(refresh/reconnect). Room penuh → 409 VOICE_ROOM_FULL. Flag off → 403.
+}
+
+meta {
+  name: Mint Voice Token
+  seq: 1
+}
+
+post {
+  url: {{baseUrl}}/api/v1/voice/token
+  body: none
+  auth: bearer
+}
+
+auth:bearer {
+  token: {{accessToken}}
+}
+
+headers {
+  X-Device-Id: {{device_id}}
+}
+
+tests {
+  test("200 + token/url/room", () => {
+    expect(res.status).to.equal(200);
+    expect(res.body.success).to.equal(true);
+    expect(res.body.data.token).to.be.a("string").and.not.empty;
+    expect(res.body.data.url).to.be.a("string").and.not.empty;
+    expect(res.body.data.room).to.be.a("string").and.not.empty;
+    expect(res.body.data.maxParticipants).to.be.a("number");
+  });
+}

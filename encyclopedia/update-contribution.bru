@@ -1,0 +1,45 @@
+meta {
+  name: Update Encyclopedia Contribution
+  seq: 2
+}
+
+patch {
+  url: {{baseUrl}}/api/v1/encyclopedia/contributions/{{encyclopedia_contribution_id}}
+  body: json
+  auth: bearer
+}
+
+auth:bearer {
+  token: {{access_token}}
+}
+
+body:json {
+{
+  "title": "Usulan Artikel Bruno (diedit)",
+  "excerpt": "",
+  "body_md": "Isi artikel dari Bruno collection, sudah diedit sebelum verifikasi.",
+  "category_id": "sejarah",
+  "tags": ["bruno", "revisi"],
+  "source_url": "https://example.com/sumber-bruno-revisi"
+}
+}
+
+docs {
+# PATCH /api/v1/encyclopedia/contributions/:id
+Ubah usulan milik pengusul selama status `pending` atau `needs_revision`.
+Update in-place (id tetap). Dari needs_revision → status kembali pending.
+409 CONTRIBUTION_NOT_EDITABLE bila sudah approved/rejected.
+}
+
+tests {
+  test("200 + status pending", () => {
+    expect(res.status).to.equal(200);
+    expect(res.body.success).to.equal(true);
+    expect(res.body.data.status).to.equal('pending');
+    expect(res.body.data.payload.title).to.include('diedit');
+  });
+}
+
+vars:pre-request {
+  encyclopedia_contribution_id: ganti-dengan-id-usulan
+}

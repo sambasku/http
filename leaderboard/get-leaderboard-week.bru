@@ -1,0 +1,15 @@
+meta {
+  name: Get leaderboard week
+  type: http
+  seq: 1
+}
+
+get {
+  url: {{baseUrl}}/api/v1/leaderboard?period=week&limit=20
+  body: none
+  auth: none
+}
+
+docs {
+  Papan peringkat minggu berjalan. meta.week_id, meta.resets_at, meta.cdn.current / weekly.
+}

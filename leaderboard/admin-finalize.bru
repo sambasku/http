@@ -1,0 +1,25 @@
+meta {
+  name: Admin leaderboard finalize
+  type: http
+  seq: 3
+}
+
+post {
+  url: {{baseUrl}}/api/v1/admin/leaderboard/finalize
+  body: json
+  auth: bearer
+}
+
+auth:bearer {
+  token: {{accessToken}}
+}
+
+body:json {
+  {
+    "week_id": "2026-W40"
+  }
+}
+
+docs {
+  Finalisasi minggu: snapshot DB + weekly/{week_id}.json di CDN. week_id opsional (default minggu due).
+}
